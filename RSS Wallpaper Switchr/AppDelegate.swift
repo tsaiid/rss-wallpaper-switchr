@@ -26,6 +26,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem : NSStatusItem = NSStatusItem()
     var menu: NSMenu = NSMenu()
     var menuItem : NSMenuItem = NSMenuItem()
+    
+    var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
+
 
     @IBAction func btnLoad(sender: AnyObject) {
         println("Load")
@@ -68,8 +71,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarItem.title = "Presses"
         
         //Add menuItem to menu
-        menuItem.title = "Clicked"
-        menuItem.action = Selector("setWindowVisible:")
+        menuItem.title = "Options"
+        menuItem.action = Selector("showOptionsWindow:")
         menuItem.keyEquivalent = ""
         menu.addItem(menuItem)
     }
@@ -87,8 +90,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     }
 
-    func setWindowVisible(sender: AnyObject){
+    func showOptionsWindow(sender: AnyObject){
         //self.window!.orderFront(self)
+        optWin.beginSheet(self.window)
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

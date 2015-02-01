@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D320FE3F1A7E22E900C5E7D1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D320FE3E1A7E22E900C5E7D1 /* CoreData.framework */; };
 		D320FE431A7E249E00C5E7D1 /* OptionsData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D320FE411A7E249E00C5E7D1 /* OptionsData.xcdatamodeld */; };
+		D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */; };
+		D320FE751A7E703B00C5E7D1 /* OptionsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */; };
 		D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */; };
 		D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3E62F611A7DF30E00A40EBA /* Images.xcassets */; };
 		D3E62F651A7DF30E00A40EBA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3E62F631A7DF30E00A40EBA /* MainMenu.xib */; };
@@ -28,6 +30,8 @@
 /* Begin PBXFileReference section */
 		D320FE3E1A7E22E900C5E7D1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D320FE421A7E249E00C5E7D1 /* OptionsData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OptionsData.xcdatamodel; sourceTree = "<group>"; };
+		D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWindowController.swift; sourceTree = "<group>"; };
+		D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsWindowController.xib; sourceTree = "<group>"; };
 		D3E62F5A1A7DF30E00A40EBA /* RSS Wallpaper Switchr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RSS Wallpaper Switchr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E62F5E1A7DF30E00A40EBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
 				D3E62F631A7DF30E00A40EBA /* MainMenu.xib */,
 				D3E62F5D1A7DF30E00A40EBA /* Supporting Files */,
+				D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */,
+				D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */,
 			);
 			path = "RSS Wallpaper Switchr";
 			sourceTree = "<group>";
@@ -201,6 +207,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D320FE751A7E703B00C5E7D1 /* OptionsWindowController.xib in Resources */,
 				D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */,
 				D3E62F651A7DF30E00A40EBA /* MainMenu.xib in Resources */,
 			);
@@ -220,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */,
 				D320FE431A7E249E00C5E7D1 /* OptionsData.xcdatamodeld in Sources */,
 				D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */,
 			);
