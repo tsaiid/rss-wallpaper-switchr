@@ -25,13 +25,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D34D384D1A7CEBA5004EF3BB /* Background Changer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Background Changer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D34D384D1A7CEBA5004EF3BB /* RSS Wallpaper Switchr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RSS Wallpaper Switchr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D34D38511A7CEBA5004EF3BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D34D38521A7CEBA5004EF3BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D34D38541A7CEBA5004EF3BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D34D38561A7CEBA5004EF3BB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D34D38591A7CEBA6004EF3BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D34D385F1A7CEBA6004EF3BB /* Background ChangerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Background ChangerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D34D385F1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RSS Wallpaper SwitchrTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D34D38641A7CEBA6004EF3BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D34D38651A7CEBA6004EF3BB /* Background_ChangerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background_ChangerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -66,8 +66,8 @@
 		D34D384E1A7CEBA5004EF3BB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D34D384D1A7CEBA5004EF3BB /* Background Changer.app */,
-				D34D385F1A7CEBA6004EF3BB /* Background ChangerTests.xctest */,
+				D34D384D1A7CEBA5004EF3BB /* RSS Wallpaper Switchr.app */,
+				D34D385F1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,9 +112,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D34D384C1A7CEBA5004EF3BB /* Background Changer */ = {
+		D34D384C1A7CEBA5004EF3BB /* RSS Wallpaper Switchr */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D34D38691A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "Background Changer" */;
+			buildConfigurationList = D34D38691A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "RSS Wallpaper Switchr" */;
 			buildPhases = (
 				D34D38491A7CEBA5004EF3BB /* Sources */,
 				D34D384A1A7CEBA5004EF3BB /* Frameworks */,
@@ -124,14 +124,14 @@
 			);
 			dependencies = (
 			);
-			name = "Background Changer";
+			name = "RSS Wallpaper Switchr";
 			productName = "Background Changer";
-			productReference = D34D384D1A7CEBA5004EF3BB /* Background Changer.app */;
+			productReference = D34D384D1A7CEBA5004EF3BB /* RSS Wallpaper Switchr.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D34D385E1A7CEBA6004EF3BB /* Background ChangerTests */ = {
+		D34D385E1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D34D386C1A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "Background ChangerTests" */;
+			buildConfigurationList = D34D386C1A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "RSS Wallpaper SwitchrTests" */;
 			buildPhases = (
 				D34D385B1A7CEBA6004EF3BB /* Sources */,
 				D34D385C1A7CEBA6004EF3BB /* Frameworks */,
@@ -142,9 +142,9 @@
 			dependencies = (
 				D34D38611A7CEBA6004EF3BB /* PBXTargetDependency */,
 			);
-			name = "Background ChangerTests";
+			name = "RSS Wallpaper SwitchrTests";
 			productName = "Background ChangerTests";
-			productReference = D34D385F1A7CEBA6004EF3BB /* Background ChangerTests.xctest */;
+			productReference = D34D385F1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -165,7 +165,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D34D38481A7CEBA5004EF3BB /* Build configuration list for PBXProject "Background Changer" */;
+			buildConfigurationList = D34D38481A7CEBA5004EF3BB /* Build configuration list for PBXProject "RSS Wallpaper Switchr" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -178,8 +178,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D34D384C1A7CEBA5004EF3BB /* Background Changer */,
-				D34D385E1A7CEBA6004EF3BB /* Background ChangerTests */,
+				D34D384C1A7CEBA5004EF3BB /* RSS Wallpaper Switchr */,
+				D34D385E1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests */,
 			);
 		};
 /* End PBXProject section */
@@ -226,7 +226,7 @@
 /* Begin PBXTargetDependency section */
 		D34D38611A7CEBA6004EF3BB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D34D384C1A7CEBA5004EF3BB /* Background Changer */;
+			target = D34D384C1A7CEBA5004EF3BB /* RSS Wallpaper Switchr */;
 			targetProxy = D34D38601A7CEBA6004EF3BB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -327,7 +327,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Background Changer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RSS Wallpaper Switchr";
 			};
 			name = Debug;
 		};
@@ -338,7 +338,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Background Changer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RSS Wallpaper Switchr";
 			};
 			name = Release;
 		};
@@ -357,7 +357,7 @@
 				);
 				INFOPLIST_FILE = "Background ChangerTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RSS Wallpaper SwitchrTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Background Changer.app/Contents/MacOS/Background Changer";
 			};
 			name = Debug;
@@ -373,7 +373,7 @@
 				);
 				INFOPLIST_FILE = "Background ChangerTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RSS Wallpaper SwitchrTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Background Changer.app/Contents/MacOS/Background Changer";
 			};
 			name = Release;
@@ -381,7 +381,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D34D38481A7CEBA5004EF3BB /* Build configuration list for PBXProject "Background Changer" */ = {
+		D34D38481A7CEBA5004EF3BB /* Build configuration list for PBXProject "RSS Wallpaper Switchr" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D34D38671A7CEBA6004EF3BB /* Debug */,
@@ -390,21 +390,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D34D38691A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "Background Changer" */ = {
+		D34D38691A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "RSS Wallpaper Switchr" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D34D386A1A7CEBA6004EF3BB /* Debug */,
 				D34D386B1A7CEBA6004EF3BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		D34D386C1A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "Background ChangerTests" */ = {
+		D34D386C1A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "RSS Wallpaper SwitchrTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D34D386D1A7CEBA6004EF3BB /* Debug */,
 				D34D386E1A7CEBA6004EF3BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

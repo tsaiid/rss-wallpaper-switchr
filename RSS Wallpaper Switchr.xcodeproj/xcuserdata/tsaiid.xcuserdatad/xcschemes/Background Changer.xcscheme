@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D34D384C1A7CEBA5004EF3BB"
-               BuildableName = "Background Changer.app"
-               BlueprintName = "Background Changer"
-               ReferencedContainer = "container:Background Changer.xcodeproj">
+               BuildableName = "RSS Wallpaper Switchr.app"
+               BlueprintName = "RSS Wallpaper Switchr"
+               ReferencedContainer = "container:RSS Wallpaper Switchr.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D34D385E1A7CEBA6004EF3BB"
-               BuildableName = "Background ChangerTests.xctest"
-               BlueprintName = "Background ChangerTests"
-               ReferencedContainer = "container:Background Changer.xcodeproj">
+               BuildableName = "RSS Wallpaper SwitchrTests.xctest"
+               BlueprintName = "RSS Wallpaper SwitchrTests"
+               ReferencedContainer = "container:RSS Wallpaper Switchr.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D34D385E1A7CEBA6004EF3BB"
-               BuildableName = "Background ChangerTests.xctest"
-               BlueprintName = "Background ChangerTests"
-               ReferencedContainer = "container:Background Changer.xcodeproj">
+               BuildableName = "RSS Wallpaper SwitchrTests.xctest"
+               BlueprintName = "RSS Wallpaper SwitchrTests"
+               ReferencedContainer = "container:RSS Wallpaper Switchr.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D34D384C1A7CEBA5004EF3BB"
-            BuildableName = "Background Changer.app"
-            BlueprintName = "Background Changer"
-            ReferencedContainer = "container:Background Changer.xcodeproj">
+            BuildableName = "RSS Wallpaper Switchr.app"
+            BlueprintName = "RSS Wallpaper Switchr"
+            ReferencedContainer = "container:RSS Wallpaper Switchr.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D34D384C1A7CEBA5004EF3BB"
-            BuildableName = "Background Changer.app"
-            BlueprintName = "Background Changer"
-            ReferencedContainer = "container:Background Changer.xcodeproj">
+            BuildableName = "RSS Wallpaper Switchr.app"
+            BlueprintName = "RSS Wallpaper Switchr"
+            ReferencedContainer = "container:RSS Wallpaper Switchr.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D34D384C1A7CEBA5004EF3BB"
-            BuildableName = "Background Changer.app"
-            BlueprintName = "Background Changer"
-            ReferencedContainer = "container:Background Changer.xcodeproj">
+            BuildableName = "RSS Wallpaper Switchr.app"
+            BlueprintName = "RSS Wallpaper Switchr"
+            ReferencedContainer = "container:RSS Wallpaper Switchr.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
