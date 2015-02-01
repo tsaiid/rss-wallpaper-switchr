@@ -12,11 +12,31 @@ class OptionsWindowController: NSWindowController {
 
     var mainW: NSWindow = NSWindow()
 
+    @IBOutlet weak var rssUrlText: NSTextField!
+    
     override func windowDidLoad() {
         super.windowDidLoad()
 
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+        // Load stored options
+        println("Loading options")
+        var appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+        var context:NSManagedObjectContext = appDelegate.managedObjectContext!
         
+        var request = NSFetchRequest(entityName: "Options")
+        request.returnsObjectsAsFaults = false
+        request.predicate = NSPredicate(format: "optionName = %@", "RssUrl")
+        
+        var results:[NSManagedObject]? = context.executeFetchRequest(request, error: nil) as? [NSManagedObject]
+        if (results!.count > 0) {
+            println("Loaded")
+            var res = results![0] as NSManagedObject
+            println(res.valueForKey("optionValue") as String)
+            rssUrlText.stringValue = res.valueForKey("optionValue") as String
+        } else {
+            println("No record.")
+        }
+
     }
     //method called to display the modal window
     func beginSheet(mainWindow: NSWindow){

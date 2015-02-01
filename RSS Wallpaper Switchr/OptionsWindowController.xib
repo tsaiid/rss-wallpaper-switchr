@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OptionsWindowController" customModule="RSS_Wallpaper_Switchr" customModuleProvider="target">
             <connections>
+                <outlet property="rssUrlText" destination="z18-ha-1Yj" id="Nny-jI-lIn"/>
                 <outlet property="window" destination="SuR-Nb-RWb" id="fZ4-Tq-SQh"/>
             </connections>
         </customObject>
