@@ -1,15 +1,15 @@
 //
-//  Background_ChangerTests.swift
-//  Background ChangerTests
+//  RSS_Wallpaper_SwitchrTests.swift
+//  RSS Wallpaper SwitchrTests
 //
-//  Created by I-Ta Tsai on 2015/1/31.
+//  Created by 蔡依達 on 2015/2/1.
 //  Copyright (c) 2015年 I-Ta Tsai. All rights reserved.
 //
 
 import Cocoa
 import XCTest
 
-class Background_ChangerTests: XCTestCase {
+class RSS_Wallpaper_SwitchrTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

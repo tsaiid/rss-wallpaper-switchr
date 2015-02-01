@@ -7,44 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D34D38531A7CEBA5004EF3BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34D38521A7CEBA5004EF3BB /* AppDelegate.swift */; };
-		D34D38551A7CEBA5004EF3BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34D38541A7CEBA5004EF3BB /* ViewController.swift */; };
-		D34D38571A7CEBA5004EF3BB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D34D38561A7CEBA5004EF3BB /* Images.xcassets */; };
-		D34D385A1A7CEBA6004EF3BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D34D38581A7CEBA6004EF3BB /* Main.storyboard */; };
-		D34D38661A7CEBA6004EF3BB /* Background_ChangerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34D38651A7CEBA6004EF3BB /* Background_ChangerTests.swift */; };
+		D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */; };
+		D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3E62F611A7DF30E00A40EBA /* Images.xcassets */; };
+		D3E62F651A7DF30E00A40EBA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3E62F631A7DF30E00A40EBA /* MainMenu.xib */; };
+		D3E62F711A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E62F701A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D34D38601A7CEBA6004EF3BB /* PBXContainerItemProxy */ = {
+		D3E62F6B1A7DF30E00A40EBA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D34D38451A7CEBA5004EF3BB /* Project object */;
+			containerPortal = D3E62F521A7DF30E00A40EBA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D34D384C1A7CEBA5004EF3BB;
-			remoteInfo = "Background Changer";
+			remoteGlobalIDString = D3E62F591A7DF30E00A40EBA;
+			remoteInfo = "RSS Wallpaper Switchr";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D34D384D1A7CEBA5004EF3BB /* RSS Wallpaper Switchr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RSS Wallpaper Switchr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D34D38511A7CEBA5004EF3BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D34D38521A7CEBA5004EF3BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D34D38541A7CEBA5004EF3BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D34D38561A7CEBA5004EF3BB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		D34D38591A7CEBA6004EF3BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D34D385F1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RSS Wallpaper SwitchrTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D34D38641A7CEBA6004EF3BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D34D38651A7CEBA6004EF3BB /* Background_ChangerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background_ChangerTests.swift; sourceTree = "<group>"; };
+		D3E62F5A1A7DF30E00A40EBA /* RSS Wallpaper Switchr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RSS Wallpaper Switchr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3E62F5E1A7DF30E00A40EBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D3E62F611A7DF30E00A40EBA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D3E62F641A7DF30E00A40EBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D3E62F6A1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RSS Wallpaper SwitchrTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3E62F6F1A7DF30E00A40EBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3E62F701A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSS_Wallpaper_SwitchrTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D34D384A1A7CEBA5004EF3BB /* Frameworks */ = {
+		D3E62F571A7DF30E00A40EBA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D34D385C1A7CEBA6004EF3BB /* Frameworks */ = {
+		D3E62F671A7DF30E00A40EBA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -54,57 +52,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D34D38441A7CEBA5004EF3BB = {
+		D3E62F511A7DF30E00A40EBA = {
 			isa = PBXGroup;
 			children = (
-				D34D384F1A7CEBA5004EF3BB /* Background Changer */,
-				D34D38621A7CEBA6004EF3BB /* Background ChangerTests */,
-				D34D384E1A7CEBA5004EF3BB /* Products */,
+				D3E62F5C1A7DF30E00A40EBA /* RSS Wallpaper Switchr */,
+				D3E62F6D1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests */,
+				D3E62F5B1A7DF30E00A40EBA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		D34D384E1A7CEBA5004EF3BB /* Products */ = {
+		D3E62F5B1A7DF30E00A40EBA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D34D384D1A7CEBA5004EF3BB /* RSS Wallpaper Switchr.app */,
-				D34D385F1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests.xctest */,
+				D3E62F5A1A7DF30E00A40EBA /* RSS Wallpaper Switchr.app */,
+				D3E62F6A1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D34D384F1A7CEBA5004EF3BB /* Background Changer */ = {
+		D3E62F5C1A7DF30E00A40EBA /* RSS Wallpaper Switchr */ = {
 			isa = PBXGroup;
 			children = (
-				D34D38521A7CEBA5004EF3BB /* AppDelegate.swift */,
-				D34D38541A7CEBA5004EF3BB /* ViewController.swift */,
-				D34D38561A7CEBA5004EF3BB /* Images.xcassets */,
-				D34D38581A7CEBA6004EF3BB /* Main.storyboard */,
-				D34D38501A7CEBA5004EF3BB /* Supporting Files */,
+				D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */,
+				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
+				D3E62F631A7DF30E00A40EBA /* MainMenu.xib */,
+				D3E62F5D1A7DF30E00A40EBA /* Supporting Files */,
 			);
-			path = "Background Changer";
+			path = "RSS Wallpaper Switchr";
 			sourceTree = "<group>";
 		};
-		D34D38501A7CEBA5004EF3BB /* Supporting Files */ = {
+		D3E62F5D1A7DF30E00A40EBA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D34D38511A7CEBA5004EF3BB /* Info.plist */,
+				D3E62F5E1A7DF30E00A40EBA /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D34D38621A7CEBA6004EF3BB /* Background ChangerTests */ = {
+		D3E62F6D1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests */ = {
 			isa = PBXGroup;
 			children = (
-				D34D38651A7CEBA6004EF3BB /* Background_ChangerTests.swift */,
-				D34D38631A7CEBA6004EF3BB /* Supporting Files */,
+				D3E62F701A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift */,
+				D3E62F6E1A7DF30E00A40EBA /* Supporting Files */,
 			);
-			path = "Background ChangerTests";
+			path = "RSS Wallpaper SwitchrTests";
 			sourceTree = "<group>";
 		};
-		D34D38631A7CEBA6004EF3BB /* Supporting Files */ = {
+		D3E62F6E1A7DF30E00A40EBA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D34D38641A7CEBA6004EF3BB /* Info.plist */,
+				D3E62F6F1A7DF30E00A40EBA /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -112,60 +109,60 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D34D384C1A7CEBA5004EF3BB /* RSS Wallpaper Switchr */ = {
+		D3E62F591A7DF30E00A40EBA /* RSS Wallpaper Switchr */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D34D38691A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "RSS Wallpaper Switchr" */;
+			buildConfigurationList = D3E62F741A7DF30E00A40EBA /* Build configuration list for PBXNativeTarget "RSS Wallpaper Switchr" */;
 			buildPhases = (
-				D34D38491A7CEBA5004EF3BB /* Sources */,
-				D34D384A1A7CEBA5004EF3BB /* Frameworks */,
-				D34D384B1A7CEBA5004EF3BB /* Resources */,
+				D3E62F561A7DF30E00A40EBA /* Sources */,
+				D3E62F571A7DF30E00A40EBA /* Frameworks */,
+				D3E62F581A7DF30E00A40EBA /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "RSS Wallpaper Switchr";
-			productName = "Background Changer";
-			productReference = D34D384D1A7CEBA5004EF3BB /* RSS Wallpaper Switchr.app */;
+			productName = "RSS Wallpaper Switchr";
+			productReference = D3E62F5A1A7DF30E00A40EBA /* RSS Wallpaper Switchr.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D34D385E1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests */ = {
+		D3E62F691A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D34D386C1A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "RSS Wallpaper SwitchrTests" */;
+			buildConfigurationList = D3E62F771A7DF30E00A40EBA /* Build configuration list for PBXNativeTarget "RSS Wallpaper SwitchrTests" */;
 			buildPhases = (
-				D34D385B1A7CEBA6004EF3BB /* Sources */,
-				D34D385C1A7CEBA6004EF3BB /* Frameworks */,
-				D34D385D1A7CEBA6004EF3BB /* Resources */,
+				D3E62F661A7DF30E00A40EBA /* Sources */,
+				D3E62F671A7DF30E00A40EBA /* Frameworks */,
+				D3E62F681A7DF30E00A40EBA /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D34D38611A7CEBA6004EF3BB /* PBXTargetDependency */,
+				D3E62F6C1A7DF30E00A40EBA /* PBXTargetDependency */,
 			);
 			name = "RSS Wallpaper SwitchrTests";
-			productName = "Background ChangerTests";
-			productReference = D34D385F1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests.xctest */;
+			productName = "RSS Wallpaper SwitchrTests";
+			productReference = D3E62F6A1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D34D38451A7CEBA5004EF3BB /* Project object */ = {
+		D3E62F521A7DF30E00A40EBA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "I-Ta Tsai";
 				TargetAttributes = {
-					D34D384C1A7CEBA5004EF3BB = {
+					D3E62F591A7DF30E00A40EBA = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
-					D34D385E1A7CEBA6004EF3BB = {
+					D3E62F691A7DF30E00A40EBA = {
 						CreatedOnToolsVersion = 6.1.1;
-						TestTargetID = D34D384C1A7CEBA5004EF3BB;
+						TestTargetID = D3E62F591A7DF30E00A40EBA;
 					};
 				};
 			};
-			buildConfigurationList = D34D38481A7CEBA5004EF3BB /* Build configuration list for PBXProject "RSS Wallpaper Switchr" */;
+			buildConfigurationList = D3E62F551A7DF30E00A40EBA /* Build configuration list for PBXProject "RSS Wallpaper Switchr" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -173,28 +170,28 @@
 				en,
 				Base,
 			);
-			mainGroup = D34D38441A7CEBA5004EF3BB;
-			productRefGroup = D34D384E1A7CEBA5004EF3BB /* Products */;
+			mainGroup = D3E62F511A7DF30E00A40EBA;
+			productRefGroup = D3E62F5B1A7DF30E00A40EBA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D34D384C1A7CEBA5004EF3BB /* RSS Wallpaper Switchr */,
-				D34D385E1A7CEBA6004EF3BB /* RSS Wallpaper SwitchrTests */,
+				D3E62F591A7DF30E00A40EBA /* RSS Wallpaper Switchr */,
+				D3E62F691A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D34D384B1A7CEBA5004EF3BB /* Resources */ = {
+		D3E62F581A7DF30E00A40EBA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D34D38571A7CEBA5004EF3BB /* Images.xcassets in Resources */,
-				D34D385A1A7CEBA6004EF3BB /* Main.storyboard in Resources */,
+				D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */,
+				D3E62F651A7DF30E00A40EBA /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D34D385D1A7CEBA6004EF3BB /* Resources */ = {
+		D3E62F681A7DF30E00A40EBA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -204,46 +201,45 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D34D38491A7CEBA5004EF3BB /* Sources */ = {
+		D3E62F561A7DF30E00A40EBA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D34D38551A7CEBA5004EF3BB /* ViewController.swift in Sources */,
-				D34D38531A7CEBA5004EF3BB /* AppDelegate.swift in Sources */,
+				D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D34D385B1A7CEBA6004EF3BB /* Sources */ = {
+		D3E62F661A7DF30E00A40EBA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D34D38661A7CEBA6004EF3BB /* Background_ChangerTests.swift in Sources */,
+				D3E62F711A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D34D38611A7CEBA6004EF3BB /* PBXTargetDependency */ = {
+		D3E62F6C1A7DF30E00A40EBA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D34D384C1A7CEBA5004EF3BB /* RSS Wallpaper Switchr */;
-			targetProxy = D34D38601A7CEBA6004EF3BB /* PBXContainerItemProxy */;
+			target = D3E62F591A7DF30E00A40EBA /* RSS Wallpaper Switchr */;
+			targetProxy = D3E62F6B1A7DF30E00A40EBA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D34D38581A7CEBA6004EF3BB /* Main.storyboard */ = {
+		D3E62F631A7DF30E00A40EBA /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D34D38591A7CEBA6004EF3BB /* Base */,
+				D3E62F641A7DF30E00A40EBA /* Base */,
 			);
-			name = Main.storyboard;
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		D34D38671A7CEBA6004EF3BB /* Debug */ = {
+		D3E62F721A7DF30E00A40EBA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -285,7 +281,7 @@
 			};
 			name = Debug;
 		};
-		D34D38681A7CEBA6004EF3BB /* Release */ = {
+		D3E62F731A7DF30E00A40EBA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -320,29 +316,29 @@
 			};
 			name = Release;
 		};
-		D34D386A1A7CEBA6004EF3BB /* Debug */ = {
+		D3E62F751A7DF30E00A40EBA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "Background Changer/Info.plist";
+				INFOPLIST_FILE = "RSS Wallpaper Switchr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_NAME = "RSS Wallpaper Switchr";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		D34D386B1A7CEBA6004EF3BB /* Release */ = {
+		D3E62F761A7DF30E00A40EBA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "Background Changer/Info.plist";
+				INFOPLIST_FILE = "RSS Wallpaper Switchr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_NAME = "RSS Wallpaper Switchr";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
-		D34D386D1A7CEBA6004EF3BB /* Debug */ = {
+		D3E62F781A7DF30E00A40EBA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -355,14 +351,14 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Background ChangerTests/Info.plist";
+				INFOPLIST_FILE = "RSS Wallpaper SwitchrTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "RSS Wallpaper SwitchrTests";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Background Changer.app/Contents/MacOS/Background Changer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RSS Wallpaper Switchr.app/Contents/MacOS/RSS Wallpaper Switchr";
 			};
 			name = Debug;
 		};
-		D34D386E1A7CEBA6004EF3BB /* Release */ = {
+		D3E62F791A7DF30E00A40EBA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -371,44 +367,44 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Background ChangerTests/Info.plist";
+				INFOPLIST_FILE = "RSS Wallpaper SwitchrTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "RSS Wallpaper SwitchrTests";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Background Changer.app/Contents/MacOS/Background Changer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RSS Wallpaper Switchr.app/Contents/MacOS/RSS Wallpaper Switchr";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D34D38481A7CEBA5004EF3BB /* Build configuration list for PBXProject "RSS Wallpaper Switchr" */ = {
+		D3E62F551A7DF30E00A40EBA /* Build configuration list for PBXProject "RSS Wallpaper Switchr" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D34D38671A7CEBA6004EF3BB /* Debug */,
-				D34D38681A7CEBA6004EF3BB /* Release */,
+				D3E62F721A7DF30E00A40EBA /* Debug */,
+				D3E62F731A7DF30E00A40EBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D34D38691A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "RSS Wallpaper Switchr" */ = {
+		D3E62F741A7DF30E00A40EBA /* Build configuration list for PBXNativeTarget "RSS Wallpaper Switchr" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D34D386A1A7CEBA6004EF3BB /* Debug */,
-				D34D386B1A7CEBA6004EF3BB /* Release */,
+				D3E62F751A7DF30E00A40EBA /* Debug */,
+				D3E62F761A7DF30E00A40EBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D34D386C1A7CEBA6004EF3BB /* Build configuration list for PBXNativeTarget "RSS Wallpaper SwitchrTests" */ = {
+		D3E62F771A7DF30E00A40EBA /* Build configuration list for PBXNativeTarget "RSS Wallpaper SwitchrTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D34D386D1A7CEBA6004EF3BB /* Debug */,
-				D34D386E1A7CEBA6004EF3BB /* Release */,
+				D3E62F781A7DF30E00A40EBA /* Debug */,
+				D3E62F791A7DF30E00A40EBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D34D38451A7CEBA5004EF3BB /* Project object */;
+	rootObject = D3E62F521A7DF30E00A40EBA /* Project object */;
 }

@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Background Changer.xcscheme</key>
+		<key>RSS Wallpaper Switchr.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,12 +12,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>D34D384C1A7CEBA5004EF3BB</key>
+		<key>D3E62F591A7DF30E00A40EBA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D34D385E1A7CEBA6004EF3BB</key>
+		<key>D3E62F691A7DF30E00A40EBA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
