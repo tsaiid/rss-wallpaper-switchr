@@ -14,7 +14,6 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="RSS_Wallpaper_Switchr" customModuleProvider="target">
             <connections>
                 <outlet property="btnLoad" destination="Gu5-M5-3l3" id="mt3-bj-rYh"/>
-                <outlet property="optionValue" destination="OJq-UM-KG9" id="ZNy-5t-jmM"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -677,16 +676,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wx5-fG-rej">
-                        <rect key="frame" x="135" y="277" width="62" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="RSS URL" id="RH9-eM-MNH">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gu5-M5-3l3">
-                        <rect key="frame" x="115" y="176" width="71" height="32"/>
+                        <rect key="frame" x="37" y="302" width="71" height="32"/>
                         <buttonCell key="cell" type="push" title="Load" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xB1-8Y-670">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -695,32 +686,24 @@
                             <action selector="btnLoad:" target="Voe-Tx-rLC" id="9u0-Cz-4Qk"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cYT-ey-GId">
+                        <rect key="frame" x="37" y="269" width="103" height="32"/>
+                        <buttonCell key="cell" type="push" title="ParseRSS" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7AA-EO-4tC">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="btnParseRSS:" target="Voe-Tx-rLC" id="DMn-b8-IeF"/>
+                        </connections>
+                    </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hEA-L2-Zho">
-                        <rect key="frame" x="253" y="176" width="71" height="32"/>
+                        <rect key="frame" x="133" y="302" width="71" height="32"/>
                         <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Fi-8A-H6F">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="btnSave:" target="Voe-Tx-rLC" id="AJl-KG-jrI"/>
-                        </connections>
-                    </button>
-                    <textField identifier="optionValue" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OJq-UM-KG9">
-                        <rect key="frame" x="222" y="274" width="96" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="n2d-jX-u4p">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cYT-ey-GId">
-                        <rect key="frame" x="175" y="176" width="89" height="32"/>
-                        <buttonCell key="cell" type="push" title="DropDB" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7AA-EO-4tC">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnDropDB:" target="Voe-Tx-rLC" id="mwH-5B-Wqj"/>
                         </connections>
                     </button>
                 </subviews>
