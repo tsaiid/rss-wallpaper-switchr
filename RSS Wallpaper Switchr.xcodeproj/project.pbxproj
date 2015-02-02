@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D320FE3F1A7E22E900C5E7D1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D320FE3E1A7E22E900C5E7D1 /* CoreData.framework */; };
 		D320FE431A7E249E00C5E7D1 /* OptionsData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D320FE411A7E249E00C5E7D1 /* OptionsData.xcdatamodeld */; };
 		D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */; };
 		D320FE751A7E703B00C5E7D1 /* OptionsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */; };
@@ -30,7 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D320FE3E1A7E22E900C5E7D1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D320FE421A7E249E00C5E7D1 /* OptionsData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OptionsData.xcdatamodel; sourceTree = "<group>"; };
 		D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWindowController.swift; sourceTree = "<group>"; };
 		D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsWindowController.xib; sourceTree = "<group>"; };
@@ -51,7 +49,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D320FE3F1A7E22E900C5E7D1 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +72,6 @@
 		D3E62F511A7DF30E00A40EBA = {
 			isa = PBXGroup;
 			children = (
-				D320FE3E1A7E22E900C5E7D1 /* CoreData.framework */,
 				D3E62F5C1A7DF30E00A40EBA /* RSS Wallpaper Switchr */,
 				D3E62F6D1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests */,
 				D3E62F5B1A7DF30E00A40EBA /* Products */,
