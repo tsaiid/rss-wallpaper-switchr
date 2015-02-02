@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem : NSStatusItem = NSStatusItem()
     var menu: NSMenu = NSMenu()
     var menuItem : NSMenuItem = NSMenuItem()
+    var imgLinks = NSMutableArray()
     
     var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
@@ -27,11 +28,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             println("rss url \(rssUrl) loaded.")
             var rp: RssParser = RssParser()
             rp.parseRssFromUrl(rssUrl)
-            
+            imgLinks = rp.imgLinks
         } else {
             println("No predefined rss url.")
         }
         
+    }
+    
+    @IBAction func btnSetBackground(sender: AnyObject) {
+        setDesktopBackgrounds()
     }
 
     @IBAction func btnLoad(sender: AnyObject) {
@@ -41,9 +46,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         if let rssUrl = defaults.stringForKey("rssUrl") {
             println(rssUrl)
+            println(rssUrl.hash)
+            println(rssUrl.md5())
         }
-        
     }
+    
     @IBAction func btnSave(sender: AnyObject) {
         println("Save")
 
@@ -92,29 +99,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setDesktopBackgrounds() {
-        var imgurl = NSURL(fileURLWithPath: "/Users/tsaiid/git/rss-wallpaper-switchr/15526028562_197501ee89_o.jpg")
         var workspace = NSWorkspace.sharedWorkspace()
         var error: NSError?
         
-        if let screenList = NSScreen.screens() as? [NSScreen] {
-            println(screenList.count)
-            for screen in screenList {
-                //                var result : Bool = workspace.setDesktopImageURL(imgurl!, forScreen: screen, options: nil, error: &error)
-                
-                //                if !result {
-                //testLabel.stringValue = "error"
-                //                    println("error")
-                //                    break
-                //                }
-                //let screenOptions:NSDictionary! = workspace.desktopImageOptionsForScreen(screen)
-                //let a  = screenOptions.NSWorkspaceDesktopImageScalingKey
-                //println(screenOptions[NSWorkspaceDesktopImageScalingKey])
-                //println(screenOptions[NSWorkspaceDesktopImageFillColorKey])
+        if imgLinks.count > 0 {
+            if let screenList = NSScreen.screens() as? [NSScreen] {
+                println("Total screen: \(screenList.count)")
+                for screen in screenList {
+                    // set temp files
+                    let fileManager = NSFileManager.defaultManager()
+                    let tempDirectoryTemplate = NSTemporaryDirectory().stringByAppendingPathComponent("rws")
+                    if fileManager.createDirectoryAtPath(tempDirectoryTemplate, withIntermediateDirectories: true, attributes: nil, error: nil) {
+                        println("tempDir: \(tempDirectoryTemplate)")
+                        imgLinks.shuffle()
+                        var imgUrl = imgLinks[0]["link"] as String
+                        var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
+                        if let nsurl = NSURL(string: imgUrl) {
+                            if let imageData = NSData(contentsOfURL: nsurl) {
+                                if fileManager.createFileAtPath(imgPath, contents: imageData, attributes: nil) {
+                                    println(imgPath)
+
+                                    var nsImgPath = NSURL(fileURLWithPath: imgPath)
+                                    var result: Bool = workspace.setDesktopImageURL(nsImgPath!, forScreen: screen, options: nil, error: &error)
+                                    if result {
+                                        println("\(screen) set to \(imgPath) from \(imgUrl)")
+                                    } else {
+                                        println("error")
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        println("createDirectoryAtPath NSTemporaryDirectory error.")
+                    }
+
+                    //let screenOptions:NSDictionary! = workspace.desktopImageOptionsForScreen(screen)
+                    //let a  = screenOptions.NSWorkspaceDesktopImageScalingKey
+                    //println(screenOptions[NSWorkspaceDesktopImageScalingKey])
+                    //println(screenOptions[NSWorkspaceDesktopImageFillColorKey])
+                }
             }
-            
-            //            testLabel.stringValue = "Changed"
+        } else {
+            println("No image links.")
         }
-        
         
     }
 

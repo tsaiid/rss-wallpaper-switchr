@@ -705,6 +705,16 @@
                             <action selector="btnSave:" target="Voe-Tx-rLC" id="AJl-KG-jrI"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VLA-OM-oUC">
+                        <rect key="frame" x="37" y="236" width="195" height="32"/>
+                        <buttonCell key="cell" type="push" title="Set Desktop Background" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U4F-3G-aBB">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="btnSetBackground:" target="Voe-Tx-rLC" id="VMP-M6-GAe"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="70" y="300"/>
