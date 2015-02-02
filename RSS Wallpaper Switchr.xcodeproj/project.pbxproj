@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D320FE431A7E249E00C5E7D1 /* OptionsData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D320FE411A7E249E00C5E7D1 /* OptionsData.xcdatamodeld */; };
 		D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */; };
 		D320FE751A7E703B00C5E7D1 /* OptionsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */; };
 		D39484821A7F6981006E84FD /* NSMutableArray_Shiffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39484811A7F6981006E84FD /* NSMutableArray_Shiffle.swift */; };
@@ -29,7 +28,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D320FE421A7E249E00C5E7D1 /* OptionsData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OptionsData.xcdatamodel; sourceTree = "<group>"; };
 		D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWindowController.swift; sourceTree = "<group>"; };
 		D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsWindowController.xib; sourceTree = "<group>"; };
 		D39484811A7F6981006E84FD /* NSMutableArray_Shiffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMutableArray_Shiffle.swift; sourceTree = "<group>"; };
@@ -62,13 +60,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D320FE401A7E232900C5E7D1 /* Core Data Classes */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Core Data Classes";
-			sourceTree = "<group>";
-		};
 		D3E62F511A7DF30E00A40EBA = {
 			isa = PBXGroup;
 			children = (
@@ -90,8 +81,6 @@
 		D3E62F5C1A7DF30E00A40EBA /* RSS Wallpaper Switchr */ = {
 			isa = PBXGroup;
 			children = (
-				D320FE411A7E249E00C5E7D1 /* OptionsData.xcdatamodeld */,
-				D320FE401A7E232900C5E7D1 /* Core Data Classes */,
 				D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */,
 				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
 				D3E62F631A7DF30E00A40EBA /* MainMenu.xib */,
@@ -231,7 +220,6 @@
 			files = (
 				D39484821A7F6981006E84FD /* NSMutableArray_Shiffle.swift in Sources */,
 				D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */,
-				D320FE431A7E249E00C5E7D1 /* OptionsData.xcdatamodeld in Sources */,
 				D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */,
 				D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */,
 			);
@@ -433,19 +421,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		D320FE411A7E249E00C5E7D1 /* OptionsData.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				D320FE421A7E249E00C5E7D1 /* OptionsData.xcdatamodel */,
-			);
-			currentVersion = D320FE421A7E249E00C5E7D1 /* OptionsData.xcdatamodel */;
-			path = OptionsData.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = D3E62F521A7DF30E00A40EBA /* Project object */;
 }
