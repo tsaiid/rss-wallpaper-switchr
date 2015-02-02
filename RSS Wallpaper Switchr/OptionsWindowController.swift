@@ -23,8 +23,8 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
 
         // use NSUserDefaults to load Preference
         let defaults = NSUserDefaults.standardUserDefaults()
-        if let rssUrl = defaults.arrayForKey("rssUrl")
-        {
+        if let rssUrl = defaults.stringForKey("rssUrl") {
+            rssUrlText.stringValue = rssUrl
             println(rssUrl)
         }
 
