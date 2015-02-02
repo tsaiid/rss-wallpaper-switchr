@@ -8,12 +8,12 @@
 
 import Cocoa
 
-class OptionsWindowController: NSWindowController {
+class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTableViewDelegate {
 
     var mainW: NSWindow = NSWindow()
 
     @IBOutlet weak var rssUrlText: NSTextField!
-    
+
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -39,6 +39,8 @@ class OptionsWindowController: NSWindowController {
     @IBAction func closeOptionWindow(sender: AnyObject) {
         // saving options
         println("Try saving options.")
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(rssUrlText.stringValue as String, forKey: "rssUrl")
         
         self.endSheet();
     }
@@ -49,3 +51,4 @@ class OptionsWindowController: NSWindowController {
         self.window!.orderOut(mainW)
     }
 }
+

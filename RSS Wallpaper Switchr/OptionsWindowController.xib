@@ -59,7 +59,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m1A-ew-5sD">
-                        <rect key="frame" x="455" y="130" width="76" height="32"/>
+                        <rect key="frame" x="453" y="212" width="76" height="32"/>
                         <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="udm-jS-fMJ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -81,7 +81,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="ZiP-uz-Qpg"/>
             </connections>
-            <point key="canvasLocation" x="373.5" y="324"/>
+            <point key="canvasLocation" x="93.5" y="20"/>
         </window>
     </objects>
 </document>

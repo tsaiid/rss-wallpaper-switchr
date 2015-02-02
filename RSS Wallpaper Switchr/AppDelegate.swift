@@ -38,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // use NSUserDefaults to load Preference
         let defaults = NSUserDefaults.standardUserDefaults()
-        if let rssUrl = defaults.arrayForKey("rssUrl")
+        if let rssUrl = defaults.stringForKey("rssUrl")
         {
             println(rssUrl)
         }
@@ -49,7 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // use NSUserDefaults to save Preference
         let defaults = NSUserDefaults.standardUserDefaults()
-        let rssUrls = ["http://abc/", "http://cde/"]
+        let rssUrls = "http://abc/"
         defaults.setObject(rssUrls, forKey: "rssUrl")
         
         println("Saved")
