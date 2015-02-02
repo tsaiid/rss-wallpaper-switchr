@@ -106,34 +106,60 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if let screenList = NSScreen.screens() as? [NSScreen] {
                 println("Total screen: \(screenList.count)")
                 for screen in screenList {
-                    // set temp files
-                    let fileManager = NSFileManager.defaultManager()
-                    let tempDirectoryTemplate = NSTemporaryDirectory().stringByAppendingPathComponent("rws")
-                    if fileManager.createDirectoryAtPath(tempDirectoryTemplate, withIntermediateDirectories: true, attributes: nil, error: nil) {
-                        println("tempDir: \(tempDirectoryTemplate)")
-                        imgLinks.shuffle()
-                        var imgUrl = imgLinks[0]["link"] as String
-                        var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
-                        if let nsurl = NSURL(string: imgUrl) {
-                            if let imageData = NSData(contentsOfURL: nsurl) {
-                                if fileManager.createFileAtPath(imgPath, contents: imageData, attributes: nil) {
-                                    println(imgPath)
+                    imgLinks.shuffle()
+                    var imgUrl = imgLinks[0]["link"] as String
+                    var nsurl = NSURL(string: imgUrl)
 
+                    let task = NSURLSession.sharedSession().dataTaskWithURL(nsurl!) {
+                        data, response, error in
+                        
+                        // check for fundamental network issues (e.g. no internet, etc.)
+                        if data == nil {
+                            //handle error here
+                            println("dataTaskWithURL error: \(error)")
+                            return
+                        }
+                        
+                        // make sure web server returned 200 status code (and not 404 for bad URL or whatever)
+                        if let httpResponse = response as? NSHTTPURLResponse {
+                            let statusCode = httpResponse.statusCode
+                            if statusCode != 200 {
+                                println("NSHTTPURLResponse.statusCode = \(statusCode)")
+                                println("Text of response = \(NSString(data: data, encoding: NSUTF8StringEncoding))")
+                                return
+                            }
+                        }
+                        
+                        // see if it is an image, and if so, save it and set as background
+                        if let image = NSImage(data: data) as NSImage? {
+                            
+                            // set temp files
+                            let fileManager = NSFileManager.defaultManager()
+                            let tempDirectoryTemplate = NSTemporaryDirectory().stringByAppendingPathComponent("rws")
+                            if fileManager.createDirectoryAtPath(tempDirectoryTemplate, withIntermediateDirectories: true, attributes: nil, error: nil) {
+                                println("tempDir: \(tempDirectoryTemplate)")
+                                var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
+                                if fileManager.createFileAtPath(imgPath, contents: data, attributes: nil) {
+                                    var error: NSError?
                                     var nsImgPath = NSURL(fileURLWithPath: imgPath)
                                     var result: Bool = workspace.setDesktopImageURL(nsImgPath!, forScreen: screen, options: nil, error: &error)
                                     if result {
                                         println("\(screen) set to \(imgPath) from \(imgUrl)")
                                     } else {
-                                        println("error")
-                                        break
+                                        println("error setDesktopImageURL")
+                                        return
                                     }
                                 }
+                            } else {
+                                println("createDirectoryAtPath NSTemporaryDirectory error.")
                             }
+                        } else {
+                            println("payload was not image!")
                         }
-                    } else {
-                        println("createDirectoryAtPath NSTemporaryDirectory error.")
                     }
-
+                    
+                    task.resume()
+                    
                     //let screenOptions:NSDictionary! = workspace.desktopImageOptionsForScreen(screen)
                     //let a  = screenOptions.NSWorkspaceDesktopImageScalingKey
                     //println(screenOptions[NSWorkspaceDesktopImageScalingKey])
@@ -143,7 +169,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             println("No image links.")
         }
-        
     }
 
     func changeDesktopAfterSpaceDidChange(aNotification: NSNotification) {
