@@ -22,7 +22,15 @@ class RssParser: NSObject, NSXMLParserDelegate {
         p.delegate = self
         imgLinks = []
         var success:Bool = p.parse()
-        println(imgLinks)
+        if success {
+            //println(imgLinks)
+            println("parse succeeded.")
+            // Do shuffle as needed. 
+            //imgLinks.shuffle()
+            //println(imgLinks[0])
+        } else {
+            println("parse xml error!")
+        }
     }
     
     func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName : String!, attributes attributeDict: NSDictionary!) {
@@ -41,7 +49,8 @@ class RssParser: NSObject, NSXMLParserDelegate {
         if currentElement == "title" {
             title.appendString(string)
         } else if currentElement == "link" {
-            link.appendString(string)
+            var trimmedString = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            link.appendString(trimmedString)
         }
     }
 
