@@ -29,34 +29,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
+    @IBAction func btnDropDB(sender: AnyObject) {
+        
+    }
 
     @IBAction func btnLoad(sender: AnyObject) {
         println("Load")
-        var context:NSManagedObjectContext = self.managedObjectContext!
-        
-        var request = NSFetchRequest(entityName: "Options")
-        request.returnsObjectsAsFaults = false
-        request.predicate = NSPredicate(format: "optionName = %@", "RssUrl")
-        
-        var results:[NSManagedObject]? = context.executeFetchRequest(request, error: nil) as? [NSManagedObject]
-        if (results!.count > 0) {
-            println("Loaded")
-            var res = results![0] as NSManagedObject
-            println(res.valueForKey("optionValue") as String)
-            optionName.stringValue = res.valueForKey("optionValue") as String
-        } else {
-            println("No record.")
+
+        // use NSUserDefaults to load Preference
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let rssUrl = defaults.arrayForKey("rssUrl")
+        {
+            println(rssUrl)
         }
+        
     }
     @IBAction func btnSave(sender: AnyObject) {
         println("Save")
-        var context:NSManagedObjectContext = self.managedObjectContext!
-//        var en = NSEntityDescription.entityForName( "Options", inManagedObjectContext: context )
-        var newOption = NSEntityDescription.insertNewObjectForEntityForName("Options", inManagedObjectContext: context) as NSManagedObject
-        newOption.setValue("RssUrl", forKey: "optionName")
-        newOption.setValue("http://", forKey: "optionValue")
-        context.save(nil)
-        println(newOption)
+
+        // use NSUserDefaults to save Preference
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let rssUrls = ["http://abc/", "http://cde/"]
+        defaults.setObject(rssUrls, forKey: "rssUrl")
+        
         println("Saved")
     }
     

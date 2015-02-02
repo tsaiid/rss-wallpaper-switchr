@@ -20,21 +20,12 @@ class OptionsWindowController: NSWindowController {
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
         // Load stored options
         println("Loading options")
-        var appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
-        var context:NSManagedObjectContext = appDelegate.managedObjectContext!
-        
-        var request = NSFetchRequest(entityName: "Options")
-        request.returnsObjectsAsFaults = false
-        request.predicate = NSPredicate(format: "optionName = %@", "RssUrl")
-        
-        var results:[NSManagedObject]? = context.executeFetchRequest(request, error: nil) as? [NSManagedObject]
-        if (results!.count > 0) {
-            println("Loaded")
-            var res = results![0] as NSManagedObject
-            println(res.valueForKey("optionValue") as String)
-            rssUrlText.stringValue = res.valueForKey("optionValue") as String
-        } else {
-            println("No record.")
+
+        // use NSUserDefaults to load Preference
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let rssUrl = defaults.arrayForKey("rssUrl")
+        {
+            println(rssUrl)
         }
 
     }
@@ -46,6 +37,9 @@ class OptionsWindowController: NSWindowController {
     
     //method called, when "Close" - Button clicked
     @IBAction func closeOptionWindow(sender: AnyObject) {
+        // saving options
+        println("Try saving options.")
+        
         self.endSheet();
     }
     
