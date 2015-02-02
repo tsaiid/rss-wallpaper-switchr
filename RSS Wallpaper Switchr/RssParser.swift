@@ -11,49 +11,54 @@ import Cocoa
 class RssParser: NSObject, NSXMLParserDelegate {
     var strXMLData:String = ""
     var currentElement:String = ""
-    var passData:Bool=false
-    var passName:Bool=false
+    var elements = NSMutableDictionary()
+    var title = NSMutableString()
+    var link = NSMutableString()
+    var imgLinks = NSMutableArray()
     
     func parseRssFromUrl(rssUrl: String){
         var rss_url = NSURL(string: rssUrl)
         let p : NSXMLParser! = NSXMLParser(contentsOfURL: rss_url)
         p.delegate = self
+        imgLinks = []
         var success:Bool = p.parse()
+        println(imgLinks)
     }
     
-    func parser(parser: NSXMLParser!,didStartElement elementName: String!, namespaceURI: String!, qualifiedName : String!, attributes attributeDict: NSDictionary!) {
-        currentElement=elementName
-        if(elementName=="id" || elementName=="name" || elementName=="cost" || elementName=="description")
-        {
-            if(elementName=="name"){
-                passName=true;
-            }
-            passData=true;
+    func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName : String!, attributes attributeDict: NSDictionary!) {
+        currentElement = elementName
+        if elementName == "item" {
+            elements = NSMutableDictionary.alloc()
+            elements = [:]
+            link = NSMutableString.alloc()
+            link = ""
+            title = NSMutableString.alloc()
+            title = ""
         }
     }
-    
-    func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
-        currentElement="";
-        if(elementName=="id" || elementName=="name" || elementName=="cost" || elementName=="description")
-        {
-            if(elementName=="name"){
-                passName=false;
-            }
-            passData=false;
-        }
-    }
-    
+
     func parser(parser: NSXMLParser!, foundCharacters string: String!) {
-        if(passName){
-            strXMLData=strXMLData+"\n\n"+string
-        }
-        
-        if(passData)
-        {
-            println(string)
+        if currentElement == "title" {
+            title.appendString(string)
+        } else if currentElement == "link" {
+            link.appendString(string)
         }
     }
+
+    func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
+        if elementName == "item" {
+            if !title.isEqual(nil) {
+                elements.setObject(title, forKey: "title")
+            }
+            if !link.isEqual(nil) {
+                elements.setObject(link, forKey: "link")
+            }
+            imgLinks.addObject(elements)
+        }
+
+    }
     
+   
     func parser(parser: NSXMLParser!, parseErrorOccurred parseError: NSError!) {
         NSLog("failure error: %@", parseError)
     }
