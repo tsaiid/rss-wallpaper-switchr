@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */; };
 		D320FE751A7E703B00C5E7D1 /* OptionsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */; };
+		D33626D71A7FB56900DAA51C /* Swift-MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33626D61A7FB56900DAA51C /* Swift-MD5.swift */; };
 		D39484821A7F6981006E84FD /* NSMutableArray_Shiffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39484811A7F6981006E84FD /* NSMutableArray_Shiffle.swift */; };
 		D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1EFCC1A7F56440032C16A /* RssParser.swift */; };
 		D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */; };
@@ -30,6 +31,8 @@
 /* Begin PBXFileReference section */
 		D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWindowController.swift; sourceTree = "<group>"; };
 		D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsWindowController.xib; sourceTree = "<group>"; };
+		D33626D61A7FB56900DAA51C /* Swift-MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Swift-MD5.swift"; sourceTree = "<group>"; };
+		D33626D81A7FB60500DAA51C /* RSS Wallpaper Switchr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RSS Wallpaper Switchr-Bridging-Header.h"; sourceTree = "<group>"; };
 		D39484811A7F6981006E84FD /* NSMutableArray_Shiffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMutableArray_Shiffle.swift; sourceTree = "<group>"; };
 		D3A1EFCC1A7F56440032C16A /* RssParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RssParser.swift; sourceTree = "<group>"; };
 		D3E62F5A1A7DF30E00A40EBA /* RSS Wallpaper Switchr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RSS Wallpaper Switchr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */,
+				D33626D61A7FB56900DAA51C /* Swift-MD5.swift */,
 				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
 				D3E62F631A7DF30E00A40EBA /* MainMenu.xib */,
 				D3A1EFCC1A7F56440032C16A /* RssParser.swift */,
@@ -89,6 +93,7 @@
 				D3E62F5D1A7DF30E00A40EBA /* Supporting Files */,
 				D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */,
 				D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */,
+				D33626D81A7FB60500DAA51C /* RSS Wallpaper Switchr-Bridging-Header.h */,
 			);
 			path = "RSS Wallpaper Switchr";
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */,
 				D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */,
 				D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */,
+				D33626D71A7FB56900DAA51C /* Swift-MD5.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,10 +342,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "RSS Wallpaper Switchr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RSS Wallpaper Switchr/RSS Wallpaper Switchr-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -347,10 +356,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "RSS Wallpaper Switchr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RSS Wallpaper Switchr/RSS Wallpaper Switchr-Bridging-Header.h";
 			};
 			name = Release;
 		};
