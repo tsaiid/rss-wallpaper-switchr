@@ -64,6 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 var count = 0
                 for photo in self.photos {
                     if photo.state == .Downloaded {
+                        photo.saveToLocalPath()
                         self.photosForWallpaper.append(photo)
                         count++
                     }
