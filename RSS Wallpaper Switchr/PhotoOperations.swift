@@ -18,10 +18,29 @@ class PhotoRecord: Equatable {
     let url:NSURL
     var state = PhotoRecordState.New
     var image = NSImage(named: "Placeholder")
+    var localPath:String = ""
     
     init(name:String, url:NSURL) {
         self.name = name
         self.url = url
+    }
+    
+    func saveToLocalPath() {
+        // set temp files
+        let fileManager = NSFileManager.defaultManager()
+        let tempDirectoryTemplate = NSTemporaryDirectory().stringByAppendingPathComponent("rws")
+        if fileManager.createDirectoryAtPath(tempDirectoryTemplate, withIntermediateDirectories: true, attributes: nil, error: nil) {
+            println("tempDir: \(tempDirectoryTemplate)")
+            if let imgUrl:String = self.url.absoluteString {
+                var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
+                self.image!.saveAsJpegWithName(imgPath)
+                self.localPath = imgPath
+                println("localPath set to \(imgPath) from \(imgUrl)")
+            }
+        } else {
+            println("createDirectoryAtPath NSTemporaryDirectory error.")
+        }
+
     }
 }
 
