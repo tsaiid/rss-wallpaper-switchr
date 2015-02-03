@@ -715,6 +715,16 @@
                             <action selector="btnSetBackground:" target="Voe-Tx-rLC" id="VMP-M6-GAe"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I69-0z-v0X">
+                        <rect key="frame" x="37" y="203" width="161" height="32"/>
+                        <buttonCell key="cell" type="push" title="Get Image From Url" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XYL-Cf-sIp">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="btnGetImageFromUrl:" target="Voe-Tx-rLC" id="V3G-T9-sdU"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="70" y="300"/>
