@@ -21,6 +21,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
+    @IBAction func btnDetectScreenMode(sender: AnyObject) {
+        if let screenList = NSScreen.screens() as? [NSScreen] {
+            for screen in screenList {
+                let width = screen.frame.width
+                let height = screen.frame.height
+                println("\(screen) size: \(width) x \(height)")
+            }
+        }
+    }
+    
+    
     @IBAction func btnParseRSS(sender: AnyObject) {
         // load rss url
         let defaults = NSUserDefaults.standardUserDefaults()
