@@ -76,6 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 for photo in self.photos {
                     if photo.state == .Downloaded {
                         photo.saveToLocalPath()
+                        photo.calcOrientation()
                         self.photosForWallpaper.append(photo)
                         count++
                     }
