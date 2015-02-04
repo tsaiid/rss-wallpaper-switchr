@@ -197,36 +197,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 println("Total screen: \(screenList.count)")
                 for (scrIndex, screen) in enumerate(screenList) {
                     println("\(scrIndex): \(screen)")
-
-                    /*
-                        // see if it is an image, and if so, save it and set as background
-                        if let image = NSImage(data: data) as NSImage? {
-                            
-                            // set temp files
-                            let fileManager = NSFileManager.defaultManager()
-                            let tempDirectoryTemplate = NSTemporaryDirectory().stringByAppendingPathComponent("rws")
-                            if fileManager.createDirectoryAtPath(tempDirectoryTemplate, withIntermediateDirectories: true, attributes: nil, error: nil) {
-                                println("tempDir: \(tempDirectoryTemplate)")
-                                var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
-                                if fileManager.createFileAtPath(imgPath, contents: data, attributes: nil) {
-                                    var error: NSError?
-                                    var nsImgPath = NSURL(fileURLWithPath: imgPath)
-                                    var result: Bool = workspace.setDesktopImageURL(nsImgPath!, forScreen: screen, options: nil, error: &error)
-                                    if result {
-                                        println("\(screen) set to \(imgPath) from \(imgUrl)")
-                                    } else {
-                                        println("error setDesktopImageURL")
-                                        return
-                                    }
-                                }
-                            } else {
-                                println("createDirectoryAtPath NSTemporaryDirectory error.")
-                            }
+                    if photosForWallpaper.count >= screenList.count {
+                        photosForWallpaper[scrIndex].saveToLocalPath()
+                        
+                        var result:Bool = workspace.setDesktopImageURL(photosForWallpaper[scrIndex].localPathUrl, forScreen: screen, options: nil, error: &error)
+                        if result {
+                            println("\(screen) set to \(photosForWallpaper[scrIndex].localPath) from \(photosForWallpaper[scrIndex].url)")
                         } else {
-                            println("payload was not image!")
+                            println("error setDesktopImageURL")
+                            return
                         }
-                    */
-                    
+                    } else {
+                        println("pictures are not enough.")
+                    }
                 
                     //let screenOptions:NSDictionary! = workspace.desktopImageOptionsForScreen(screen)
                     //let a  = screenOptions.NSWorkspaceDesktopImageScalingKey
