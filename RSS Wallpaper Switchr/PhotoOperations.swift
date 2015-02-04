@@ -13,11 +13,19 @@ enum PhotoRecordState {
     case New, Downloaded, Filtered, Failed
 }
 
+enum PhotoRecordOrientation: Int {
+    case Portrait = 0
+    case Landscape = 1
+    case Square = 2
+    case NA = 3
+}
+
 class PhotoRecord: Equatable {
     let name:String
     let url:NSURL
     var state = PhotoRecordState.New
     var image = NSImage(named: "Placeholder")
+    var orientation = PhotoRecordOrientation.NA
     var localPath:String = ""
     
     init(name:String, url:NSURL) {
@@ -41,6 +49,21 @@ class PhotoRecord: Equatable {
             println("createDirectoryAtPath NSTemporaryDirectory error.")
         }
 
+    }
+    
+    func calcOrientation() {
+        if let nsImg = self.image {
+            let ratio = nsImg.size.width / nsImg.size.height
+            if ratio > 1 {
+                self.orientation = .Landscape
+            } else if ratio < 1 {
+                self.orientation = .Portrait
+            } else {
+                self.orientation = .Square
+            }
+        } else {
+            println("calcOrientation: no image ?!")
+        }
     }
 }
 
