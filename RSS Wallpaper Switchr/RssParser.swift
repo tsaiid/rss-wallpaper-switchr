@@ -8,6 +8,12 @@
 
 import Cocoa
 
+enum RssParserStatus: Int {
+    case Init = 0
+    case Done = 1
+    case Error = 2
+}
+
 class RssParser: NSObject, NSXMLParserDelegate {
     var strXMLData:String = ""
     var currentElement:String = ""
@@ -15,22 +21,45 @@ class RssParser: NSObject, NSXMLParserDelegate {
     var title = NSMutableString()
     var link = NSMutableString()
     var imgLinks = NSMutableArray()
+    var status = RssParserStatus.Init
     
     func parseRssFromUrl(rssUrl: String){
         var rss_url = NSURL(string: rssUrl)
-        let p : NSXMLParser! = NSXMLParser(contentsOfURL: rss_url)
-        p.delegate = self
-        imgLinks = []
-        var success:Bool = p.parse()
-        if success {
-            //println(imgLinks)
-            println("parse succeeded.")
-            // Do shuffle as needed. 
-            //imgLinks.shuffle()
-            //println(imgLinks[0])
-        } else {
-            println("parse xml error!")
+        
+        let task = NSURLSession.sharedSession().dataTaskWithURL(rss_url!) { data, response, error in
+            
+            // check for fundamental network issues (e.g. no internet, etc.)
+            if data == nil {
+                println("dataTaskWithURL error: \(error)")
+                return
+            }
+            
+            // make sure web server returned 200 status code (and not 404 for bad URL or whatever)
+            if let httpResponse = response as? NSHTTPURLResponse {
+                let statusCode = httpResponse.statusCode
+                if statusCode != 200 {
+                    println("NSHTTPURLResponse.statusCode = \(statusCode)")
+                    println("Text of response = \(NSString(data: data, encoding: NSUTF8StringEncoding))")
+                    return
+                }
+            }
+            
+            // parse data
+            let p : NSXMLParser! = NSXMLParser(data: data)
+            p.delegate = self
+            self.imgLinks = []
+            var success:Bool = p.parse()
+            if success {
+                //println(self.imgLinks)
+                println("parse succeeded.")
+                // Do shuffle as needed. 
+                //imgLinks.shuffle()
+                //println(imgLinks[0])
+            } else {
+                println("parse xml error!")
+            }
         }
+        task.resume()
     }
     
     func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName : String!, attributes attributeDict: NSDictionary!) {
