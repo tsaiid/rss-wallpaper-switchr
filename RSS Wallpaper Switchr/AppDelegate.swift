@@ -57,14 +57,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var pendingOperationsObserver = PendingOperationsObserver()
 
     func startDownloadForRecord(photoDetails: PhotoRecord, indexPath: String){
-        //1
         if let downloadOperation = pendingOperationsObserver.pendingOperations.downloadsInProgress[indexPath] {
             return
         }
         
-        //2
         let downloader = ImageDownloader(photoRecord: photoDetails)
-        //3
+
         downloader.completionBlock = {
             if downloader.cancelled {
                 return
@@ -81,9 +79,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        //4
+
         pendingOperationsObserver.pendingOperations.downloadsInProgress[indexPath] = downloader
-        //5
+
         pendingOperationsObserver.pendingOperations.downloadQueue.addOperation(downloader)
     }
     
