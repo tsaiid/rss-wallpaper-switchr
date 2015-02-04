@@ -8,10 +8,10 @@
 
 import Cocoa
 
-enum RssParserStatus: Int {
-    case Init = 0
-    case Done = 1
-    case Error = 2
+enum RssParserStatus: String {
+    case Init = "Init"
+    case Done = "Done"
+    case Error = "Error"
 }
 
 class RssParser: NSObject, NSXMLParserDelegate {
@@ -21,7 +21,12 @@ class RssParser: NSObject, NSXMLParserDelegate {
     var title = NSMutableString()
     var link = NSMutableString()
     var imgLinks = NSMutableArray()
-    var status = RssParserStatus.Init
+    dynamic private(set) var statusRaw: String?
+    var status:RssParserStatus? {
+        didSet {
+            statusRaw = status?.rawValue
+        }
+    }
     
     func parseRssFromUrl(rssUrl: String){
         var rss_url = NSURL(string: rssUrl)
@@ -53,7 +58,7 @@ class RssParser: NSObject, NSXMLParserDelegate {
                 //println(self.imgLinks)
                 println("parse succeeded.")
                 self.status = .Done
-                // Do shuffle as needed. 
+                // Do shuffle as needed.
                 //imgLinks.shuffle()
                 //println(imgLinks[0])
             } else {
@@ -103,4 +108,31 @@ class RssParser: NSObject, NSXMLParserDelegate {
         NSLog("failure error: %@", parseError)
     }
     
+}
+
+private var myContext = 0
+
+class RssParserObserver: NSObject {
+    var rssParser = RssParser()
+    override init() {
+        super.init()
+        rssParser.addObserver(self, forKeyPath: "statusRaw", options: .New, context: &myContext)
+    }
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
+        if context == &myContext {
+            switch rssParser.status! {
+            case .Done:
+                println("RSS Parser done!")
+            case .Error:
+                println("RSS Parser error!")
+            default:
+                println("Unknown status!?")
+            }
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
+    }
+    deinit {
+        rssParser.removeObserver(self, forKeyPath: "statusRaw", context: &myContext)
+    }
 }

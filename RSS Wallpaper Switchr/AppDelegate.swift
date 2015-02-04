@@ -31,15 +31,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    var rssParserObserver = RssParserObserver()
     
     @IBAction func btnParseRSS(sender: AnyObject) {
         // load rss url
         let defaults = NSUserDefaults.standardUserDefaults()
         if let rssUrl = defaults.stringForKey("rssUrl") {
             println("rss url \(rssUrl) loaded.")
-            var rp: RssParser = RssParser()
-            rp.parseRssFromUrl(rssUrl)
-            imgLinks = rp.imgLinks
+            rssParserObserver.rssParser.parseRssFromUrl(rssUrl)
+            imgLinks = rssParserObserver.rssParser.imgLinks
         } else {
             println("No predefined rss url.")
         }
