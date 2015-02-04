@@ -50,6 +50,92 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setDesktopBackgrounds()
     }
 
+    // use NSOperation and NSOperationQueue to handle picture downloading.
+    var photos = [PhotoRecord]()
+    var photosForWallpaper = [PhotoRecord]()
+    let pendingOperations = PendingOperations()
+    var targetAmount:Int = 1    // may be determined by options or screen numbers.
+
+    func startDownloadForRecord(photoDetails: PhotoRecord, indexPath: String){
+        //1
+        if let downloadOperation = pendingOperations.downloadsInProgress[indexPath] {
+            return
+        }
+        
+        //2
+        let downloader = ImageDownloader(photoRecord: photoDetails)
+        //3
+        downloader.completionBlock = {
+            if downloader.cancelled {
+                return
+            }
+            dispatch_async(dispatch_get_main_queue()) { ()
+                self.pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
+                println("dispatch done: \(indexPath). url: \(downloader.photoRecord.url)")
+                var count = 0
+                for photo in self.photos {
+                    if photo.state == .Downloaded {
+                        photo.saveToLocalPath()
+                        self.photosForWallpaper.append(photo)
+                        count++
+                    }
+                    
+                    if count >= self.targetAmount {
+                        self.pendingOperations.downloadQueue.cancelAllOperations()
+                    }
+                }
+                
+            }
+        }
+        //4
+        pendingOperations.downloadsInProgress[indexPath] = downloader
+        //5
+        pendingOperations.downloadQueue.addOperation(downloader)
+    }
+    
+    func startOperationsForPhotoRecord(photoDetails: PhotoRecord, indexPath: String){
+        switch (photoDetails.state) {
+        case .New:
+            startDownloadForRecord(photoDetails, indexPath: indexPath)
+        case .Downloaded:
+            println("downloaded. url: \(photoDetails.url)")
+        default:
+            println("do nothing")
+        }
+    }
+    
+    @IBAction func btnGetImageFromUrl(sender: AnyObject) {
+        var count:Int = 0
+        var nsImgArr:NSMutableArray = []
+        
+        determineTargetAmount()
+        
+        for imgLink in imgLinks {
+            let urlStr:String = imgLink["link"] as? String ?? ""
+            let name:String = imgLink["name"] as? String ?? ""
+            let url = NSURL(string: urlStr)
+            if url != nil {
+                let photoRecord = PhotoRecord(name:name, url:url!)
+                if (find(photos, photoRecord) == nil) {
+                    photos.append(photoRecord)
+                }
+            }
+        }
+
+        for photo in photos {
+            startOperationsForPhotoRecord(photo, indexPath: photo.url.absoluteString!.md5())
+        }
+
+    }
+    
+    func determineTargetAmount() {
+        // default set to screen numbers
+        if let screenList = NSScreen.screens() as? [NSScreen] {
+            targetAmount = screenList.count
+            println("targetAmount set to \(targetAmount)")
+        }
+    }
+    
     @IBAction func btnLoad(sender: AnyObject) {
         println("Load")
 
