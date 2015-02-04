@@ -52,11 +52,13 @@ class RssParser: NSObject, NSXMLParserDelegate {
             if success {
                 //println(self.imgLinks)
                 println("parse succeeded.")
+                self.status = .Done
                 // Do shuffle as needed. 
                 //imgLinks.shuffle()
                 //println(imgLinks[0])
             } else {
                 println("parse xml error!")
+                self.status = .Error
             }
         }
         task.resume()
