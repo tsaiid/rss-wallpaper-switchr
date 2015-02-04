@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var menuItem : NSMenuItem = NSMenuItem()
     var imgLinks = NSMutableArray()
     
-    var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
+    lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
     @IBAction func btnDetectScreenMode(sender: AnyObject) {
         if let screenList = NSScreen.screens() as? [NSScreen] {
@@ -167,6 +167,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(menuItem)
     }
     
+    func timerDidFire() {
+        //println("times up")
+    }
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
 
@@ -175,11 +179,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             selector: "changeDesktopAfterSpaceDidChange:",
             name: NSWorkspaceActiveSpaceDidChangeNotification,
             object: NSWorkspace.sharedWorkspace())
+        
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timerDidFire"), userInfo: nil, repeats: true)
     }
 
     func showOptionsWindow(sender: AnyObject){
-        //self.window!.orderFront(self)
-        optWin.beginSheet(self.window)
+        optWin.showWindow(sender)
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

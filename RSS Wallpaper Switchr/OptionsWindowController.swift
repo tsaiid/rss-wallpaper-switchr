@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTableViewDelegate {
+class OptionsWindowController: NSWindowController {
 
     var mainW: NSWindow = NSWindow()
 
@@ -29,11 +29,6 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         }
 
     }
-    //method called to display the modal window
-    func beginSheet(mainWindow: NSWindow){
-        self.mainW = mainWindow
-        NSApp.beginSheet(self.window!, modalForWindow: mainWindow, modalDelegate: self, didEndSelector:nil, contextInfo: nil)
-    }
     
     //method called, when "Close" - Button clicked
     @IBAction func closeOptionWindow(sender: AnyObject) {
@@ -42,13 +37,8 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(rssUrlText.stringValue as String, forKey: "rssUrl")
         
-        self.endSheet();
+        self.close()
     }
-    
-    //method called to slide out the modal window
-    func endSheet(){
-        NSApp.endSheet(self.window!)
-        self.window!.orderOut(mainW)
-    }
+   
 }
 
