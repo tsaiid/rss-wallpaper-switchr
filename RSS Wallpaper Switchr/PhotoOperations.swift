@@ -27,6 +27,7 @@ class PhotoRecord: Equatable {
     var image = NSImage(named: "Placeholder")
     var orientation = PhotoRecordOrientation.NA
     var localPath:String = ""
+    var localPathUrl = NSURL()
     
     init(name:String, url:NSURL) {
         self.name = name
@@ -43,6 +44,7 @@ class PhotoRecord: Equatable {
                 var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
                 self.image!.saveAsJpegWithName(imgPath)
                 self.localPath = imgPath
+                self.localPathUrl = NSURL(fileURLWithPath: imgPath)!
                 println("localPath set to \(imgPath) from \(imgUrl)")
             }
         } else {
