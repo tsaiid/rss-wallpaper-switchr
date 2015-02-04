@@ -53,12 +53,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // use NSOperation and NSOperationQueue to handle picture downloading.
     var photos = [PhotoRecord]()
     var photosForWallpaper = [PhotoRecord]()
-    let pendingOperations = PendingOperations()
     var targetAmount:Int = 1    // may be determined by options or screen numbers.
+    var pendingOperationsObserver = PendingOperationsObserver()
 
     func startDownloadForRecord(photoDetails: PhotoRecord, indexPath: String){
         //1
-        if let downloadOperation = pendingOperations.downloadsInProgress[indexPath] {
+        if let downloadOperation = pendingOperationsObserver.pendingOperations.downloadsInProgress[indexPath] {
             return
         }
         
@@ -69,29 +69,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if downloader.cancelled {
                 return
             }
-            dispatch_async(dispatch_get_main_queue()) { ()
-                self.pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.pendingOperationsObserver.pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
                 println("dispatch done: \(indexPath). url: \(downloader.photoRecord.url)")
-                var count = 0
-                for photo in self.photos {
-                    if photo.state == .Downloaded {
-                        photo.saveToLocalPath()
-                        photo.calcOrientation()
-                        self.photosForWallpaper.append(photo)
-                        count++
-                    }
-                    
-                    if count >= self.targetAmount {
-                        self.pendingOperations.downloadQueue.cancelAllOperations()
-                    }
+                var count = self.photosForWallpaper.count
+                if count < self.targetAmount {
+                    self.photosForWallpaper.append(downloader.photoRecord)
+                    println("photosForWallpaper: \(self.photosForWallpaper.count)")
+                } else {
+                    self.pendingOperationsObserver.pendingOperations.downloadQueue.cancelAllOperations()
                 }
-                
             }
         }
         //4
-        pendingOperations.downloadsInProgress[indexPath] = downloader
+        pendingOperationsObserver.pendingOperations.downloadsInProgress[indexPath] = downloader
         //5
-        pendingOperations.downloadQueue.addOperation(downloader)
+        pendingOperationsObserver.pendingOperations.downloadQueue.addOperation(downloader)
     }
     
     func startOperationsForPhotoRecord(photoDetails: PhotoRecord, indexPath: String){
@@ -122,11 +115,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-
+        
         for photo in photos {
             startOperationsForPhotoRecord(photo, indexPath: photo.url.absoluteString!.md5())
         }
-
     }
     
     func determineTargetAmount() {
@@ -200,34 +192,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var workspace = NSWorkspace.sharedWorkspace()
         var error: NSError?
         
-        if imgLinks.count > 0 {
+        if photosForWallpaper.count > 0 {
             if let screenList = NSScreen.screens() as? [NSScreen] {
                 println("Total screen: \(screenList.count)")
-                for screen in screenList {
-                    imgLinks.shuffle()
-                    var imgUrl = imgLinks[0]["link"] as String
-                    var nsurl = NSURL(string: imgUrl)
+                for (scrIndex, screen) in enumerate(screenList) {
+                    println("\(scrIndex): \(screen)")
 
-                    let task = NSURLSession.sharedSession().dataTaskWithURL(nsurl!) {
-                        data, response, error in
-                        
-                        // check for fundamental network issues (e.g. no internet, etc.)
-                        if data == nil {
-                            //handle error here
-                            println("dataTaskWithURL error: \(error)")
-                            return
-                        }
-                        
-                        // make sure web server returned 200 status code (and not 404 for bad URL or whatever)
-                        if let httpResponse = response as? NSHTTPURLResponse {
-                            let statusCode = httpResponse.statusCode
-                            if statusCode != 200 {
-                                println("NSHTTPURLResponse.statusCode = \(statusCode)")
-                                println("Text of response = \(NSString(data: data, encoding: NSUTF8StringEncoding))")
-                                return
-                            }
-                        }
-                        
+                    /*
                         // see if it is an image, and if so, save it and set as background
                         if let image = NSImage(data: data) as NSImage? {
                             
@@ -254,10 +225,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         } else {
                             println("payload was not image!")
                         }
-                    }
+                    */
                     
-                    task.resume()
-                    
+                
                     //let screenOptions:NSDictionary! = workspace.desktopImageOptionsForScreen(screen)
                     //let a  = screenOptions.NSWorkspaceDesktopImageScalingKey
                     //println(screenOptions[NSWorkspaceDesktopImageScalingKey])

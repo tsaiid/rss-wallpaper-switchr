@@ -71,14 +71,37 @@ func ==(lhs: PhotoRecord, rhs: PhotoRecord) -> Bool {
     return (lhs.name == rhs.name && lhs.url == rhs.url)
 }
 
-class PendingOperations {
+class PendingOperations:NSObject {
     lazy var downloadsInProgress = [String:NSOperation]()
-    lazy var downloadQueue:NSOperationQueue = {
+    dynamic var downloadQueue:NSOperationQueue = {
         var queue = NSOperationQueue()
         queue.name = "Download queue"
         queue.maxConcurrentOperationCount = 1
+
         return queue
         }()
+}
+
+private var myContext = 0
+
+class PendingOperationsObserver: NSObject {
+    var pendingOperations = PendingOperations()
+    override init() {
+        super.init()
+        pendingOperations.addObserver(self, forKeyPath: "downloadQueue.operationCount", options: .New, context: &myContext)
+    }
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
+        if context == &myContext {
+            if pendingOperations.downloadQueue.operationCount == 0 {
+                println("Complete queue.")
+            }
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
+    }
+    deinit {
+        pendingOperations.removeObserver(self, forKeyPath: "downloadQueue.operationCount", context: &myContext)
+    }
 }
 
 class ImageDownloader: NSOperation {
@@ -108,6 +131,7 @@ class ImageDownloader: NSOperation {
         if imageData?.length > 0 {
             self.photoRecord.image = NSImage(data:imageData!)
             self.photoRecord.state = .Downloaded
+            self.photoRecord.calcOrientation()
         }
         else
         {
