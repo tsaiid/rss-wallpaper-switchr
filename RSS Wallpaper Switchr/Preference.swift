@@ -15,7 +15,11 @@ class Preference {
     
     init() {
         println("Loading stored preference.")
-        
+
+        load()
+    }
+
+    func load() {
         let defaults = NSUserDefaults.standardUserDefaults()
 
         rssUrl = defaults.stringForKey("rssUrl")!
@@ -23,6 +27,11 @@ class Preference {
 
         fitScreenOrientation = defaults.boolForKey("fitScreenOrientation")
         println("option fitScreenOrientation: \(fitScreenOrientation)")
+    }
 
+    func save() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(rssUrl, forKey: "rssUrl")
+        defaults.setObject(fitScreenOrientation, forKey: "fitScreenOrientation")
     }
 }
