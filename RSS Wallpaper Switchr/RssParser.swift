@@ -125,6 +125,12 @@ class RssParserObserver: NSObject {
                 println("RSS Parser done!")
                 let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
                 appDelegate.imgLinks = rssParser.imgLinks
+                appDelegate.imgLinks.shuffle()
+                
+                // get image from url
+                appDelegate.getImageFromUrl()
+                
+                // set background will be done after getImageFromUrl queue done. 
             case .Error:
                 println("RSS Parser error!")
             default:

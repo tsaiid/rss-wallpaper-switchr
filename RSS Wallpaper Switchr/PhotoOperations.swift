@@ -96,6 +96,11 @@ class PendingOperationsObserver: NSObject {
         if context == &myContext {
             if pendingOperations.downloadQueue.operationCount == 0 {
                 println("Complete queue.")
+
+                let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+
+                // set backgrounds.
+                appDelegate.setDesktopBackgrounds()
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)

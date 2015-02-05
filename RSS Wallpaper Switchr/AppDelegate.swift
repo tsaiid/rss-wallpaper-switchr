@@ -33,15 +33,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var rssParserObserver = RssParserObserver()
     
-    @IBAction func btnParseRSS(sender: AnyObject) {
+    func sequentSetBackgrounds() {
+        println("start sequence set backgrounds.")
+        
+        // clean all var
+        photos = [PhotoRecord]()
+        photosForWallpaper = [PhotoRecord]()
+        pendingOperationsObserver = PendingOperationsObserver()
+        
         // load rss url
         let defaults = NSUserDefaults.standardUserDefaults()
         if let rssUrl = defaults.stringForKey("rssUrl") {
             println("rss url \(rssUrl) loaded.")
             rssParserObserver.rssParser.parseRssFromUrl(rssUrl)
+            
+            // get image will be done after parseRssFromUrl done.
+            // set background will be done after getImageFromUrl queue done.
         } else {
             println("No predefined rss url.")
         }
+    }
+    
+    @IBAction func btnSequentSetBackgrounds(sender: AnyObject) {
+        sequentSetBackgrounds()
+    }
+    
+    @IBAction func btnParseRSS(sender: AnyObject) {
         
     }
     
@@ -95,10 +112,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    @IBAction func btnGetImageFromUrl(sender: AnyObject) {
-        var count:Int = 0
-        var nsImgArr:NSMutableArray = []
+    func getImageFromUrl() {
+        determineTargetAmount()
         
+        for imgLink in imgLinks {
+            let urlStr:String = imgLink["link"] as? String ?? ""
+            let name:String = imgLink["name"] as? String ?? ""
+            let url = NSURL(string: urlStr)
+            if url != nil {
+                let photoRecord = PhotoRecord(name:name, url:url!)
+                if (find(photos, photoRecord) == nil) {
+                    photos.append(photoRecord)
+                }
+            }
+        }
+        
+        for photo in photos {
+            startOperationsForPhotoRecord(photo, indexPath: photo.url.absoluteString!.md5())
+        }
+    }
+    
+    @IBAction func btnGetImageFromUrl(sender: AnyObject) {
         determineTargetAmount()
         
         for imgLink in imgLinks {
@@ -130,7 +164,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             println("targetAmount set to \(targetAmount)")
         }
     }
-    
+
     @IBAction func btnLoad(sender: AnyObject) {
         println("Load")
 
@@ -172,7 +206,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func timerDidFire() {
-        //println("times up")
+        println("every 60 seconds.")
+        //sequentSetBackgrounds()
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -184,7 +219,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             name: NSWorkspaceActiveSpaceDidChangeNotification,
             object: NSWorkspace.sharedWorkspace())
         
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timerDidFire"), userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: Selector("timerDidFire"), userInfo: nil, repeats: true)
     }
 
     func showOptionsWindow(sender: AnyObject){
