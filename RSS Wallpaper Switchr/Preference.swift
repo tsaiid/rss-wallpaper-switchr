@@ -11,18 +11,18 @@ import Foundation
 class Preference {
     var rssUrl:String = ""
     var switchInterval:Int = 0
-    var fitScreenMore:Bool = true
+    var fitScreenOrientation:Bool = true
     
     init() {
         println("Loading stored preference.")
         
         let defaults = NSUserDefaults.standardUserDefaults()
-        if let rssUrl = defaults.stringForKey("rssUrl") {
-            println("option rssUrl: \(rssUrl)")
-        }
-        if let fitScreenOrientation = defaults.stringForKey("fitScreenOrientation") {
-            println("option fitScreenOrientation: \(fitScreenOrientation)")
-        }
+
+        rssUrl = defaults.stringForKey("rssUrl")!
+        println("option rssUrl: \(rssUrl)")
+
+        fitScreenOrientation = defaults.boolForKey("fitScreenOrientation")
+        println("option fitScreenOrientation: \(fitScreenOrientation)")
 
     }
 }
