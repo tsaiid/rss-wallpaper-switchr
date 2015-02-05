@@ -123,6 +123,8 @@ class RssParserObserver: NSObject {
             switch rssParser.status! {
             case .Done:
                 println("RSS Parser done!")
+                let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+                appDelegate.imgLinks = rssParser.imgLinks
             case .Error:
                 println("RSS Parser error!")
             default:

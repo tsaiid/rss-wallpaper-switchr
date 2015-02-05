@@ -735,6 +735,16 @@
                             <action selector="btnDetectScreenMode:" target="Voe-Tx-rLC" id="1BR-eR-xoJ"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iMu-ZW-10P">
+                        <rect key="frame" x="199" y="203" width="119" height="32"/>
+                        <buttonCell key="cell" type="push" title="Show Queue" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zi8-t3-OYr">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="btnShowQueue:" target="Voe-Tx-rLC" id="HQj-7C-fEM"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="70" y="300"/>

@@ -39,7 +39,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let rssUrl = defaults.stringForKey("rssUrl") {
             println("rss url \(rssUrl) loaded.")
             rssParserObserver.rssParser.parseRssFromUrl(rssUrl)
-            imgLinks = rssParserObserver.rssParser.imgLinks
         } else {
             println("No predefined rss url.")
         }
@@ -117,6 +116,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for photo in photos {
             startOperationsForPhotoRecord(photo, indexPath: photo.url.absoluteString!.md5())
         }
+    }
+    
+    @IBAction func btnShowQueue(sender: AnyObject) {
+        //println(pendingOperationsObserver.pendingOperations.downloadQueue.operationCount)
+        println(imgLinks)
     }
     
     func determineTargetAmount() {
