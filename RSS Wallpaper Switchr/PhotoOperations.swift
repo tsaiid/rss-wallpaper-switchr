@@ -28,6 +28,7 @@ class PhotoRecord: Equatable {
     var orientation = PhotoRecordOrientation.NA
     var localPath:String = ""
     var localPathUrl = NSURL()
+    var forScreen:NSScreen? = nil
     
     init(name:String, url:NSURL) {
         self.name = name
