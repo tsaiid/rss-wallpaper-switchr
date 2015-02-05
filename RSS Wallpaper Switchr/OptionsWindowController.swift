@@ -13,29 +13,35 @@ class OptionsWindowController: NSWindowController {
     var mainW: NSWindow = NSWindow()
 
     @IBOutlet weak var rssUrlText: NSTextField!
+    @IBOutlet weak var chkboxFitScreenOrientation: NSButton!
 
     override func windowDidLoad() {
         super.windowDidLoad()
 
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
         // Load stored options
-        println("Loading options")
+        println("Loading options in Option Window")
 
-        // use NSUserDefaults to load Preference
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let rssUrl = defaults.stringForKey("rssUrl") {
-            rssUrlText.stringValue = rssUrl
-            println(rssUrl)
+        // use Preference class to load Preference
+        let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+        let myPref = appDelegate.myPreference
+        rssUrlText.stringValue = myPref.rssUrl
+        if myPref.fitScreenOrientation {
+            chkboxFitScreenOrientation.state = NSOnState
         }
-
     }
     
     //method called, when "Close" - Button clicked
     @IBAction func closeOptionWindow(sender: AnyObject) {
         // saving options
         println("Try saving options.")
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(rssUrlText.stringValue as String, forKey: "rssUrl")
+
+        let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+        let myPref = appDelegate.myPreference
+        myPref.rssUrl = rssUrlText.stringValue
+        myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
+
+        myPref.save()
         
         self.close()
     }

@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OptionsWindowController" customModule="RSS_Wallpaper_Switchr" customModuleProvider="target">
             <connections>
+                <outlet property="chkboxFitScreenOrientation" destination="rhy-J8-cc0" id="7sO-jq-OzQ"/>
                 <outlet property="rssUrlText" destination="z18-ha-1Yj" id="Nny-jI-lIn"/>
                 <outlet property="window" destination="SuR-Nb-RWb" id="fZ4-Tq-SQh"/>
             </connections>
@@ -23,7 +24,7 @@
                 <subviews>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rhy-J8-cc0">
                         <rect key="frame" x="202" y="226" width="226" height="18"/>
-                        <buttonCell key="cell" type="check" title="Check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rQS-nO-xyJ">
+                        <buttonCell key="cell" type="check" title="Fit Screen Orientation" bezelStyle="regularSquare" imagePosition="left" inset="2" id="rQS-nO-xyJ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
