@@ -108,15 +108,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 println("dispatch done: \(indexPath). url: \(downloader.photoRecord.url)")
                 var count = self.photosForWallpaper.count
                 if count < self.targetAmount {
+                    let screenLists = NSScreen.screens() as? [NSScreen]
+                    let forScreen = screenLists![count]
                     if self.myPreference.fitScreenOrientation {
-                        let screenLists = NSScreen.screens() as? [NSScreen]
-                        let forScreen = screenLists![count]
                         if forScreen.orientation() == downloader.photoRecord.orientation {
                             downloader.photoRecord.forScreen = forScreen
                             self.photosForWallpaper.append(downloader.photoRecord)
                             println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
                         }
                     } else {
+                        downloader.photoRecord.forScreen = forScreen
                         self.photosForWallpaper.append(downloader.photoRecord)
                         println("photosForWallpaper: \(self.photosForWallpaper.count)")
                     }
@@ -218,7 +219,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         let rssUrls = "http://feeds.feedburner.com/500pxPopularWallpapers"
         defaults.setObject(rssUrls, forKey: "rssUrl")
-        defaults.setObject(true, forKey: "fitScreenOrientation")
+        defaults.setObject(false, forKey: "fitScreenOrientation")
         
         println("Saved")
     }
@@ -270,43 +271,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var error: NSError?
         
         if photosForWallpaper.count > 0 {
-            if myPreference.fitScreenOrientation {
-                for photo in photosForWallpaper {
-                    let screenList = NSScreen.screens() as? [NSScreen]
-                    if (find(screenList!, photo.forScreen!) != nil) {
-                        photo.saveToLocalPath()
-                        var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: photo.forScreen!, options: nil, error: &error)
-                        if result {
-                            println("fitScreenOrientation: \(photo.forScreen!) set to \(photo.localPath) from \(photo.url)")
-                        } else {
-                            println("error setDesktopImageURL for screen: \(photo.forScreen!)")
-                            return
-                        }
-                    }
-                }
-            } else {
-                if let screenList = NSScreen.screens() as? [NSScreen] {
-                    println("Total screen: \(screenList.count)")
-                    for (scrIndex, screen) in enumerate(screenList) {
-                        println("\(scrIndex): \(screen)")
-                        if photosForWallpaper.count >= screenList.count {
-                            photosForWallpaper[scrIndex].saveToLocalPath()
-                            
-                            var result:Bool = workspace.setDesktopImageURL(photosForWallpaper[scrIndex].localPathUrl, forScreen: screen, options: nil, error: &error)
-                            if result {
-                                println("\(screen) set to \(photosForWallpaper[scrIndex].localPath) from \(photosForWallpaper[scrIndex].url)")
-                            } else {
-                                println("error setDesktopImageURL")
-                                return
-                            }
-                        } else {
-                            println("pictures are not enough.")
-                        }
-                    
-                        //let screenOptions:NSDictionary! = workspace.desktopImageOptionsForScreen(screen)
-                        //let a  = screenOptions.NSWorkspaceDesktopImageScalingKey
-                        //println(screenOptions[NSWorkspaceDesktopImageScalingKey])
-                        //println(screenOptions[NSWorkspaceDesktopImageFillColorKey])
+            for photo in photosForWallpaper {
+                let screenList = NSScreen.screens() as? [NSScreen]
+                if (find(screenList!, photo.forScreen!) != nil) {
+                    photo.saveToLocalPath()
+                    var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: photo.forScreen!, options: nil, error: &error)
+                    if result {
+                        println("\(photo.forScreen!) set to \(photo.localPath) from \(photo.url) fitScreenOrientation: \(myPreference.fitScreenOrientation)")
+                    } else {
+                        println("error setDesktopImageURL for screen: \(photo.forScreen!)")
+                        return
                     }
                 }
             }
