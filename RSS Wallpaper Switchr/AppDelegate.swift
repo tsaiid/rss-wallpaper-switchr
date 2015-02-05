@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
-    @IBAction func btnDetectScreenMode(sender: AnyObject) {
+    func detectScreenMode() {
         if let screenList = NSScreen.screens() as? [NSScreen] {
             for screen in screenList {
                 let width = screen.frame.width
@@ -29,6 +29,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 println("\(screen) size: \(width) x \(height)")
             }
         }
+    }
+    
+    @IBAction func btnDetectScreenMode(sender: AnyObject) {
+        detectScreenMode()
     }
     
     var rssParserObserver = RssParserObserver()
