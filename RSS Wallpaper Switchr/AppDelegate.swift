@@ -31,6 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var screenOrientation = ScreenOrientation()
     var myPreference = Preference()
     var state = AppState.Ready
+    var currentTry = [Int]()
     
     lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
@@ -117,25 +118,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 return
             }
             dispatch_async(dispatch_get_main_queue()) {
-                self.pendingOperationsObserver.pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
+                let pendingOperations = self.pendingOperationsObserver.pendingOperations
+                pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
                 println("dispatch done: \(indexPath). url: \(downloader.photoRecord.url)")
                 var count = self.photosForWallpaper.count
                 if count < self.targetAmount {
                     let screenLists = NSScreen.screens() as? [NSScreen]
                     let forScreen = screenLists![count]
                     if self.myPreference.fitScreenOrientation {
-                        if forScreen.orientation() == downloader.photoRecord.orientation {
+                        // if no fit, maximal try: 3 downloads.
+                        println("currentTry: \(self.currentTry[count])")
+                        if forScreen.orientation() == downloader.photoRecord.orientation || self.currentTry[count] > 2  {
                             downloader.photoRecord.forScreen = forScreen
                             self.photosForWallpaper.append(downloader.photoRecord)
                             println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
                         }
+                        self.currentTry[count]++
                     } else {
                         downloader.photoRecord.forScreen = forScreen
                         self.photosForWallpaper.append(downloader.photoRecord)
                         println("photosForWallpaper: \(self.photosForWallpaper.count)")
                     }
                 } else {
-                    self.pendingOperationsObserver.pendingOperations.downloadQueue.cancelAllOperations()
+                    pendingOperations.downloadQueue.cancelAllOperations()
                 }
             }
         }
@@ -206,6 +211,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let screenList = NSScreen.screens() as? [NSScreen] {
             targetAmount = screenList.count
             println("targetAmount set to \(targetAmount)")
+
+            // init currentTry dictionary
+            currentTry = [Int](count: targetAmount, repeatedValue: 0)
         }
     }
 
