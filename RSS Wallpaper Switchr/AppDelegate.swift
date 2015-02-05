@@ -13,6 +13,11 @@ struct ScreenOrientation {
     var portrait = 0
 }
 
+enum AppState {
+    case Ready
+    case Running
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -25,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var imgLinks = NSMutableArray()
     var screenOrientation = ScreenOrientation()
     var myPreference = Preference()
+    var state = AppState.Ready
     
     lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
@@ -54,8 +60,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var rssParserObserver = RssParserObserver()
     
     func sequentSetBackgrounds() {
+        if state != .Ready {
+            println("A process is running. Please wait.")
+            return
+        }
+
         println("start sequence set backgrounds.")
         
+        state = .Running
+
         // clean all var
         photos = [PhotoRecord]()
         photosForWallpaper = [PhotoRecord]()
@@ -287,6 +300,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             println("No image links.")
         }
+
+        state = .Ready
     }
 
     func changeDesktopAfterSpaceDidChange(aNotification: NSNotification) {
