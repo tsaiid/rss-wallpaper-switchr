@@ -18,17 +18,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var menu: NSMenu = NSMenu()
     var menuItem : NSMenuItem = NSMenuItem()
     var imgLinks = NSMutableArray()
+    var screenOrientation = [String: Int]()
     
     lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
     func detectScreenMode() {
         if let screenList = NSScreen.screens() as? [NSScreen] {
+            screenOrientation = ["landscape": 0, "portrait": 0]
+            
             for screen in screenList {
                 let width = screen.frame.width
                 let height = screen.frame.height
                 println("\(screen) size: \(width) x \(height)")
+                if width / height < 1 {
+                    screenOrientation.updateValue(screenOrientation["portrait"]! + 1, forKey: "portrait")
+                } else {
+                    screenOrientation.updateValue(screenOrientation["landscape"]! + 1, forKey: "landscape")
+                }
             }
         }
+        
+        println("\(screenOrientation)")
     }
     
     @IBAction func btnDetectScreenMode(sender: AnyObject) {
@@ -175,9 +185,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // use NSUserDefaults to load Preference
         let defaults = NSUserDefaults.standardUserDefaults()
         if let rssUrl = defaults.stringForKey("rssUrl") {
-            println(rssUrl)
-            println(rssUrl.hash)
-            println(rssUrl.md5())
+            println("option rssUrl: \(rssUrl)")
+        }
+        if let fitScreenOrientation = defaults.stringForKey("fitScreenOrientation") {
+            println("option fitScreenOrientation: \(fitScreenOrientation)")
         }
     }
     
@@ -188,6 +199,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         let rssUrls = "http://feeds.feedburner.com/500pxPopularWallpapers"
         defaults.setObject(rssUrls, forKey: "rssUrl")
+        defaults.setObject(true, forKey: "fitScreenOrientation")
         
         println("Saved")
     }
