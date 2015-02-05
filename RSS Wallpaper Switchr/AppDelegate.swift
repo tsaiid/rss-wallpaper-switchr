@@ -19,6 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var menuItem : NSMenuItem = NSMenuItem()
     var imgLinks = NSMutableArray()
     var screenOrientation = [String: Int]()
+    var myPreference = Preference()
     
     lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
@@ -180,6 +181,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func btnLoad(sender: AnyObject) {
+        /*
         println("Load")
 
         // use NSUserDefaults to load Preference
@@ -190,6 +192,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let fitScreenOrientation = defaults.stringForKey("fitScreenOrientation") {
             println("option fitScreenOrientation: \(fitScreenOrientation)")
         }
+        */
+        println("preference: \(myPreference)")
     }
     
     @IBAction func btnSave(sender: AnyObject) {
