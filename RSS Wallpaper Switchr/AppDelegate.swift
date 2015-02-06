@@ -59,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         detectScreenMode()
     }
     
-    var rssParserObserver = RssParserObserver()
+    var rssParserSetWallpaperObserver = RssParserSetWallpaperObserver()
     
     func sequentSetBackgrounds() {
         if state != .Ready {
@@ -80,7 +80,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         if let rssUrl = defaults.stringForKey("rssUrl") {
             println("rss url \(rssUrl) loaded.")
-            rssParserObserver.rssParser.parseRssFromUrl(rssUrl)
+            rssParserSetWallpaperObserver.rssParser.parseRssFromUrl(rssUrl)
             
             // get image will be done after parseRssFromUrl done.
             // set background will be done after getImageFromUrl queue done.

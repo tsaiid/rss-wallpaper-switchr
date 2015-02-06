@@ -110,7 +110,7 @@ class RssParser: NSObject, NSXMLParserDelegate {
     
 }
 
-private var myContext = 0
+private var myContext = 0   // for KVO
 
 class RssParserObserver: NSObject {
     var rssParser = RssParser()
@@ -118,6 +118,12 @@ class RssParserObserver: NSObject {
         super.init()
         rssParser.addObserver(self, forKeyPath: "statusRaw", options: .New, context: &myContext)
     }
+    deinit {
+        rssParser.removeObserver(self, forKeyPath: "statusRaw", context: &myContext)
+    }
+}
+
+class RssParserSetWallpaperObserver: RssParserObserver {
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
         if context == &myContext {
             switch rssParser.status! {
@@ -139,8 +145,5 @@ class RssParserObserver: NSObject {
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
-    }
-    deinit {
-        rssParser.removeObserver(self, forKeyPath: "statusRaw", context: &myContext)
     }
 }
