@@ -147,3 +147,21 @@ class RssParserSetWallpaperObserver: RssParserObserver {
         }
     }
 }
+
+class RssParserValidateObserver: RssParserObserver {
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
+        if context == &myContext {
+            switch rssParser.status! {
+            case .Done:
+                println("RSS Parser validation done!")
+                println("\(rssParser.imgLinks.count) images found.")
+            case .Error:
+                println("RSS Parser error!")
+            default:
+                println("Unknown status!?")
+            }
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
+    }
+}

@@ -57,6 +57,13 @@ class OptionsWindowController: NSWindowController {
         
         self.close()
     }
-   
+
+    var rssObserver = RssParserValidateObserver()
+
+    @IBAction func btnValidateRSS(sender: AnyObject) {
+        let rssUrl:String = rssUrlText.stringValue
+        rssObserver.rssParser.parseRssFromUrl(rssUrl)
+        // update UI will be done in the observer
+    }
 }
 
