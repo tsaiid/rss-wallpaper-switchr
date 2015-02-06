@@ -12,6 +12,7 @@
 		D334C6C41A80F4E600726130 /* PhotoOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D334C6C31A80F4E600726130 /* PhotoOperations.swift */; };
 		D334C6C61A811E6300726130 /* NSImage_saveAsJpegWithName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D334C6C51A811E6300726130 /* NSImage_saveAsJpegWithName.swift */; };
 		D33626D71A7FB56900DAA51C /* Swift-MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33626D61A7FB56900DAA51C /* Swift-MD5.swift */; };
+		D369F09A1A84E21F00FC00FE /* debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D369F0991A84E21F00FC00FE /* debug.swift */; };
 		D39484821A7F6981006E84FD /* NSMutableArray_Shiffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39484811A7F6981006E84FD /* NSMutableArray_Shiffle.swift */; };
 		D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1EFCC1A7F56440032C16A /* RssParser.swift */; };
 		D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AAB3F71A8338EA00EA1439 /* Preference.swift */; };
@@ -39,6 +40,7 @@
 		D334C6C51A811E6300726130 /* NSImage_saveAsJpegWithName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSImage_saveAsJpegWithName.swift; sourceTree = "<group>"; };
 		D33626D61A7FB56900DAA51C /* Swift-MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Swift-MD5.swift"; sourceTree = "<group>"; };
 		D33626D81A7FB60500DAA51C /* RSS Wallpaper Switchr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RSS Wallpaper Switchr-Bridging-Header.h"; sourceTree = "<group>"; };
+		D369F0991A84E21F00FC00FE /* debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = debug.swift; sourceTree = "<group>"; };
 		D39484811A7F6981006E84FD /* NSMutableArray_Shiffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMutableArray_Shiffle.swift; sourceTree = "<group>"; };
 		D3A1EFCC1A7F56440032C16A /* RssParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RssParser.swift; sourceTree = "<group>"; };
 		D3AAB3F71A8338EA00EA1439 /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */,
+				D369F0991A84E21F00FC00FE /* debug.swift */,
 				D3AAB3F91A8348FC00EA1439 /* NSScreen_Orientation.swift */,
 				D3AAB3F71A8338EA00EA1439 /* Preference.swift */,
 				D334C6C51A811E6300726130 /* NSImage_saveAsJpegWithName.swift */,
@@ -240,6 +243,7 @@
 				D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */,
 				D334C6C41A80F4E600726130 /* PhotoOperations.swift in Sources */,
 				D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */,
+				D369F09A1A84E21F00FC00FE /* debug.swift in Sources */,
 				D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */,
 				D33626D71A7FB56900DAA51C /* Swift-MD5.swift in Sources */,
 				D3AAB3FA1A8348FC00EA1439 /* NSScreen_Orientation.swift in Sources */,
@@ -362,6 +366,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "RSS Wallpaper Switchr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "RSS Wallpaper Switchr/RSS Wallpaper Switchr-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -376,6 +381,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "RSS Wallpaper Switchr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_SWIFT_FLAGS = "-DRELEASE";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "RSS Wallpaper Switchr/RSS Wallpaper Switchr-Bridging-Header.h";
 			};
