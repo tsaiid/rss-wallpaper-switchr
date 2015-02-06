@@ -118,6 +118,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if downloader.cancelled {
                 return
             }
+
+            // sometimes, the downloaded content is not a image.
+            if downloader.photoRecord.state != .Downloaded {
+                println("downloader.completionBlock: no downloaded image.")
+                return
+            }
+
             dispatch_async(dispatch_get_main_queue()) {
                 let pendingOperations = self.pendingOperationsObserver.pendingOperations
                 pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
