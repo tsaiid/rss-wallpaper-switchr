@@ -32,6 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var myPreference = Preference()
     var state = AppState.Ready
     var currentTry = [Int]()
+    var switchTimer = NSTimer()
     
     lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
@@ -263,8 +264,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func timerDidFire() {
-        println("every 60 seconds.")
+        println("\(myPreference.switchInterval) minutes passed.")
         //sequentSetBackgrounds()
+    }
+
+    func updateSwitchTimer(){
+        let forMinutes = myPreference.switchInterval
+        if switchTimer.valid {
+            println("Timer: \(switchTimer) will be invalidated.")
+            switchTimer.invalidate()
+        }
+        let switchInterval:NSTimeInterval = (Double(forMinutes) * 60)
+        if  switchInterval > 0 {
+            switchTimer = NSTimer.scheduledTimerWithTimeInterval(switchInterval, target: self, selector: Selector("timerDidFire"), userInfo: nil, repeats: true)
+            println("Timer is set: \(switchTimer) for interval: \(forMinutes) minutes.")
+        }
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -275,8 +289,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             selector: "changeDesktopAfterSpaceDidChange:",
             name: NSWorkspaceActiveSpaceDidChangeNotification,
             object: NSWorkspace.sharedWorkspace())
-        
-        NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: Selector("timerDidFire"), userInfo: nil, repeats: true)
+
+        updateSwitchTimer()
     }
 
     func showOptionsWindow(sender: AnyObject){

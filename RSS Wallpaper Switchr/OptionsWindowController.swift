@@ -34,9 +34,11 @@ class OptionsWindowController: NSWindowController {
     }
     
     @IBAction func popupSetUpdateInterval(sender: AnyObject) {
+        /*
         if let item = sender.selectedItem as NSMenuItem! {
             println("\(item.tag)")
         }
+        */
     }
 
     //method called, when "Close" - Button clicked
@@ -49,6 +51,7 @@ class OptionsWindowController: NSWindowController {
         myPref.rssUrl = rssUrlText.stringValue
         myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
         myPref.switchInterval = popupUpdateInterval.selectedItem!.tag
+        appDelegate.updateSwitchTimer()
 
         myPref.save()
         
