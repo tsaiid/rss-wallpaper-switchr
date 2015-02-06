@@ -14,6 +14,7 @@ class OptionsWindowController: NSWindowController {
 
     @IBOutlet weak var rssUrlText: NSTextField!
     @IBOutlet weak var chkboxFitScreenOrientation: NSButton!
+    @IBOutlet weak var popupUpdateInterval: NSPopUpButtonCell!
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -29,6 +30,7 @@ class OptionsWindowController: NSWindowController {
         if myPref.fitScreenOrientation {
             chkboxFitScreenOrientation.state = NSOnState
         }
+        popupUpdateInterval.selectItemWithTag(myPref.switchInterval)
     }
     
     @IBAction func popupSetUpdateInterval(sender: AnyObject) {
@@ -46,6 +48,7 @@ class OptionsWindowController: NSWindowController {
         let myPref = appDelegate.myPreference
         myPref.rssUrl = rssUrlText.stringValue
         myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
+        myPref.switchInterval = popupUpdateInterval.selectedItem!.tag
 
         myPref.save()
         

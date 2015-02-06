@@ -27,11 +27,15 @@ class Preference {
 
         fitScreenOrientation = defaults.boolForKey("fitScreenOrientation")
         println("option fitScreenOrientation: \(fitScreenOrientation)")
+
+        switchInterval = defaults.integerForKey("switchInterval")
+        println("option switchInterval: \(switchInterval)")
     }
 
     func save() {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(rssUrl, forKey: "rssUrl")
         defaults.setObject(fitScreenOrientation, forKey: "fitScreenOrientation")
+        defaults.setObject(switchInterval, forKey: "switchInterval")
     }
 }

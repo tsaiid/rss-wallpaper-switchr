@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="OptionsWindowController" customModule="RSS_Wallpaper_Switchr" customModuleProvider="target">
             <connections>
                 <outlet property="chkboxFitScreenOrientation" destination="rhy-J8-cc0" id="7sO-jq-OzQ"/>
+                <outlet property="popupUpdateInterval" destination="0qS-5s-zCw" id="uZ6-RR-cww"/>
                 <outlet property="rssUrlText" destination="z18-ha-1Yj" id="Nny-jI-lIn"/>
                 <outlet property="window" destination="SuR-Nb-RWb" id="fZ4-Tq-SQh"/>
             </connections>
@@ -31,17 +32,23 @@
                     </button>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-8Y-atc">
                         <rect key="frame" x="202" y="259" width="324" height="26"/>
-                        <popUpButtonCell key="cell" type="push" title="10 minutes" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="10" imageScaling="proportionallyDown" inset="2" selectedItem="TLu-XD-eVO" id="0qS-5s-zCw">
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="0qS-5s-zCw">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" id="yAr-Fn-1pw">
                                 <items>
                                     <menuItem title="1 minute" tag="1" id="15k-f4-vzR"/>
                                     <menuItem title="5 minutes" tag="5" id="veF-vu-SzD"/>
-                                    <menuItem title="10 minutes" state="on" tag="10" id="TLu-XD-eVO"/>
+                                    <menuItem title="10 minutes" tag="10" id="TLu-XD-eVO"/>
                                     <menuItem title="15 minutes" tag="15" id="xP4-1W-ivR"/>
                                     <menuItem title="20 minutes" tag="20" id="MmJ-RF-Qqj"/>
                                     <menuItem title="30 minutes" tag="30" id="32Y-DA-PeW"/>
+                                    <menuItem title="45 minutes" tag="45" id="Cpc-0L-QFD"/>
+                                    <menuItem title="1 hour" tag="60" id="RL7-jr-Umn"/>
+                                    <menuItem title="2 hours" tag="120" id="Km6-J2-kaZ"/>
+                                    <menuItem title="5 hours" tag="300" id="ige-AK-sXL"/>
+                                    <menuItem title="12 hours" tag="720" id="FDR-oj-asS"/>
+                                    <menuItem title="1 day" tag="1440" id="086-I9-zxj"/>
                                 </items>
                             </menu>
                             <connections>
