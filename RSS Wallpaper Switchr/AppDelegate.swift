@@ -258,8 +258,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         //Add statusBarItem and attach the menu from xib.
         statusBarItem = statusBar.statusItemWithLength(-1)
+        let menuIcon = NSImage(named: "Menu Icon")
+        menuIcon?.setTemplate(true)
+        statusBarItem.button?.image = menuIcon
         statusBarItem.menu = statusMenu
-        statusBarItem.title = "RWS"
     }
     
     func timerDidFire() {
