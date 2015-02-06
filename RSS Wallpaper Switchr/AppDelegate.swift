@@ -22,11 +22,11 @@ enum AppState {
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
+    @IBOutlet weak var statusMenu: NSMenu!
 
     var statusBar = NSStatusBar.systemStatusBar()
     var statusBarItem : NSStatusItem = NSStatusItem()
     var menu: NSMenu = NSMenu()
-    var menuItem : NSMenuItem = NSMenuItem()
     var imgLinks = NSMutableArray()
     var screenOrientation = ScreenOrientation()
     var myPreference = Preference()
@@ -254,20 +254,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     override func awakeFromNib() {
-        //theLabel.stringValue = "You've pressed the button \n \(buttonPresses) times!"
+        println("Loading statusBar")
 
-        println(statusBar)
-
-        //Add statusBarItem
+        //Add statusBarItem and attach the menu from xib.
         statusBarItem = statusBar.statusItemWithLength(-1)
-        statusBarItem.menu = menu
-        statusBarItem.title = "Presses"
-        
-        //Add menuItem to menu
-        menuItem.title = "Options"
-        menuItem.action = Selector("showOptionsWindow:")
-        menuItem.keyEquivalent = ""
-        menu.addItem(menuItem)
+        statusBarItem.menu = statusMenu
+        statusBarItem.title = "RWS"
     }
     
     func timerDidFire() {
@@ -300,8 +292,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateSwitchTimer()
     }
 
-    func showOptionsWindow(sender: AnyObject){
+    // Menu Item Actions
+    @IBAction func showOptionsWindow(sender: AnyObject) {
         optWin.showWindow(sender)
+    }
+
+    @IBAction func quitApplication(sender: AnyObject) {
+        NSApplication.sharedApplication().terminate(sender)
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
