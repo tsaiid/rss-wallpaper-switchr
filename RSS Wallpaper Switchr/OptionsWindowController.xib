@@ -31,16 +31,22 @@
                     </button>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-8Y-atc">
                         <rect key="frame" x="202" y="259" width="324" height="26"/>
-                        <popUpButtonCell key="cell" type="push" title="20 minutes" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="MmJ-RF-Qqj" id="0qS-5s-zCw">
+                        <popUpButtonCell key="cell" type="push" title="10 minutes" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="10" imageScaling="proportionallyDown" inset="2" selectedItem="TLu-XD-eVO" id="0qS-5s-zCw">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" id="yAr-Fn-1pw">
                                 <items>
-                                    <menuItem title="5 minutes" id="15k-f4-vzR"/>
-                                    <menuItem title="10 minutes" id="xP4-1W-ivR"/>
-                                    <menuItem title="20 minutes" state="on" id="MmJ-RF-Qqj"/>
+                                    <menuItem title="1 minute" tag="1" id="15k-f4-vzR"/>
+                                    <menuItem title="5 minutes" tag="5" id="veF-vu-SzD"/>
+                                    <menuItem title="10 minutes" state="on" tag="10" id="TLu-XD-eVO"/>
+                                    <menuItem title="15 minutes" tag="15" id="xP4-1W-ivR"/>
+                                    <menuItem title="20 minutes" tag="20" id="MmJ-RF-Qqj"/>
+                                    <menuItem title="30 minutes" tag="30" id="32Y-DA-PeW"/>
                                 </items>
                             </menu>
+                            <connections>
+                                <action selector="popupSetUpdateInterval:" target="-2" id="xmZ-ZR-wi0"/>
+                            </connections>
                         </popUpButtonCell>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z18-ha-1Yj">

@@ -31,6 +31,12 @@ class OptionsWindowController: NSWindowController {
         }
     }
     
+    @IBAction func popupSetUpdateInterval(sender: AnyObject) {
+        if let item = sender.selectedItem as NSMenuItem! {
+            println("\(item.tag)")
+        }
+    }
+
     //method called, when "Close" - Button clicked
     @IBAction func closeOptionWindow(sender: AnyObject) {
         // saving options
