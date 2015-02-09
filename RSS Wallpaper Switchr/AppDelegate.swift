@@ -140,6 +140,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         if forScreen.orientation() == downloader.photoRecord.orientation || self.currentTry[count] > 2  {
                             downloader.photoRecord.forScreen = forScreen
                             self.photosForWallpaper.append(downloader.photoRecord)
+                            println("Too much try: \(self.currentTry[count])")
                             println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
                         }
                         self.currentTry[count]++
