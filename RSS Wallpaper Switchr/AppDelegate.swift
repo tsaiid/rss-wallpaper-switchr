@@ -129,25 +129,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             dispatch_async(dispatch_get_main_queue()) {
                 let pendingOperations = self.pendingOperationsObserver.pendingOperations
                 pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
-                println("dispatch done: \(indexPath). url: \(downloader.photoRecord.url)")
+                let this_photo = downloader.photoRecord
+                println("dispatch done: \(indexPath). url: \(this_photo.url)")
                 var count = self.photosForWallpaper.count
                 if count < self.targetAmount {
                     let screenLists = NSScreen.screens() as? [NSScreen]
                     let forScreen = screenLists![count]
+                    let lowerLimit = Float(self.myPreference.imageLowerLimitLength)
                     if self.myPreference.fitScreenOrientation {
                         // if no fit, maximal try: 3 downloads.
                         println("currentTry: \(self.currentTry[count])")
-                        if forScreen.orientation() == downloader.photoRecord.orientation || self.currentTry[count] > 2  {
-                            downloader.photoRecord.forScreen = forScreen
-                            self.photosForWallpaper.append(downloader.photoRecord)
-                            println("Too much try: \(self.currentTry[count])")
-                            println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
+                        if forScreen.orientation() == this_photo.orientation || self.currentTry[count] > 2  {
+                            if !self.myPreference.filterSmallerImages || lowerLimit <= 0 {
+                                this_photo.forScreen = forScreen
+                                self.photosForWallpaper.append(this_photo)
+                                println("Too much try: \(self.currentTry[count])")
+                                println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
+                            } else {
+                                if this_photo.fitSizeLimitation(lowerLimit) {
+                                    this_photo.forScreen = forScreen
+                                    self.photosForWallpaper.append(this_photo)
+                                    println("imageLowerLimitLength is on. Size is more than limitation: \(lowerLimit)")
+                                    println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
+                                } else {
+                                    println("imageLowerLimitLength is on. Size \(this_photo.image!.size.width) x \(this_photo.image!.size.height) not fit limitation: \(lowerLimit)")
+
+                                }
+                            }
                         }
                         self.currentTry[count]++
                     } else {
-                        downloader.photoRecord.forScreen = forScreen
-                        self.photosForWallpaper.append(downloader.photoRecord)
-                        println("photosForWallpaper: \(self.photosForWallpaper.count)")
+                        if !self.myPreference.filterSmallerImages || lowerLimit <= 0 {
+                            this_photo.forScreen = forScreen
+                            self.photosForWallpaper.append(this_photo)
+                            println("photosForWallpaper: \(self.photosForWallpaper.count)")
+                        } else {
+                            if this_photo.fitSizeLimitation(lowerLimit) {
+                                this_photo.forScreen = forScreen
+                                self.photosForWallpaper.append(this_photo)
+                                println("imageLowerLimitLength is on. Size is more than limitation: \(lowerLimit)")
+                                println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
+                            } else {
+                                println("imageLowerLimitLength is on. Size \(this_photo.image!.size.width) x \(this_photo.image!.size.height) not fit limitation: \(lowerLimit)")
+
+                            }
+                        }
                     }
                 } else {
                     pendingOperations.downloadQueue.cancelAllOperations()
