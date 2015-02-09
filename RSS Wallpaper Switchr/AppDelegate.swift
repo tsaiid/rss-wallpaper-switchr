@@ -268,7 +268,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func timerDidFire() {
         println("\(myPreference.switchInterval) minutes passed.")
-        //sequentSetBackgrounds()
+        sequentSetBackgrounds()
     }
 
     func stopSwitchTimer() {
@@ -304,6 +304,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // Menu Item Actions
+    @IBAction func statusBarForceSetWallpapers(sender: AnyObject) {
+        println("Force set wallpapers.")
+        sequentSetBackgrounds()
+    }
+
     @IBAction func showOptionsWindow(sender: AnyObject) {
         optWin.showWindow(sender)
     }

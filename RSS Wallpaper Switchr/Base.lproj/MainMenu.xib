@@ -762,6 +762,12 @@
         </window>
         <menu id="KOR-qe-mSB" userLabel="StatusBarMenu">
             <items>
+                <menuItem title="Switch Wallpapers" keyEquivalent="n" id="96P-Eo-FDF">
+                    <connections>
+                        <action selector="statusBarForceSetWallpapers:" target="Voe-Tx-rLC" id="nEZ-ar-Q1t"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="tQs-h8-bTs"/>
                 <menuItem title="Options" keyEquivalent="," id="cQG-GQ-Pr1">
                     <connections>
                         <action selector="showOptionsWindow:" target="Voe-Tx-rLC" id="PTY-o9-vHh"/>
