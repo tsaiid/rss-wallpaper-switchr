@@ -19,14 +19,21 @@
         <window title="Preference" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="SuR-Nb-RWb">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="737" height="458"/>
+            <rect key="contentRect" x="196" y="240" width="659" height="304"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="op0-y3-Z0A">
-                <rect key="frame" x="0.0" y="0.0" width="737" height="458"/>
+                <rect key="frame" x="0.0" y="0.0" width="659" height="304"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rhy-J8-cc0">
+                        <rect key="frame" x="172" y="187" width="226" height="18"/>
+                        <buttonCell key="cell" type="check" title="Fit Screen Orientation" bezelStyle="regularSquare" imagePosition="left" inset="2" id="rQS-nO-xyJ">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-8Y-atc">
-                        <rect key="frame" x="202" y="259" width="324" height="26"/>
+                        <rect key="frame" x="172" y="220" width="324" height="26"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="0qS-5s-zCw">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
@@ -52,7 +59,7 @@
                         </popUpButtonCell>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z18-ha-1Yj">
-                        <rect key="frame" x="204" y="301" width="319" height="22"/>
+                        <rect key="frame" x="174" y="262" width="319" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ND4-sw-Ju9">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -60,7 +67,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TCo-64-wCX">
-                        <rect key="frame" x="48" y="256" width="133" height="27"/>
+                        <rect key="frame" x="18" y="217" width="133" height="27"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Update Interval" id="odx-dE-UWR">
                             <font key="font" metaFont="system" size="16"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -68,7 +75,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JnH-bK-Shl">
-                        <rect key="frame" x="96" y="302" width="110" height="20"/>
+                        <rect key="frame" x="66" y="263" width="110" height="20"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="RSS URL" id="Mvk-Ju-SrH">
                             <font key="font" metaFont="system" size="15"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -76,7 +83,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="flE-Kg-a7y">
-                        <rect key="frame" x="555" y="295" width="120" height="32"/>
+                        <rect key="frame" x="525" y="256" width="120" height="32"/>
                         <buttonCell key="cell" type="push" title="Validate RSS" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="akZ-me-wPS">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -86,15 +93,15 @@
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eqs-Hq-3ye">
-                        <rect key="frame" x="202" y="194" width="287" height="18"/>
+                        <rect key="frame" x="172" y="155" width="287" height="18"/>
                         <buttonCell key="cell" type="check" title="Discard images smaller than                   px" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Woz-zd-Kxo">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m1A-ew-5sD">
-                        <rect key="frame" x="555" y="186" width="76" height="32"/>
-                        <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="udm-jS-fMJ">
+                        <rect key="frame" x="525" y="147" width="122" height="32"/>
+                        <buttonCell key="cell" type="push" title="Save &amp; Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="udm-jS-fMJ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -103,7 +110,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E3s-IU-9xq">
-                        <rect key="frame" x="403" y="192" width="61" height="22"/>
+                        <rect key="frame" x="373" y="153" width="61" height="22"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="BTj-aH-nYG">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -113,19 +120,12 @@
                             </allowedInputSourceLocales>
                         </textFieldCell>
                     </textField>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rhy-J8-cc0">
-                        <rect key="frame" x="202" y="226" width="226" height="18"/>
-                        <buttonCell key="cell" type="check" title="Fit Screen Orientation" bezelStyle="regularSquare" imagePosition="left" inset="2" id="rQS-nO-xyJ">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                 </subviews>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="ZiP-uz-Qpg"/>
             </connections>
-            <point key="canvasLocation" x="93.5" y="20"/>
+            <point key="canvasLocation" x="54.5" y="-57"/>
         </window>
     </objects>
 </document>
