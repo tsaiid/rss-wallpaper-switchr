@@ -263,10 +263,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarItem.button?.image = menuIcon
         statusBarItem.menu = statusMenu
     }
+
+    // Timer related
     
     func timerDidFire() {
         println("\(myPreference.switchInterval) minutes passed.")
         //sequentSetBackgrounds()
+    }
+
+    func stopSwitchTimer() {
+        if switchTimer.valid {
+            println("Stopping Timer: \(switchTimer) will be invalidated.")
+            switchTimer.invalidate()
+        }
     }
 
     func updateSwitchTimer(){

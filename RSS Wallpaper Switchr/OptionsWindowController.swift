@@ -31,6 +31,9 @@ class OptionsWindowController: NSWindowController {
             chkboxFitScreenOrientation.state = NSOnState
         }
         popupUpdateInterval.selectItemWithTag(myPref.switchInterval)
+
+        // stop timer after showing option window
+        appDelegate.stopSwitchTimer()
     }
     
     @IBAction func popupSetUpdateInterval(sender: AnyObject) {
@@ -51,7 +54,6 @@ class OptionsWindowController: NSWindowController {
         myPref.rssUrl = rssUrlText.stringValue
         myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
         myPref.switchInterval = popupUpdateInterval.selectedItem!.tag
-        appDelegate.updateSwitchTimer()
 
         myPref.save()
         
@@ -64,6 +66,13 @@ class OptionsWindowController: NSWindowController {
         let rssUrl:String = rssUrlText.stringValue
         rssObserver.rssParser.parseRssFromUrl(rssUrl)
         // update UI will be done in the observer
+    }
+
+    func windowWillClose(notification: NSNotification) {
+        // update timer.
+        let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+        println("Updating timer while closing option window.")
+        appDelegate.updateSwitchTimer()
     }
 }
 
