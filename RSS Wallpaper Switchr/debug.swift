@@ -6,8 +6,14 @@
 //  Copyright (c) 2015年 I-Ta Tsai. All rights reserved.
 //  For debug mode use: http://stackoverflow.com/a/28157546/1576281
 
+import Cocoa
+
 func println(object: Any) {
     #if DEBUG
-        Swift.println(object)
+        let date = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
+        let timestamp = formatter.stringFromDate(date)
+        Swift.println("\(timestamp): \(object)")
     #endif
 }
