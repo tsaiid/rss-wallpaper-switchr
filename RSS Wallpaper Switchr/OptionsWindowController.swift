@@ -15,7 +15,8 @@ class OptionsWindowController: NSWindowController {
     @IBOutlet weak var rssUrlText: NSTextField!
     @IBOutlet weak var chkboxFitScreenOrientation: NSButton!
     @IBOutlet weak var popupUpdateInterval: NSPopUpButtonCell!
-    @IBOutlet weak var chkboxDiscardSmallImages: NSButton!
+
+    @IBOutlet weak var chkboxFilterSmallerImages: NSButton!
     @IBOutlet weak var txtImageLowerLimitLength: NSTextField!
 
     override func windowDidLoad() {
@@ -29,10 +30,14 @@ class OptionsWindowController: NSWindowController {
         let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
         let myPref = appDelegate.myPreference
         rssUrlText.stringValue = myPref.rssUrl
+        popupUpdateInterval.selectItemWithTag(myPref.switchInterval)
         if myPref.fitScreenOrientation {
             chkboxFitScreenOrientation.state = NSOnState
         }
-        popupUpdateInterval.selectItemWithTag(myPref.switchInterval)
+        if myPref.filterSmallerImages {
+            chkboxFilterSmallerImages.state = NSOnState
+        }
+        txtImageLowerLimitLength.stringValue = String(myPref.imageLowerLimitLength)
 
         // stop timer after showing option window
         appDelegate.stopSwitchTimer()
@@ -56,6 +61,16 @@ class OptionsWindowController: NSWindowController {
         myPref.rssUrl = rssUrlText.stringValue
         myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
         myPref.switchInterval = popupUpdateInterval.selectedItem!.tag
+        myPref.filterSmallerImages = (chkboxFilterSmallerImages.state == NSOnState ? true : false)
+        if txtImageLowerLimitLength.stringValue.toInt() == nil {
+            let myAlert = NSAlert()
+            myAlert.addButtonWithTitle("OK")
+            myAlert.messageText = "Please enter an integer for image size limit!"
+            if myAlert.runModal() == NSAlertFirstButtonReturn {
+                return
+            }
+        }
+        myPref.imageLowerLimitLength = txtImageLowerLimitLength.stringValue.toInt()!
 
         myPref.save()
         

@@ -12,6 +12,8 @@ class Preference {
     var rssUrl:String = ""
     var switchInterval:Int = 0
     var fitScreenOrientation:Bool = true
+    var filterSmallerImages:Bool = false
+    var imageLowerLimitLength:Int = 1024
     
     init() {
         println("Loading stored preference.")
@@ -30,6 +32,10 @@ class Preference {
 
         switchInterval = defaults.integerForKey("switchInterval")
         println("option switchInterval: \(switchInterval)")
+
+        filterSmallerImages = defaults.boolForKey("filterSmallerImages")
+        imageLowerLimitLength = defaults.integerForKey("imageLowerLimitLength")
+        println("option filterSmallerImages: \(filterSmallerImages), imageLowerLimitLength: \(imageLowerLimitLength)")
     }
 
     func save() {
@@ -37,5 +43,7 @@ class Preference {
         defaults.setObject(rssUrl, forKey: "rssUrl")
         defaults.setObject(fitScreenOrientation, forKey: "fitScreenOrientation")
         defaults.setObject(switchInterval, forKey: "switchInterval")
+        defaults.setObject(filterSmallerImages, forKey: "filterSmallerImages")
+        defaults.setObject(imageLowerLimitLength, forKey: "imageLowerLimitLength")
     }
 }

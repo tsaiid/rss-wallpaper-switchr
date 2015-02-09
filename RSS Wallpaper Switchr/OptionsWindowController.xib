@@ -6,7 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OptionsWindowController" customModule="RSS_Wallpaper_Switchr" customModuleProvider="target">
             <connections>
-                <outlet property="chkboxDiscardSmallImages" destination="eqs-Hq-3ye" id="OUv-n2-e5D"/>
+                <outlet property="chkboxFilterSmallerImages" destination="eqs-Hq-3ye" id="NJi-FY-a9e"/>
                 <outlet property="chkboxFitScreenOrientation" destination="rhy-J8-cc0" id="7sO-jq-OzQ"/>
                 <outlet property="popupUpdateInterval" destination="0qS-5s-zCw" id="uZ6-RR-cww"/>
                 <outlet property="rssUrlText" destination="z18-ha-1Yj" id="Nny-jI-lIn"/>
@@ -104,10 +104,13 @@
                     </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E3s-IU-9xq">
                         <rect key="frame" x="403" y="192" width="61" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="BTj-aH-nYG">
+                        <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="BTj-aH-nYG">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <allowedInputSourceLocales>
+                                <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                            </allowedInputSourceLocales>
                         </textFieldCell>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rhy-J8-cc0">
