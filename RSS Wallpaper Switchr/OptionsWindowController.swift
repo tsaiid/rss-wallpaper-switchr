@@ -15,6 +15,8 @@ class OptionsWindowController: NSWindowController {
     @IBOutlet weak var rssUrlText: NSTextField!
     @IBOutlet weak var chkboxFitScreenOrientation: NSButton!
     @IBOutlet weak var popupUpdateInterval: NSPopUpButtonCell!
+    @IBOutlet weak var chkboxDiscardSmallImages: NSButton!
+    @IBOutlet weak var txtImageLowerLimitLength: NSTextField!
 
     override func windowDidLoad() {
         super.windowDidLoad()
