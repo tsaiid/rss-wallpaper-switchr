@@ -70,6 +70,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         println("start sequence set backgrounds.")
         
         state = .Running
+        menuIconActivate()
 
         // clean all var
         photos = [PhotoRecord]()
@@ -252,16 +253,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         println("Saved")
     }
-    
+
+    func menuIconDeactivate() {
+        let menuIcon = NSImage(named: "Menu Icon")
+        menuIcon?.setTemplate(true)
+        statusBarItem.button?.image = menuIcon
+        statusBarItem.menu = statusMenu
+    }
+
+    func menuIconActivate() {
+        let menuIcon = NSImage(named: "Menu Icon Active")
+        menuIcon?.setTemplate(true)
+        statusBarItem.button?.image = menuIcon
+        statusBarItem.menu = statusMenu
+    }
+
     override func awakeFromNib() {
         println("Loading statusBar")
 
         //Add statusBarItem and attach the menu from xib.
         statusBarItem = statusBar.statusItemWithLength(-1)
-        let menuIcon = NSImage(named: "Menu Icon")
-        menuIcon?.setTemplate(true)
-        statusBarItem.button?.image = menuIcon
-        statusBarItem.menu = statusMenu
+        menuIconDeactivate()
     }
 
     // Timer related
@@ -311,6 +323,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func showOptionsWindow(sender: AnyObject) {
         optWin.showWindow(sender)
+        NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
 
     @IBAction func quitApplication(sender: AnyObject) {
@@ -344,6 +357,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         state = .Ready
+        menuIconDeactivate()
     }
 
     func changeDesktopAfterSpaceDidChange(aNotification: NSNotification) {
