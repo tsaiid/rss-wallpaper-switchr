@@ -68,6 +68,13 @@ class PhotoRecord: Equatable {
             println("calcOrientation: no image ?!")
         }
     }
+
+    func fitSizeLimitation(limit: Float) -> Bool {
+        let height = Float(self.image!.size.height)
+        let width = Float(self.image!.size.width)
+
+        return height > limit && width > limit ? true : false
+    }
 }
 
 func ==(lhs: PhotoRecord, rhs: PhotoRecord) -> Bool {
