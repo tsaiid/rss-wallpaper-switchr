@@ -69,8 +69,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         println("start sequence set backgrounds.")
         
-        state = .Running
-        menuIconActivate()
+        stateToRunning()
 
         // clean all var
         photos = [PhotoRecord]()
@@ -365,6 +364,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    func stateToRunning() {
+        state = .Running
+        menuIconActivate()
+    }
+
+    func stateToReady() {
+        state = .Ready
+        menuIconDeactivate()
+    }
+
     func setDesktopBackgrounds() {
         var workspace = NSWorkspace.sharedWorkspace()
         var error: NSError?
@@ -387,8 +396,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             println("No image links.")
         }
 
-        state = .Ready
-        menuIconDeactivate()
+        stateToReady()
     }
 
     func changeDesktopAfterSpaceDidChange(aNotification: NSNotification) {
