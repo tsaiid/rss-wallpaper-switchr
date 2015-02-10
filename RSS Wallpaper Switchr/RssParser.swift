@@ -126,10 +126,11 @@ class RssParserObserver: NSObject {
 class RssParserSetWallpaperObserver: RssParserObserver {
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
         if context == &myContext {
+            let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+
             switch rssParser.status! {
             case .Done:
                 println("RSS Parser done!")
-                let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
                 appDelegate.imgLinks = rssParser.imgLinks
                 appDelegate.imgLinks.shuffle()
                 
@@ -139,8 +140,10 @@ class RssParserSetWallpaperObserver: RssParserObserver {
                 // set background will be done after getImageFromUrl queue done. 
             case .Error:
                 println("RSS Parser error!")
+                appDelegate.stateToReady()
             default:
                 println("Unknown status!?")
+                appDelegate.stateToReady()
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
