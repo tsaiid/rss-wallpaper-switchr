@@ -333,6 +333,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
 
+        #if false
+            window.makeKeyAndOrderFront(self)
+        #endif
+
         // by notification, trigger switcher when space changes
         NSWorkspace.sharedWorkspace().notificationCenter.addObserver(self,
             selector: "changeDesktopAfterSpaceDidChange:",
