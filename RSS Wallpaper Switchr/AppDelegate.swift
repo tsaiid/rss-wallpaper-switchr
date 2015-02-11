@@ -134,7 +134,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if count < self.targetAmount {
                     let screenLists = NSScreen.screens() as? [NSScreen]
                     let forScreen = screenLists![count]
-                    let lowerLimit = Float(self.myPreference.imageLowerLimitLength)
+                    let lowerLimit = self.myPreference.imageLowerLimitLength
                     if self.myPreference.fitScreenOrientation {
                         // if no fit, maximal try: 3 downloads.
                         println("currentTry: \(self.currentTry[count])")
@@ -148,10 +148,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                 if this_photo.fitSizeLimitation(lowerLimit) {
                                     this_photo.forScreen = forScreen
                                     self.photosForWallpaper.append(this_photo)
-                                    println("imageLowerLimitLength is on. Size is more than limitation: \(lowerLimit)")
+                                    println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) is more than limitation: \(lowerLimit)")
                                     println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
                                 } else {
-                                    println("imageLowerLimitLength is on. Size \(this_photo.image!.size.width) x \(this_photo.image!.size.height) not fit limitation: \(lowerLimit)")
+                                    println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) not fit limitation: \(lowerLimit)")
 
                                 }
                             }

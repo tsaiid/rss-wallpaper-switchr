@@ -25,6 +25,7 @@ class PhotoRecord: Equatable {
     let url:NSURL
     var state = PhotoRecordState.New
     var image = NSImage(named: "Placeholder")
+    var imgRep = NSImageRep()
     var orientation = PhotoRecordOrientation.NA
     var localPath:String = ""
     var localPathUrl = NSURL()
@@ -69,9 +70,9 @@ class PhotoRecord: Equatable {
         }
     }
 
-    func fitSizeLimitation(limit: Float) -> Bool {
-        let height = Float(self.image!.size.height)
-        let width = Float(self.image!.size.width)
+    func fitSizeLimitation(limit: Int) -> Bool {
+        let height = self.imgRep.pixelsHigh
+        let width = self.imgRep.pixelsWide
 
         return height > limit && width > limit ? true : false
     }
@@ -141,6 +142,7 @@ class ImageDownloader: NSOperation {
             self.photoRecord.image = NSImage(data:imageData!)
             self.photoRecord.state = .Downloaded
             self.photoRecord.calcOrientation()
+            self.photoRecord.imgRep = self.photoRecord.image!.representations.first as NSImageRep
         }
         else
         {
