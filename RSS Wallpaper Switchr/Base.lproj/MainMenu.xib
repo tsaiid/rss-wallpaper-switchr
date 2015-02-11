@@ -762,19 +762,22 @@
         </window>
         <menu id="KOR-qe-mSB" userLabel="StatusBarMenu">
             <items>
-                <menuItem title="Switch Wallpapers" keyEquivalent="n" id="96P-Eo-FDF">
+                <menuItem title="Switch Wallpapers" id="96P-Eo-FDF">
+                    <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="statusBarForceSetWallpapers:" target="Voe-Tx-rLC" id="nEZ-ar-Q1t"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="tQs-h8-bTs"/>
-                <menuItem title="Options" keyEquivalent="," id="cQG-GQ-Pr1">
+                <menuItem title="Preferences" id="cQG-GQ-Pr1">
+                    <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="showOptionsWindow:" target="Voe-Tx-rLC" id="PTY-o9-vHh"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="fc0-JQ-4Tz"/>
-                <menuItem title="Quit" keyEquivalent="q" id="Nwl-wC-Cak">
+                <menuItem title="Quit" id="Nwl-wC-Cak">
+                    <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="quitApplication:" target="Voe-Tx-rLC" id="Yfs-gh-Uob"/>
                     </connections>
