@@ -29,8 +29,7 @@ class PhotoRecord: Equatable {
     var orientation = Orientation.NotApplicable
     var localPath:String = ""
     var localPathUrl = NSURL()
-    var forScreen:NSScreen? = nil
-    
+
     init(name:String, url:NSURL) {
         self.name = name
         self.url = url
