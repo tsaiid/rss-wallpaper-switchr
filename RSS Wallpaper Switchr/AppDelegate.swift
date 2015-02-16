@@ -8,11 +8,6 @@
 
 import Cocoa
 
-struct ScreenOrientation {
-    var landscape = 0
-    var portrait = 0
-}
-
 enum AppState {
     case Ready
     case Running
@@ -28,31 +23,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem : NSStatusItem = NSStatusItem()
     var menu: NSMenu = NSMenu()
     var imgLinks = NSMutableArray()
-    var screenOrientation = ScreenOrientation()
     var myPreference = Preference()
     var state = AppState.Ready
     var currentTry = [Int]()
     var switchTimer = NSTimer()
+    var targetScreens = [TargetScreen]()
     
     lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
     func detectScreenMode() {
         if let screenList = NSScreen.screens() as? [NSScreen] {
-            screenOrientation = ScreenOrientation()
-            
             for screen in screenList {
-                let width = screen.frame.width
-                let height = screen.frame.height
-                println("\(screen) size: \(width) x \(height)")
-                if width / height < 1 {
-                    screenOrientation.portrait++
-                } else {
-                    screenOrientation.landscape++
-                }
+                var targetScreen = TargetScreen(screen: screen)
             }
         }
-        
-        println("\(screenOrientation)")
     }
     
     @IBAction func btnDetectScreenMode(sender: AnyObject) {
