@@ -398,6 +398,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     }
                 }
             }
+            notify("Wallpaper changes!", title: "Successful")
         } else {
             println("getNoWallpaperScreen incomplete.")
         }
