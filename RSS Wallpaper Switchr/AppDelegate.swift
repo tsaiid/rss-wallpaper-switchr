@@ -337,14 +337,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             object: NSWorkspace.sharedWorkspace())
 
         updateSwitchTimer()
+    }
 
-        // test notification
-        /*
-        var notif = NSUserNotification()
-        notif.title = "test"
-        notif.informativeText = "ttt"
-        NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notif)
-        */
+    func notify(msg: NSString!, title: NSString = "Error"){
+        var userNotify = NSUserNotification()
+        userNotify.title = title
+        userNotify.informativeText = msg
+
+        NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(userNotify)
     }
 
     // Menu Item Actions
