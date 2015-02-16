@@ -390,7 +390,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         } else {
-            println("No image links.")
+            println("getNoWallpaperScreen incomplete.")
         }
 
         stateToReady()
