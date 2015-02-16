@@ -44,6 +44,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     var rssParserSetWallpaperObserver = RssParserSetWallpaperObserver()
+
+    func getTargetScreens() {
+        if let screenList = NSScreen.screens() as? [NSScreen] {
+            for screen in screenList {
+                var targetScreen = TargetScreen(screen: screen)
+                self.targetScreens.append(targetScreen)
+            }
+        }
+    }
     
     func sequentSetBackgrounds() {
         if state != .Ready {
@@ -54,10 +63,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         println("start sequence set backgrounds.")
         
         stateToRunning()
+        getTargetScreens()
 
         // clean all var
         photos = [PhotoRecord]()
-        photosForWallpaper = [PhotoRecord]()
         pendingOperationsObserver = PendingOperationsObserver()
         
         // load rss url
@@ -87,9 +96,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // use NSOperation and NSOperationQueue to handle picture downloading.
     var photos = [PhotoRecord]()
-    var photosForWallpaper = [PhotoRecord]()
     var targetAmount:Int = 1    // may be determined by options or screen numbers.
     var pendingOperationsObserver = PendingOperationsObserver()
+
+    func getNoWallpaperScreen() -> TargetScreen? {
+        for targetScreen in targetScreens {
+            if targetScreen.wallpaperPhoto == nil {
+                //println("Some targetScreens have no wallpaperPhoto.")
+                return targetScreen
+            }
+        }
+        return nil
+    }
 
     func startDownloadForRecord(photoDetails: PhotoRecord, indexPath: String){
         if let downloadOperation = pendingOperationsObserver.pendingOperations.downloadsInProgress[indexPath] {
@@ -112,53 +130,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             dispatch_async(dispatch_get_main_queue()) {
                 let pendingOperations = self.pendingOperationsObserver.pendingOperations
                 pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
+
                 let this_photo = downloader.photoRecord
                 println("dispatch done: \(indexPath). url: \(this_photo.url)")
-                var count = self.photosForWallpaper.count
-                if count < self.targetAmount {
-                    let screenLists = NSScreen.screens() as? [NSScreen]
-                    let forScreen = screenLists![count]
+
+                if let targetScreen = self.getNoWallpaperScreen() {
                     let lowerLimit = self.myPreference.imageLowerLimitLength
                     if self.myPreference.fitScreenOrientation {
                         // if no fit, maximal try: 3 downloads.
-                        println("currentTry: \(self.currentTry[count])")
-                        if forScreen.orientation() == this_photo.orientation || self.currentTry[count] > 2  {
+                        //println("currentTry: \(self.currentTry[count])")
+                        if ((targetScreen.orientation == this_photo.orientation) || targetScreen.currentTry > 2)  {
                             if !self.myPreference.filterSmallerImages || lowerLimit <= 0 {
-                                this_photo.forScreen = forScreen
-                                self.photosForWallpaper.append(this_photo)
-                                println("Too much try: \(self.currentTry[count])")
-                                println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
+                                targetScreen.wallpaperPhoto = this_photo
+                                println("Too much try: \(targetScreen.currentTry)")
                             } else {
                                 if this_photo.fitSizeLimitation(lowerLimit) {
-                                    this_photo.forScreen = forScreen
-                                    self.photosForWallpaper.append(this_photo)
+                                    targetScreen.wallpaperPhoto = this_photo
                                     println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) is more than limitation: \(lowerLimit)")
-                                    println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
                                 } else {
                                     println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) not fit limitation: \(lowerLimit)")
 
                                 }
                             }
                         }
-                        self.currentTry[count]++
+                        targetScreen.currentTry++
                     } else {
                         if !self.myPreference.filterSmallerImages || lowerLimit <= 0 {
-                            this_photo.forScreen = forScreen
-                            self.photosForWallpaper.append(this_photo)
-                            println("photosForWallpaper: \(self.photosForWallpaper.count)")
+                            targetScreen.wallpaperPhoto = this_photo
+//                            println("photosForWallpaper: \(self.photosForWallpaper.count)")
                         } else {
                             if this_photo.fitSizeLimitation(lowerLimit) {
-                                this_photo.forScreen = forScreen
-                                self.photosForWallpaper.append(this_photo)
+                                targetScreen.wallpaperPhoto = this_photo
                                 println("imageLowerLimitLength is on. Size is more than limitation: \(lowerLimit)")
-                                println("photosForWallpaper: \(self.photosForWallpaper.count) for screen: \(forScreen)")
                             } else {
                                 println("imageLowerLimitLength is on. Size \(this_photo.image!.size.width) x \(this_photo.image!.size.height) not fit limitation: \(lowerLimit)")
 
                             }
                         }
                     }
+
+                    // check here to save 1 photo download time.
+                    if self.getNoWallpaperScreen() == nil {
+                        println("All targetScreens are done. Save 1 download time.")
+                    }
                 } else {
+                    println("All targetScreens are done.")
                     pendingOperations.downloadQueue.cancelAllOperations()
                 }
             }
@@ -362,17 +378,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var workspace = NSWorkspace.sharedWorkspace()
         var error: NSError?
         
-        if photosForWallpaper.count > 0 {
-            for photo in photosForWallpaper {
+        if getNoWallpaperScreen() == nil {
+            for targetScreen in targetScreens {
                 let screenList = NSScreen.screens() as? [NSScreen]
-                if (find(screenList!, photo.forScreen!) != nil) {
+                if (find(screenList!, targetScreen.screen!) != nil) {
+                    if let photo = targetScreen.wallpaperPhoto {
                     photo.saveToLocalPath()
-                    var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: photo.forScreen!, options: nil, error: &error)
+                    var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
                     if result {
-                        println("\(photo.forScreen!) set to \(photo.localPath) from \(photo.url) fitScreenOrientation: \(myPreference.fitScreenOrientation)")
+                        println("\(targetScreen.screen!) set to \(photo.localPath) from \(photo.url) fitScreenOrientation: \(myPreference.fitScreenOrientation)")
                     } else {
-                        println("error setDesktopImageURL for screen: \(photo.forScreen!)")
+                        println("error setDesktopImageURL for screen: \(targetScreen.screen!)")
                         return
+                    }
+                    } else {
+                        println("No wallpaper set for \(targetScreen.screen!)")
                     }
                 }
             }
