@@ -39,6 +39,7 @@ class RssParser: NSObject, NSXMLParserDelegate {
             if error != nil {
                 println("Error: \(error)")
                 println("Data: \(data)")
+                self.status = .Error
                 return
             }
 
