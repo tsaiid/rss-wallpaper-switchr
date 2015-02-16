@@ -30,9 +30,18 @@ class RssParser: NSObject, NSXMLParserDelegate {
     
     func parseRssFromUrl(rssUrl: String){
         var rss_url = NSURL(string: rssUrl)
-        
+
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        println("timeout: \(configuration.timeoutIntervalForResource)")
+        configuration.timeoutIntervalForResource = 1 // seconds
+
         let task = NSURLSession.sharedSession().dataTaskWithURL(rss_url!) { data, response, error in
-            
+            if error != nil {
+                println("Error: \(error)")
+                println("Data: \(data)")
+                return
+            }
+
             // check for fundamental network issues (e.g. no internet, etc.)
             if data == nil {
                 println("dataTaskWithURL error: \(error)")
@@ -55,12 +64,8 @@ class RssParser: NSObject, NSXMLParserDelegate {
             self.imgLinks = []
             var success:Bool = p.parse()
             if success {
-                //println(self.imgLinks)
                 println("parse succeeded.")
                 self.status = .Done
-                // Do shuffle as needed.
-                //imgLinks.shuffle()
-                //println(imgLinks[0])
             } else {
                 println("parse xml error!")
                 self.status = .Error
