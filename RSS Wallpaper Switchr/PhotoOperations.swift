@@ -13,11 +13,11 @@ enum PhotoRecordState {
     case New, Downloaded, Filtered, Failed
 }
 
-enum PhotoRecordOrientation: Int {
+enum Orientation: Int {
     case Portrait = 0
     case Landscape = 1
     case Square = 2
-    case NA = 3
+    case NotApplicable = 3
 }
 
 class PhotoRecord: Equatable {
@@ -26,7 +26,7 @@ class PhotoRecord: Equatable {
     var state = PhotoRecordState.New
     var image = NSImage(named: "Placeholder")
     var imgRep = NSImageRep()
-    var orientation = PhotoRecordOrientation.NA
+    var orientation = Orientation.NotApplicable
     var localPath:String = ""
     var localPathUrl = NSURL()
     var forScreen:NSScreen? = nil
