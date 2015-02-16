@@ -131,8 +131,15 @@ class ImageDownloader: NSOperation {
             return
         }
 
-        let imageData = NSData(contentsOfURL:self.photoRecord.url)
-        
+        var error:NSError?
+        let imageData = NSData(contentsOfURL:self.photoRecord.url, options: nil, error: &error)
+        if (error != nil) {
+            self.photoRecord.state = .Failed
+            self.photoRecord.image = NSImage(named: "Failed")
+            println("NSData contentsOfURL error: \(error)")
+            return
+        }
+
         if self.cancelled {
             return
         }
