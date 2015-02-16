@@ -28,7 +28,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var currentTry = [Int]()
     var switchTimer = NSTimer()
     var targetScreens = [TargetScreen]()
-    
+
+    #if DEBUG
+    var timeStart: CFAbsoluteTime?
+    #endif
+
     lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
 
     func detectScreenMode() {
@@ -46,6 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var rssParserSetWallpaperObserver = RssParserSetWallpaperObserver()
 
     func getTargetScreens() {
+        targetScreens = [TargetScreen]()
         if let screenList = NSScreen.screens() as? [NSScreen] {
             for screen in screenList {
                 var targetScreen = TargetScreen(screen: screen)
@@ -53,7 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-    
+
     func sequentSetBackgrounds() {
         if state != .Ready {
             println("A process is running. Please wait.")
@@ -61,7 +66,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         println("start sequence set backgrounds.")
-        
+
+        #if DEBUG
+        timeStart = CFAbsoluteTimeGetCurrent()
+        #endif
+
         stateToRunning()
         getTargetScreens()
 
@@ -392,6 +401,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             println("getNoWallpaperScreen incomplete.")
         }
+
+        #if DEBUG
+        let timeElapsed = CFAbsoluteTimeGetCurrent() - timeStart!
+        println("time used: \(timeElapsed)")
+        #endif
 
         stateToReady()
     }
