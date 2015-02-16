@@ -96,7 +96,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // use NSOperation and NSOperationQueue to handle picture downloading.
     var photos = [PhotoRecord]()
-    var targetAmount:Int = 1    // may be determined by options or screen numbers.
     var pendingOperationsObserver = PendingOperationsObserver()
 
     func getNoWallpaperScreen() -> TargetScreen? {
@@ -198,8 +197,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func getImageFromUrl() {
-        determineTargetAmount()
-        
         for imgLink in imgLinks {
             let urlStr:String = imgLink["link"] as? String ?? ""
             let name:String = imgLink["name"] as? String ?? ""
@@ -218,8 +215,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func btnGetImageFromUrl(sender: AnyObject) {
-        determineTargetAmount()
-        
         for imgLink in imgLinks {
             let urlStr:String = imgLink["link"] as? String ?? ""
             let name:String = imgLink["name"] as? String ?? ""
@@ -242,17 +237,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         println(imgLinks)
     }
     
-    func determineTargetAmount() {
-        // default set to screen numbers
-        if let screenList = NSScreen.screens() as? [NSScreen] {
-            targetAmount = screenList.count
-            println("targetAmount set to \(targetAmount)")
-
-            // init currentTry dictionary
-            currentTry = [Int](count: targetAmount, repeatedValue: 0)
-        }
-    }
-
     @IBAction func btnLoad(sender: AnyObject) {
         /*
         println("Load")
