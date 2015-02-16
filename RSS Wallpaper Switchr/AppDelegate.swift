@@ -385,14 +385,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let screenList = NSScreen.screens() as? [NSScreen]
                 if (find(screenList!, targetScreen.screen!) != nil) {
                     if let photo = targetScreen.wallpaperPhoto {
-                    photo.saveToLocalPath()
-                    var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
-                    if result {
-                        println("\(targetScreen.screen!) set to \(photo.localPath) from \(photo.url) fitScreenOrientation: \(myPreference.fitScreenOrientation)")
-                    } else {
-                        println("error setDesktopImageURL for screen: \(targetScreen.screen!)")
-                        return
-                    }
+                        photo.saveToLocalPath()
+                        var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
+                        if result {
+                            println("\(targetScreen.screen!) set to \(photo.localPath) from \(photo.url) fitScreenOrientation: \(myPreference.fitScreenOrientation)")
+                        } else {
+                            println("error setDesktopImageURL for screen: \(targetScreen.screen!)")
+                            return
+                        }
                     } else {
                         println("No wallpaper set for \(targetScreen.screen!)")
                     }
