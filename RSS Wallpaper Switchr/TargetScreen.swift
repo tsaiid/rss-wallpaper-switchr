@@ -8,15 +8,11 @@
 
 import Cocoa
 
-enum ScreenOrientation {
-    case Landscape
-    case Portrait
-    case NotApplicable
-}
-
 class TargetScreen {
     var screen:NSScreen? = nil
-    var orientation = ScreenOrientation.NotApplicable
+    var orientation = Orientation.NotApplicable
+    var wallpaperPhoto:PhotoRecord? = nil
+    var currentTry:Int = 0
 
     init(screen: NSScreen) {
         self.screen = screen
