@@ -138,32 +138,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     let lowerLimit = self.myPreference.imageLowerLimitLength
                     if self.myPreference.fitScreenOrientation {
                         // if no fit, maximal try: 3 downloads.
-                        //println("currentTry: \(self.currentTry[count])")
+                        targetScreen.currentTry++
                         if ((targetScreen.orientation == this_photo.orientation) || targetScreen.currentTry > 2)  {
                             if !self.myPreference.filterSmallerImages || lowerLimit <= 0 {
                                 targetScreen.wallpaperPhoto = this_photo
-                                println("Too much try: \(targetScreen.currentTry)")
+                                println("No image size lower limit set. Too much try: \(targetScreen.currentTry). Selected \(this_photo.url)")
                             } else {
                                 if this_photo.fitSizeLimitation(lowerLimit) {
                                     targetScreen.wallpaperPhoto = this_photo
-                                    println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) is more than limitation: \(lowerLimit)")
+                                    println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) is more than limitation: \(lowerLimit). Selected \(this_photo.url)")
                                 } else {
-                                    println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) not fit limitation: \(lowerLimit)")
+                                    println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) not fit limitation: \(lowerLimit). Not selected.")
 
                                 }
                             }
+                        } else {
+                            println("Orientation not fit: screen: \(targetScreen.orientation), photo: \(this_photo.orientation). Not selected. currentTry: \(targetScreen.currentTry)")
                         }
-                        targetScreen.currentTry++
                     } else {
                         if !self.myPreference.filterSmallerImages || lowerLimit <= 0 {
                             targetScreen.wallpaperPhoto = this_photo
-//                            println("photosForWallpaper: \(self.photosForWallpaper.count)")
+                            println("No image size lower limit set. Selected \(this_photo.url)")
                         } else {
                             if this_photo.fitSizeLimitation(lowerLimit) {
                                 targetScreen.wallpaperPhoto = this_photo
-                                println("imageLowerLimitLength is on. Size is more than limitation: \(lowerLimit)")
+                                println("imageLowerLimitLength is on. Size is more than limitation: \(lowerLimit). Selected \(this_photo.url)")
                             } else {
-                                println("imageLowerLimitLength is on. Size \(this_photo.image!.size.width) x \(this_photo.image!.size.height) not fit limitation: \(lowerLimit)")
+                                println("imageLowerLimitLength is on. Size \(this_photo.image!.size.width) x \(this_photo.image!.size.height) not fit limitation: \(lowerLimit). Not selected.")
 
                             }
                         }
