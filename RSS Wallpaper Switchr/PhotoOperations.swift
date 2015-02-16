@@ -86,7 +86,7 @@ class PendingOperations:NSObject {
     dynamic var downloadQueue:NSOperationQueue = {
         var queue = NSOperationQueue()
         queue.name = "Download queue"
-        queue.maxConcurrentOperationCount = 1
+        queue.maxConcurrentOperationCount = 4
 
         return queue
         }()
