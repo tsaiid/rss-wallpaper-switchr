@@ -29,7 +29,9 @@ class OptionsWindowController: NSWindowController {
         // use Preference class to load Preference
         let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
         let myPref = appDelegate.myPreference
-        rssUrlText.stringValue = myPref.rssUrl
+        if (myPref.rssUrl != nil) {
+            rssUrlText.stringValue = myPref.rssUrl!
+        }
         popupUpdateInterval.selectItemWithTag(myPref.switchInterval)
         if myPref.fitScreenOrientation {
             chkboxFitScreenOrientation.state = NSOnState

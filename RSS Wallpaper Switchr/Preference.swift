@@ -9,7 +9,7 @@
 import Foundation
 
 class Preference {
-    var rssUrl:String = ""
+    var rssUrl:String? = ""
     var switchInterval:Int = 0
     var fitScreenOrientation:Bool = true
     var filterSmallerImages:Bool = false
@@ -24,7 +24,7 @@ class Preference {
     func load() {
         let defaults = NSUserDefaults.standardUserDefaults()
 
-        rssUrl = defaults.stringForKey("rssUrl")!
+        rssUrl = defaults.stringForKey("rssUrl")
         println("option rssUrl: \(rssUrl)")
 
         fitScreenOrientation = defaults.boolForKey("fitScreenOrientation")
