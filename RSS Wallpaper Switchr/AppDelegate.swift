@@ -208,10 +208,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func getImageFromUrl() {
+        let queue = NSOperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        
         for imgLink in imgLinks {
             let urlStr:String = imgLink["link"] as? String ?? ""
             let name:String = imgLink["name"] as? String ?? ""
             //println("image url: \(urlStr)")
+            /*
             let url = NSURL(string: urlStr)
             if url != nil {
                 let photoRecord = PhotoRecord(name:name, url:url!)
@@ -219,11 +223,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     photos.append(photoRecord)
                 }
             }
+            */
+            let operation = DownloadImage(URLString: urlStr) {
+                (responseObject, error) in
+                
+                if responseObject == nil {
+                    // handle error here
+                    
+                    println("failed: \(error)")
+                } else {
+                    // update UI to reflect the `responseObject` finished successfully
+                    
+                    println("responseObject=\(responseObject!)")
+                }
+            }
+            queue.addOperation(operation)
         }
-        
+/*
         for photo in photos {
             startOperationsForPhotoRecord(photo, indexPath: photo.url.absoluteString!.md5())
         }
+*/
     }
     
     @IBAction func btnGetImageFromUrl(sender: AnyObject) {
@@ -460,4 +480,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-
+class DownloadImage : NSOperation {
+    let URLString: String
+    let downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
+    
+    weak var request: Alamofire.Request?
+    var finalPath: NSURL?
+    
+    init(URLString: String, downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()) {
+        self.URLString = URLString
+        self.downloadImageCompletionHandler = downloadImageCompletionHandler
+        super.init()
+    }
+    
+    override func main() {
+        request = Alamofire.download(.GET, URLString, { (temporaryURL, response) in
+            let fileName = response.suggestedFilename!
+            self.finalPath = NSURL(fileURLWithPath: NSTemporaryDirectory().stringByAppendingPathComponent(fileName as String))
+            if self.finalPath != nil {
+                //println(finalPath)
+                return self.finalPath!
+            }
+            return temporaryURL
+        }).response { (request, response, responseObject, error) in
+            self.downloadImageCompletionHandler(responseObject: self.finalPath, error: error)
+        }
+    }
+    
+    override func cancel() {
+        request?.cancel()
+        super.cancel()
+    }
+}
