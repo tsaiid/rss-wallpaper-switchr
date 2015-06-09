@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03DE8FD56230ACB0CB7237CD /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924CF25B3F0D233BAADB143D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */; };
 		D320FE751A7E703B00C5E7D1 /* OptionsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */; };
 		D334C6C41A80F4E600726130 /* PhotoOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D334C6C31A80F4E600726130 /* PhotoOperations.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		924CF25B3F0D233BAADB143D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWindowController.swift; sourceTree = "<group>"; };
 		D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsWindowController.xib; sourceTree = "<group>"; };
 		D334C6C31A80F4E600726130 /* PhotoOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoOperations.swift; sourceTree = "<group>"; };
@@ -53,6 +55,8 @@
 		D3E62F6A1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RSS Wallpaper SwitchrTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E62F6F1A7DF30E00A40EBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3E62F701A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSS_Wallpaper_SwitchrTests.swift; sourceTree = "<group>"; };
+		E3EADD63DC19CE4E8484AAA0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FD2A42D3F928298B49B9F848 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03DE8FD56230ACB0CB7237CD /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,12 +78,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		682027FAD68E784BC7141D3C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FD2A42D3F928298B49B9F848 /* Pods.debug.xcconfig */,
+				E3EADD63DC19CE4E8484AAA0 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		D3E62F511A7DF30E00A40EBA = {
 			isa = PBXGroup;
 			children = (
 				D3E62F5C1A7DF30E00A40EBA /* RSS Wallpaper Switchr */,
 				D3E62F6D1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests */,
 				D3E62F5B1A7DF30E00A40EBA /* Products */,
+				682027FAD68E784BC7141D3C /* Pods */,
+				EA673DCEFB66F557A1B55313 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -138,6 +154,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EA673DCEFB66F557A1B55313 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				924CF25B3F0D233BAADB143D /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -145,9 +169,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D3E62F741A7DF30E00A40EBA /* Build configuration list for PBXNativeTarget "RSS Wallpaper Switchr" */;
 			buildPhases = (
+				A503253502BA68251A759CC0 /* Check Pods Manifest.lock */,
 				D3E62F561A7DF30E00A40EBA /* Sources */,
 				D3E62F571A7DF30E00A40EBA /* Frameworks */,
 				D3E62F581A7DF30E00A40EBA /* Resources */,
+				46B3BF0BC669590D9ECBB86C /* Embed Pods Frameworks */,
+				56D6897EEA4A920E5F83C912 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -232,6 +259,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		46B3BF0BC669590D9ECBB86C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		56D6897EEA4A920E5F83C912 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A503253502BA68251A759CC0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D3E62F561A7DF30E00A40EBA /* Sources */ = {
@@ -360,28 +435,28 @@
 		};
 		D3E62F751A7DF30E00A40EBA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD2A42D3F928298B49B9F848 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "RSS Wallpaper Switchr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				OTHER_SWIFT_FLAGS = "-DDEBUG";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"DEBUG\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "RSS Wallpaper Switchr/RSS Wallpaper Switchr-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		D3E62F761A7DF30E00A40EBA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3EADD63DC19CE4E8484AAA0 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "RSS Wallpaper Switchr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				OTHER_SWIFT_FLAGS = "-DRELEASE";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "RSS Wallpaper Switchr/RSS Wallpaper Switchr-Bridging-Header.h";
 			};

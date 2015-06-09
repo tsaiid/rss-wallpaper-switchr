@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Alamofire
 
 enum AppState {
     case Ready
@@ -261,6 +262,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         */
         println("preference: \(myPreference)")
+    }
+    
+    @IBAction func btnTestAlamofire(sender: AnyObject) {
+        Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+            .response { (request, response, data, error) in
+                println(request)
+                println(response)
+                println(error)
+        }
     }
     
     @IBAction func btnSave(sender: AnyObject) {
