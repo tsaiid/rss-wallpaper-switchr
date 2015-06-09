@@ -91,7 +91,9 @@ class OptionsWindowController: NSWindowController {
                 //println(response)
                 if error != nil {
                     println("Error: \(error)")
-                    println("Data: \(data)")
+                    if let localizedDescription = error!.localizedDescription as String? {
+                        self.validateAlert(localizedDescription)
+                    }
                     return
                 }
 
