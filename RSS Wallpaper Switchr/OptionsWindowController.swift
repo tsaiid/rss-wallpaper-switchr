@@ -83,7 +83,7 @@ class OptionsWindowController: NSWindowController {
 
     @IBAction func btnValidateRSS(sender: AnyObject) {
         let rssUrl:String = rssUrlText.stringValue
-        //var rssParser = RssParser()
+
         // update UI will be done in the observer
         Alamofire.request(.GET, rssUrl)
             .responseString { (request, response, data, error) in
