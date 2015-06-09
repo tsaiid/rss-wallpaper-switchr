@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import Alamofire
+import SWXMLHash
 
 class OptionsWindowController: NSWindowController {
 
@@ -81,8 +83,37 @@ class OptionsWindowController: NSWindowController {
 
     @IBAction func btnValidateRSS(sender: AnyObject) {
         let rssUrl:String = rssUrlText.stringValue
-        var rssParser = RssParser()
+        //var rssParser = RssParser()
         // update UI will be done in the observer
+        Alamofire.request(.GET, rssUrl)
+            .responseString { (request, response, data, error) in
+                //println(request)
+                //println(response)
+                if error != nil {
+                    println("Error: \(error)")
+                    println("Data: \(data)")
+                    return
+                }
+
+                if let httpResponse = response as NSHTTPURLResponse? {
+                    let statusCode = httpResponse.statusCode
+                    if statusCode != 200 {
+                        println("NSHTTPURLResponse.statusCode = \(statusCode)")
+                        println("Text of response = \(data)")
+                        return
+                    }
+                }
+
+                //println(data)
+                let xml = SWXMLHash.lazy(data!)
+                var imgCount = 0
+                for item in xml["rss"]["channel"]["item"] {
+                    if let imgUrl = item["link"].element?.text {
+                        imgCount++
+                    }
+                }
+                self.validateAlert("Valid feed. \(imgCount) image(s) found.")
+        }
     }
     
     func validateAlert(msg: String!){
