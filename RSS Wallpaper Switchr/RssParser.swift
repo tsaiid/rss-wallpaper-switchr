@@ -75,7 +75,7 @@ class RssParser: NSObject, NSXMLParserDelegate {
         task.resume()
     }
     
-    func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName : String!, attributes attributeDict: NSDictionary!) {
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName : String?, attributes attributeDict: [NSObject : AnyObject]) {
         currentElement = elementName
         if elementName == "item" {
             elements = NSMutableDictionary.alloc()
@@ -87,16 +87,16 @@ class RssParser: NSObject, NSXMLParserDelegate {
         }
     }
 
-    func parser(parser: NSXMLParser!, foundCharacters string: String!) {
+    func parser(parser: NSXMLParser, foundCharacters string: String?) {
         if currentElement == "title" {
-            title.appendString(string)
+            title.appendString(string!)
         } else if currentElement == "link" {
-            var trimmedString = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            var trimmedString = string!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             link.appendString(trimmedString)
         }
     }
 
-    func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
+    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
             if !title.isEqual(nil) {
                 elements.setObject(title, forKey: "title")
@@ -108,9 +108,8 @@ class RssParser: NSObject, NSXMLParserDelegate {
         }
 
     }
-    
    
-    func parser(parser: NSXMLParser!, parseErrorOccurred parseError: NSError!) {
+    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         NSLog("failure error: %@", parseError)
     }
     
@@ -132,11 +131,13 @@ class RssParserObserver: NSObject {
 class RssParserSetWallpaperObserver: RssParserObserver {
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
         if context == &myContext {
-            let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
 
             switch rssParser.status! {
             case .Done:
                 println("RSS Parser done!")
+                //println("\(rssParser.imgLinks.count) images from RSS feed.")
+                println(rssParser.imgLinks)
                 appDelegate.imgLinks = rssParser.imgLinks
                 appDelegate.imgLinks.shuffle()
                 

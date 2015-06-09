@@ -105,7 +105,7 @@ class PendingOperationsObserver: NSObject {
             if pendingOperations.downloadQueue.operationCount == 0 {
                 println("Complete queue.")
 
-                let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+                let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
 
                 // set backgrounds.
                 appDelegate.setDesktopBackgrounds()
@@ -148,7 +148,7 @@ class ImageDownloader: NSOperation {
             self.photoRecord.image = NSImage(data:imageData!)
             self.photoRecord.state = .Downloaded
             self.photoRecord.calcOrientation()
-            self.photoRecord.imgRep = self.photoRecord.image!.representations.first as NSImageRep
+            self.photoRecord.imgRep = self.photoRecord.image!.representations.first as! NSImageRep
         }
         else
         {

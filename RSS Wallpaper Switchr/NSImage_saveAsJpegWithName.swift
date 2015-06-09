@@ -13,7 +13,7 @@ extension NSImage {
         var imageData:NSData = self.TIFFRepresentation!
         let imageRep = NSBitmapImageRep(data: imageData)!
         let imageProps = NSDictionary(object: NSNumber(float: 1.0), forKey: NSImageCompressionFactor)
-        imageData = imageRep.representationUsingType(NSBitmapImageFileType.NSJPEGFileType, properties: imageProps)!
-        imageData.writeToFile(filePath, atomically: false)
+        imageData = imageRep.representationUsingType(NSBitmapImageFileType.NSJPEGFileType, properties: imageProps as [NSObject : AnyObject])!
+        imageData.writeToFile(filePath as String, atomically: false)
     }
 }

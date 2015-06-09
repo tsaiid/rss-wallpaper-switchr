@@ -209,6 +209,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for imgLink in imgLinks {
             let urlStr:String = imgLink["link"] as? String ?? ""
             let name:String = imgLink["name"] as? String ?? ""
+            //println("image url: \(urlStr)")
             let url = NSURL(string: urlStr)
             if url != nil {
                 let photoRecord = PhotoRecord(name:name, url:url!)
@@ -341,8 +342,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func notify(msg: NSString!, title: NSString = "Error"){
         var userNotify = NSUserNotification()
-        userNotify.title = title
-        userNotify.informativeText = msg
+        userNotify.title = title as String
+        userNotify.informativeText = msg as String
 
         NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(userNotify)
     }

@@ -27,7 +27,7 @@ class OptionsWindowController: NSWindowController {
         println("Loading options in Option Window")
 
         // use Preference class to load Preference
-        let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         let myPref = appDelegate.myPreference
         if (myPref.rssUrl != nil) {
             rssUrlText.stringValue = myPref.rssUrl!
@@ -58,7 +58,7 @@ class OptionsWindowController: NSWindowController {
         // saving options
         println("Try saving options.")
 
-        let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         let myPref = appDelegate.myPreference
         myPref.rssUrl = rssUrlText.stringValue
         myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
@@ -89,7 +89,7 @@ class OptionsWindowController: NSWindowController {
 
     func windowWillClose(notification: NSNotification) {
         // update timer.
-        let appDelegate = NSApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         println("Updating timer while closing option window.")
         appDelegate.updateSwitchTimer()
     }

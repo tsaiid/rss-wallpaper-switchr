@@ -25,6 +25,6 @@ extension String {
         
         result.destroy()
         
-        return String(format: hash)
+        return String(format: hash as String)
     }
 }
