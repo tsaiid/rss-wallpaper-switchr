@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import SWXMLHash
 
 enum RssParserStatus: String {
     case Init = "Init"
@@ -14,12 +15,8 @@ enum RssParserStatus: String {
     case Error = "Error"
 }
 
-class RssParser: NSObject, NSXMLParserDelegate {
-    var strXMLData:String = ""
-    var currentElement:String = ""
+class RssParser: NSObject {
     var elements = NSMutableDictionary()
-    var title = NSMutableString()
-    var link = NSMutableString()
     var imgLinks = NSMutableArray()
     dynamic private(set) var statusRaw: String?
     var status:RssParserStatus? {
@@ -60,59 +57,27 @@ class RssParser: NSObject, NSXMLParserDelegate {
             }
             
             // parse data
-            let p : NSXMLParser! = NSXMLParser(data: data)
-            p.delegate = self
             self.imgLinks = []
-            var success:Bool = p.parse()
-            if success {
-                println("parse succeeded.")
-                self.status = .Done
-            } else {
-                println("parse xml error!")
-                self.status = .Error
+            let xml = SWXMLHash.lazy(data!)
+            for item in xml["rss"]["channel"]["item"] {
+                self.elements = NSMutableDictionary.alloc()
+                self.elements = [:]
+                if let imgUrl = item["link"].element?.text {
+                    if let imgTitle = item["title"].element?.text {
+                        if !imgTitle.isEqual(nil) {
+                            self.elements.setObject(imgTitle, forKey: "title")
+                        }
+                        if !imgUrl.isEqual(nil) {
+                            self.elements.setObject(imgUrl, forKey: "link")
+                        }
+                        self.imgLinks.addObject(self.elements)
+                    }
+                }
             }
+            self.status = .Done
         }
         task.resume()
     }
-    
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName : String?, attributes attributeDict: [NSObject : AnyObject]) {
-        currentElement = elementName
-        if elementName == "item" {
-            elements = NSMutableDictionary.alloc()
-            elements = [:]
-            link = NSMutableString.alloc()
-            link = ""
-            title = NSMutableString.alloc()
-            title = ""
-        }
-    }
-
-    func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if currentElement == "title" {
-            title.appendString(string!)
-        } else if currentElement == "link" {
-            var trimmedString = string!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            link.appendString(trimmedString)
-        }
-    }
-
-    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "item" {
-            if !title.isEqual(nil) {
-                elements.setObject(title, forKey: "title")
-            }
-            if !link.isEqual(nil) {
-                elements.setObject(link, forKey: "link")
-            }
-            imgLinks.addObject(elements)
-        }
-
-    }
-   
-    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-        NSLog("failure error: %@", parseError)
-    }
-    
 }
 
 private var myContext = 0   // for KVO
