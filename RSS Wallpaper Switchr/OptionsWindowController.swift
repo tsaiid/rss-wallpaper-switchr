@@ -99,7 +99,10 @@ class OptionsWindowController: NSWindowController {
                     let statusCode = httpResponse.statusCode
                     if statusCode != 200 {
                         println("NSHTTPURLResponse.statusCode = \(statusCode)")
-                        println("Text of response = \(data)")
+                        //println("Text of response = \(data)")
+                        if let localizedResponse = NSHTTPURLResponse.localizedStringForStatusCode(statusCode) as String? {
+                            self.validateAlert(localizedResponse)
+                        }
                         return
                     }
                 }
