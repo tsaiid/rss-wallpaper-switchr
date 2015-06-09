@@ -8,6 +8,7 @@
 
 import Cocoa
 import Alamofire
+import SWXMLHash
 
 enum AppState {
     case Ready
@@ -265,11 +266,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func btnTestAlamofire(sender: AnyObject) {
-        Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-            .response { (request, response, data, error) in
-                println(request)
-                println(response)
-                println(error)
+        Alamofire.request(.GET, "http://feed.tsai.it/500px/popular.rss")
+            .responseString { (request, response, data, error) in
+                //println(request)
+                //println(response)
+                //println(error)
+                //println(data)
+                let xml = SWXMLHash.lazy(data!)
+                println(xml["rss"]["channel"]["title"].element?.text)
         }
     }
     
