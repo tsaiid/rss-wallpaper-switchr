@@ -79,12 +79,17 @@ class OptionsWindowController: NSWindowController {
         self.close()
     }
 
-    var rssObserver = RssParserValidateObserver()
-
     @IBAction func btnValidateRSS(sender: AnyObject) {
         let rssUrl:String = rssUrlText.stringValue
-        rssObserver.rssParser.parseRssFromUrl(rssUrl)
+        var rssParser = RssParser()
         // update UI will be done in the observer
+    }
+    
+    func validateAlert(msg: String!){
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "RSS Validation";
+        myPopup.informativeText = msg
+        myPopup.beginSheetModalForWindow(self.window!, completionHandler: nil)
     }
 
     func windowWillClose(notification: NSNotification) {
