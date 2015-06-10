@@ -235,6 +235,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     // update UI to reflect the `responseObject` finished successfully
                     
                     println("responseObject=\(responseObject!)")
+                    if let targetScreen = self.getNoWallpaperScreen() {
+                        var this_photo = PhotoRecord(name: "test", localPathUrl: responseObject as! NSURL)
+                        targetScreen.wallpaperPhoto = this_photo
+                    } else {
+                        println("All targetScreens are done.")
+                        queue.cancelAllOperations()
+                        self.setDesktopBackgrounds()
+                    }
                 }
             }
             queue.addOperation(operation)
@@ -260,7 +268,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         for photo in photos {
-            startOperationsForPhotoRecord(photo, indexPath: photo.url.absoluteString!.md5())
+            startOperationsForPhotoRecord(photo, indexPath: photo.url!.absoluteString!.md5())
         }
     }
     
@@ -480,7 +488,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-class DownloadImage : NSOperation {
+class DownloadImage : ConcurrentOperation {
     let URLString: String
     let downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
     
@@ -504,6 +512,7 @@ class DownloadImage : NSOperation {
             return temporaryURL
         }).response { (request, response, responseObject, error) in
             self.downloadImageCompletionHandler(responseObject: self.finalPath, error: error)
+            self.completeOperation()
         }
     }
     

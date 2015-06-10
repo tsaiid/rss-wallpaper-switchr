@@ -22,7 +22,7 @@ enum Orientation: Int {
 
 class PhotoRecord: Equatable {
     let name:String
-    let url:NSURL
+    var url:NSURL?
     var state = PhotoRecordState.New
     var image = NSImage(named: "Placeholder")
     var imgRep = NSImageRep()
@@ -34,22 +34,35 @@ class PhotoRecord: Equatable {
         self.name = name
         self.url = url
     }
+
+    init(name:String, localPathUrl:NSURL) {
+        self.name = name
+        self.localPathUrl = localPathUrl
+        self.localPath = localPathUrl.absoluteString!
+        if let image = NSImage(contentsOfFile: self.localPath) {
+            self.image = image
+            calcOrientation()
+            self.imgRep = image.representations.first as! NSImageRep
+        }
+    }
     
     func saveToLocalPath() {
         // set temp files
-        let fileManager = NSFileManager.defaultManager()
-        let tempDirectoryTemplate = NSTemporaryDirectory().stringByAppendingPathComponent("rws")
-        if fileManager.createDirectoryAtPath(tempDirectoryTemplate, withIntermediateDirectories: true, attributes: nil, error: nil) {
-            println("tempDir: \(tempDirectoryTemplate)")
-            if let imgUrl:String = self.url.absoluteString {
-                var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
-                self.image!.saveAsJpegWithName(imgPath)
-                self.localPath = imgPath
-                self.localPathUrl = NSURL(fileURLWithPath: imgPath)!
-                println("localPath set to \(imgPath) from \(imgUrl)")
+        if localPath == "" {
+            let fileManager = NSFileManager.defaultManager()
+            let tempDirectoryTemplate = NSTemporaryDirectory().stringByAppendingPathComponent("rws")
+            if fileManager.createDirectoryAtPath(tempDirectoryTemplate, withIntermediateDirectories: true, attributes: nil, error: nil) {
+                println("tempDir: \(tempDirectoryTemplate)")
+                if let imgUrl:String = self.url!.absoluteString {
+                    var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
+                    self.image!.saveAsJpegWithName(imgPath)
+                    self.localPath = imgPath
+                    self.localPathUrl = NSURL(fileURLWithPath: imgPath)!
+                    println("localPath set to \(imgPath) from \(imgUrl)")
+                }
+            } else {
+                println("createDirectoryAtPath NSTemporaryDirectory error.")
             }
-        } else {
-            println("createDirectoryAtPath NSTemporaryDirectory error.")
         }
 
     }
@@ -132,7 +145,7 @@ class ImageDownloader: NSOperation {
         }
 
         var error:NSError?
-        let imageData = NSData(contentsOfURL:self.photoRecord.url, options: nil, error: &error)
+        let imageData = NSData(contentsOfURL:self.photoRecord.url!, options: nil, error: &error)
         if (error != nil) {
             self.photoRecord.state = .Failed
             self.photoRecord.image = NSImage(named: "Failed")
