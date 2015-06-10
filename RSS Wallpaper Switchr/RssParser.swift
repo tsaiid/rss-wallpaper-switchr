@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Alamofire
 import SWXMLHash
 
 enum RssParserStatus: String {
@@ -32,51 +33,51 @@ class RssParser: NSObject {
         println("timeout: \(configuration.timeoutIntervalForResource)")
         configuration.timeoutIntervalForResource = 1 // seconds
 
-        let task = NSURLSession.sharedSession().dataTaskWithURL(rss_url!) { data, response, error in
-            if error != nil {
-                println("Error: \(error)")
-                println("Data: \(data)")
-                self.status = .Error
-                return
-            }
-
-            // check for fundamental network issues (e.g. no internet, etc.)
-            if data == nil {
-                println("dataTaskWithURL error: \(error)")
-                return
-            }
-            
-            // make sure web server returned 200 status code (and not 404 for bad URL or whatever)
-            if let httpResponse = response as? NSHTTPURLResponse {
-                let statusCode = httpResponse.statusCode
-                if statusCode != 200 {
-                    println("NSHTTPURLResponse.statusCode = \(statusCode)")
-                    println("Text of response = \(NSString(data: data, encoding: NSUTF8StringEncoding))")
+        Alamofire.request(.GET, rss_url!)
+            .responseString { (request, response, data, error) in
+                if error != nil {
+                    println("Error: \(error)")
+                    println("Data: \(data)")
+                    self.status = .Error
                     return
                 }
-            }
+
+                // check for fundamental network issues (e.g. no internet, etc.)
+                if data == nil {
+                    println("dataTaskWithURL error: \(error)")
+                    return
+                }
             
-            // parse data
-            self.imgLinks = []
-            let xml = SWXMLHash.lazy(data!)
-            for item in xml["rss"]["channel"]["item"] {
-                self.elements = NSMutableDictionary.alloc()
-                self.elements = [:]
-                if let imgUrl = item["link"].element?.text {
-                    if let imgTitle = item["title"].element?.text {
-                        if !imgTitle.isEqual(nil) {
-                            self.elements.setObject(imgTitle, forKey: "title")
-                        }
-                        if !imgUrl.isEqual(nil) {
-                            self.elements.setObject(imgUrl, forKey: "link")
-                        }
-                        self.imgLinks.addObject(self.elements)
+                // make sure web server returned 200 status code (and not 404 for bad URL or whatever)
+                if let httpResponse = response as NSHTTPURLResponse? {
+                    let statusCode = httpResponse.statusCode
+                    if statusCode != 200 {
+                        println("NSHTTPURLResponse.statusCode = \(statusCode)")
+                        println("Text of response = \(data)")
+                        return
                     }
                 }
-            }
-            self.status = .Done
+            
+                // parse data
+                self.imgLinks = []
+                let xml = SWXMLHash.lazy(data!)
+                for item in xml["rss"]["channel"]["item"] {
+                    self.elements = NSMutableDictionary.alloc()
+                    self.elements = [:]
+                    if let imgUrl = item["link"].element?.text {
+                        if let imgTitle = item["title"].element?.text {
+                            if !imgTitle.isEqual(nil) {
+                                self.elements.setObject(imgTitle, forKey: "title")
+                            }
+                            if !imgUrl.isEqual(nil) {
+                                self.elements.setObject(imgUrl, forKey: "link")
+                            }
+                            self.imgLinks.addObject(self.elements)
+                        }
+                    }
+                }
+                self.status = .Done
         }
-        task.resume()
     }
 }
 
