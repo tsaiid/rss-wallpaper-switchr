@@ -47,27 +47,6 @@ class PhotoRecord: Equatable {
         }
     }
     
-    func saveToLocalPath() {
-        // set temp files
-        if localPath == "" {
-            let fileManager = NSFileManager.defaultManager()
-            let tempDirectoryTemplate = NSTemporaryDirectory().stringByAppendingPathComponent("rws")
-            if fileManager.createDirectoryAtPath(tempDirectoryTemplate, withIntermediateDirectories: true, attributes: nil, error: nil) {
-                println("tempDir: \(tempDirectoryTemplate)")
-                if let imgUrl:String = self.url!.absoluteString {
-                    var imgPath = "\(tempDirectoryTemplate)/\(imgUrl.md5()).jpg"
-                    self.image!.saveAsJpegWithName(imgPath)
-                    self.localPath = imgPath
-                    self.localPathUrl = NSURL(fileURLWithPath: imgPath)!
-                    println("localPath set to \(imgPath) from \(imgUrl)")
-                }
-            } else {
-                println("createDirectoryAtPath NSTemporaryDirectory error.")
-            }
-        }
-
-    }
-    
     func calcOrientation() {
         if let nsImg = self.image {
             let ratio = nsImg.size.width / nsImg.size.height

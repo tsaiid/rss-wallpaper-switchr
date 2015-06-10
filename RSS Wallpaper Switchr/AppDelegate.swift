@@ -78,7 +78,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // clean all var
         photos = [PhotoRecord]()
-        pendingOperationsObserver = PendingOperationsObserver()
         
         // load rss url
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -107,7 +106,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // use NSOperation and NSOperationQueue to handle picture downloading.
     var photos = [PhotoRecord]()
-    var pendingOperationsObserver = PendingOperationsObserver()
 
     func getNoWallpaperScreen() -> TargetScreen? {
         for targetScreen in targetScreens {
@@ -119,94 +117,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return nil
     }
 
-    func startDownloadForRecord(photoDetails: PhotoRecord, indexPath: String){
-        if let downloadOperation = pendingOperationsObserver.pendingOperations.downloadsInProgress[indexPath] {
-            return
-        }
-        
-        let downloader = ImageDownloader(photoRecord: photoDetails)
-
-        downloader.completionBlock = {
-            if downloader.cancelled {
-                return
-            }
-
-            // sometimes, the downloaded content is not a image.
-            if downloader.photoRecord.state != .Downloaded {
-                println("downloader.completionBlock: no downloaded image.")
-                return
-            }
-
-            dispatch_async(dispatch_get_main_queue()) {
-                let pendingOperations = self.pendingOperationsObserver.pendingOperations
-                pendingOperations.downloadsInProgress.removeValueForKey(indexPath)
-
-                let this_photo = downloader.photoRecord
-                println("dispatch done: \(indexPath). url: \(this_photo.url)")
-
-                if let targetScreen = self.getNoWallpaperScreen() {
-                    let lowerLimit = self.myPreference.imageLowerLimitLength
-                    if self.myPreference.fitScreenOrientation {
-                        // if no fit, maximal try: 3 downloads.
-                        targetScreen.currentTry++
-                        if ((targetScreen.orientation == this_photo.orientation) || targetScreen.currentTry > 2)  {
-                            if !self.myPreference.filterSmallerImages || lowerLimit <= 0 {
-                                targetScreen.wallpaperPhoto = this_photo
-                                println("No image size lower limit set. Too much try: \(targetScreen.currentTry). Selected \(this_photo.url)")
-                            } else {
-                                if this_photo.fitSizeLimitation(lowerLimit) {
-                                    targetScreen.wallpaperPhoto = this_photo
-                                    println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) is more than limitation: \(lowerLimit). Selected \(this_photo.url)")
-                                } else {
-                                    println("imageLowerLimitLength is on. Size (\(this_photo.imgRep.pixelsWide) x \(this_photo.imgRep.pixelsHigh)) not fit limitation: \(lowerLimit). Not selected.")
-
-                                }
-                            }
-                        } else {
-                            println("Orientation not fit: screen: \(targetScreen.orientation), photo: \(this_photo.orientation). Not selected. currentTry: \(targetScreen.currentTry)")
-                        }
-                    } else {
-                        if !self.myPreference.filterSmallerImages || lowerLimit <= 0 {
-                            targetScreen.wallpaperPhoto = this_photo
-                            println("No image size lower limit set. Selected \(this_photo.url)")
-                        } else {
-                            if this_photo.fitSizeLimitation(lowerLimit) {
-                                targetScreen.wallpaperPhoto = this_photo
-                                println("imageLowerLimitLength is on. Size is more than limitation: \(lowerLimit). Selected \(this_photo.url)")
-                            } else {
-                                println("imageLowerLimitLength is on. Size \(this_photo.image!.size.width) x \(this_photo.image!.size.height) not fit limitation: \(lowerLimit). Not selected.")
-
-                            }
-                        }
-                    }
-
-                    // check here to save 1 photo download time.
-                    if self.getNoWallpaperScreen() == nil {
-                        println("All targetScreens are done. Save 1 download time.")
-                    }
-                } else {
-                    println("All targetScreens are done.")
-                    pendingOperations.downloadQueue.cancelAllOperations()
-                }
-            }
-        }
-
-        pendingOperationsObserver.pendingOperations.downloadsInProgress[indexPath] = downloader
-
-        pendingOperationsObserver.pendingOperations.downloadQueue.addOperation(downloader)
-    }
-    
-    func startOperationsForPhotoRecord(photoDetails: PhotoRecord, indexPath: String){
-        switch (photoDetails.state) {
-        case .New:
-            startDownloadForRecord(photoDetails, indexPath: indexPath)
-        case .Downloaded:
-            println("downloaded. url: \(photoDetails.url)")
-        default:
-            println("do nothing")
-        }
-    }
-    
     func getImageFromUrl() {
         let queue = NSOperationQueue()
         queue.maxConcurrentOperationCount = 1
@@ -214,16 +124,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for imgLink in imgLinks {
             let urlStr:String = imgLink["link"] as? String ?? ""
             let name:String = imgLink["name"] as? String ?? ""
-            //println("image url: \(urlStr)")
-            /*
-            let url = NSURL(string: urlStr)
-            if url != nil {
-                let photoRecord = PhotoRecord(name:name, url:url!)
-                if (find(photos, photoRecord) == nil) {
-                    photos.append(photoRecord)
-                }
-            }
-            */
+
             let operation = DownloadImage(URLString: urlStr) {
                 (responseObject, error) in
                 
@@ -249,11 +150,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             queue.addOperation(operation)
         }
-/*
-        for photo in photos {
-            startOperationsForPhotoRecord(photo, indexPath: photo.url.absoluteString!.md5())
-        }
-*/
     }
     
     @IBAction func btnGetImageFromUrl(sender: AnyObject) {
@@ -268,14 +164,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        
-        for photo in photos {
-            startOperationsForPhotoRecord(photo, indexPath: photo.url!.absoluteString!.md5())
-        }
     }
     
     @IBAction func btnShowQueue(sender: AnyObject) {
-        //println(pendingOperationsObserver.pendingOperations.downloadQueue.operationCount)
         println(imgLinks)
     }
     
@@ -449,7 +340,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let screenList = NSScreen.screens() as? [NSScreen]
                 if (find(screenList!, targetScreen.screen!) != nil) {
                     if let photo = targetScreen.wallpaperPhoto {
-                        photo.saveToLocalPath()
                         var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
                         if result {
                             println("\(targetScreen.screen!) set to \(photo.localPath) from \(photo.url) fitScreenOrientation: \(myPreference.fitScreenOrientation)")
