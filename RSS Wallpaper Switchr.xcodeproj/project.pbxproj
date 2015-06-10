@@ -17,6 +17,7 @@
 		D369F09A1A84E21F00FC00FE /* debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D369F0991A84E21F00FC00FE /* debug.swift */; };
 		D39484821A7F6981006E84FD /* NSMutableArray_Shiffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39484811A7F6981006E84FD /* NSMutableArray_Shiffle.swift */; };
 		D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1EFCC1A7F56440032C16A /* RssParser.swift */; };
+		D3A75C451B285BEC00CEC833 /* Array_shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */; };
 		D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AAB3F71A8338EA00EA1439 /* Preference.swift */; };
 		D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */; };
 		D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3E62F611A7DF30E00A40EBA /* Images.xcassets */; };
@@ -47,6 +48,7 @@
 		D369F0991A84E21F00FC00FE /* debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = debug.swift; sourceTree = "<group>"; };
 		D39484811A7F6981006E84FD /* NSMutableArray_Shiffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMutableArray_Shiffle.swift; sourceTree = "<group>"; };
 		D3A1EFCC1A7F56440032C16A /* RssParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RssParser.swift; sourceTree = "<group>"; };
+		D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array_shuffle.swift; sourceTree = "<group>"; };
 		D3AAB3F71A8338EA00EA1439 /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		D3E62F5A1A7DF30E00A40EBA /* RSS Wallpaper Switchr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RSS Wallpaper Switchr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E62F5E1A7DF30E00A40EBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				D369F0991A84E21F00FC00FE /* debug.swift */,
 				D3AAB3F71A8338EA00EA1439 /* Preference.swift */,
 				D334C6C51A811E6300726130 /* NSImage_saveAsJpegWithName.swift */,
+				D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */,
 				D334C6C31A80F4E600726130 /* PhotoOperations.swift */,
 				D33626D61A7FB56900DAA51C /* Swift-MD5.swift */,
 				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
@@ -317,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3F957101B2804210007D831 /* ConcurrentOperation.swift in Sources */,
+				D3A75C451B285BEC00CEC833 /* Array_shuffle.swift in Sources */,
 				D39484821A7F6981006E84FD /* NSMutableArray_Shiffle.swift in Sources */,
 				D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */,
 				D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */,
