@@ -39,7 +39,7 @@ class PhotoRecord: Equatable {
         self.name = name
         self.localPathUrl = localPathUrl
         self.localPath = localPathUrl.absoluteString!
-        if let image = NSImage(contentsOfFile: self.localPath) {
+        if let image = NSImage(contentsOfURL: localPathUrl) {
             self.image = image
             calcOrientation()
             self.imgRep = image.representations.first as! NSImageRep
@@ -87,6 +87,46 @@ class PhotoRecord: Equatable {
         let width = self.imgRep.pixelsWide
 
         return height > limit && width > limit ? true : false
+    }
+    
+    func isSuitable(targetScreen: TargetScreen, preference: Preference) -> Bool {
+        let lowerLimit = preference.imageLowerLimitLength
+
+        if preference.fitScreenOrientation {
+            // if no fit, maximal try: 3 downloads.
+            targetScreen.currentTry++
+            if ((targetScreen.orientation == orientation) || targetScreen.currentTry > 2)  {
+                if !preference.filterSmallerImages || lowerLimit <= 0 {
+                    println("No image size lower limit set. Too much try: \(targetScreen.currentTry). Selected \(url)")
+                    return true
+                } else {
+                    if fitSizeLimitation(lowerLimit) {
+                        println("imageLowerLimitLength is on. Size (\(imgRep.pixelsWide) x \(imgRep.pixelsHigh)) is more than limitation: \(lowerLimit). Selected \(url)")
+                        return true
+                    } else {
+                        println("imageLowerLimitLength is on. Size (\(imgRep.pixelsWide) x \(imgRep.pixelsHigh)) not fit limitation: \(lowerLimit). Not selected.")
+                        return false
+                    }
+                }
+            } else {
+                println("Orientation not fit: screen: \(targetScreen.orientation.rawValue), photo: \(orientation.rawValue). Not selected. currentTry: \(targetScreen.currentTry)")
+            }
+        } else {
+            if !preference.filterSmallerImages || lowerLimit <= 0 {
+                println("No image size lower limit set. Selected \(url)")
+                return true
+            } else {
+                if fitSizeLimitation(lowerLimit) {
+                    println("imageLowerLimitLength is on. Size is more than limitation: \(lowerLimit). Selected \(url)")
+                    return true
+                } else {
+                    println("imageLowerLimitLength is on. Size \(image!.size.width) x \(image!.size.height) not fit limitation: \(lowerLimit). Not selected.")
+                    return false
+                }
+            }
+        }
+
+        return false
     }
 }
 

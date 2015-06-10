@@ -237,7 +237,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     println("responseObject=\(responseObject!)")
                     if let targetScreen = self.getNoWallpaperScreen() {
                         var this_photo = PhotoRecord(name: "test", localPathUrl: responseObject as! NSURL)
-                        targetScreen.wallpaperPhoto = this_photo
+                        if this_photo.isSuitable(targetScreen, preference: self.myPreference) {
+                            targetScreen.wallpaperPhoto = this_photo
+                        }
                     } else {
                         println("All targetScreens are done.")
                         queue.cancelAllOperations()
