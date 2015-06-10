@@ -35,8 +35,9 @@ class PhotoRecord: Equatable {
         self.url = url
     }
 
-    init(name:String, localPathUrl:NSURL) {
+    init(name:String, url:NSURL, localPathUrl:NSURL) {
         self.name = name
+        self.url = url
         self.localPathUrl = localPathUrl
         self.localPath = localPathUrl.absoluteString!
         if let image = NSImage(contentsOfURL: localPathUrl) {
