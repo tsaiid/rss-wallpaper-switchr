@@ -22,6 +22,7 @@
 		D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3E62F611A7DF30E00A40EBA /* Images.xcassets */; };
 		D3E62F651A7DF30E00A40EBA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3E62F631A7DF30E00A40EBA /* MainMenu.xib */; };
 		D3E62F711A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E62F701A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift */; };
+		D3F957101B2804210007D831 /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9570F1B2804200007D831 /* ConcurrentOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		D3E62F6A1A7DF30E00A40EBA /* RSS Wallpaper SwitchrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RSS Wallpaper SwitchrTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E62F6F1A7DF30E00A40EBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3E62F701A7DF30E00A40EBA /* RSS_Wallpaper_SwitchrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSS_Wallpaper_SwitchrTests.swift; sourceTree = "<group>"; };
+		D3F9570F1B2804200007D831 /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentOperation.swift; sourceTree = "<group>"; };
 		E3EADD63DC19CE4E8484AAA0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FD2A42D3F928298B49B9F848 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,6 +112,7 @@
 		D3E62F5C1A7DF30E00A40EBA /* RSS Wallpaper Switchr */ = {
 			isa = PBXGroup;
 			children = (
+				D3F9570F1B2804200007D831 /* ConcurrentOperation.swift */,
 				D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */,
 				D34CA30E1A91B474009FAA38 /* TargetScreen.swift */,
 				D369F0991A84E21F00FC00FE /* debug.swift */,
@@ -313,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3F957101B2804210007D831 /* ConcurrentOperation.swift in Sources */,
 				D39484821A7F6981006E84FD /* NSMutableArray_Shiffle.swift in Sources */,
 				D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */,
 				D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */,
