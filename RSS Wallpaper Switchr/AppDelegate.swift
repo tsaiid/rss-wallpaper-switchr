@@ -236,8 +236,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     
                     println("responseObject=\(responseObject!)")
                     if let targetScreen = self.getNoWallpaperScreen() {
-                        var this_photo = PhotoRecord(name: "test", localPathUrl: responseObject as! NSURL)
-                        if this_photo.isSuitable(targetScreen, preference: self.myPreference) {
+                        var this_photo: PhotoRecord? = responseObject as? PhotoRecord
+                        if this_photo!.isSuitable(targetScreen, preference: self.myPreference) {
                             targetScreen.wallpaperPhoto = this_photo
                         }
                     } else {
@@ -513,7 +513,8 @@ class DownloadImage : ConcurrentOperation {
             }
             return temporaryURL
         }).response { (request, response, responseObject, error) in
-            self.downloadImageCompletionHandler(responseObject: self.finalPath, error: error)
+            var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
+            self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
             self.completeOperation()
         }
     }
