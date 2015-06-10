@@ -85,12 +85,27 @@ private var myContext = 0   // for KVO
 
 class RssParserObserver: NSObject {
     var rssParser = RssParser()
+    var queue = NSOperationQueue()
+    
     override init() {
         super.init()
         rssParser.addObserver(self, forKeyPath: "statusRaw", options: .New, context: &myContext)
+        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
     }
     deinit {
         rssParser.removeObserver(self, forKeyPath: "statusRaw", context: &myContext)
+        queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
+        println("deinit")
+    }
+
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
+        if context == &myContext {
+            if (self.queue.operations.count == 0) {
+                println("queue completed.")
+            }
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
     }
 }
 

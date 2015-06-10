@@ -186,15 +186,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         println("preference: \(myPreference)")
     }
     
+    let newRssParser = RssParserObserver()
     @IBAction func btnTestAlamofire(sender: AnyObject) {
-        Alamofire.request(.GET, "http://feed.tsai.it/500px/popular.rss")
-            .responseString { (request, response, data, error) in
-                //println(request)
-                //println(response)
-                //println(error)
-                //println(data)
-                let xml = SWXMLHash.lazy(data!)
-                println(xml["rss"]["channel"]["title"].element?.text)
+        newRssParser.queue.maxConcurrentOperationCount = 1
+        
+        var rssUrl = ["http://feed.tsai.it/500px/popular.rss", "http://feed.tsai.it/flickr/interestingness.rss"]
+        
+        for url in rssUrl {
+            println(url)
+            let operation = ParseRss(URLString: url) {
+                (responseObject, error) in
+
+                if responseObject == nil {
+                    // handle error here
+                    
+                    println("failed: \(error)")
+                } else {
+                    // update UI to reflect the `responseObject` finished successfully
+                    
+                    //println("responseObject=\(responseObject!)")
+                }
+            }
+            newRssParser.queue.addOperation(operation)
         }
     }
     
@@ -406,6 +419,50 @@ class DownloadImage : ConcurrentOperation {
             var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
             self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
             self.completeOperation()
+        }
+    }
+    
+    override func cancel() {
+        request?.cancel()
+        super.cancel()
+    }
+}
+
+class ParseRss : ConcurrentOperation {
+    let URLString: String
+    let parseRssCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
+    
+    weak var request: Alamofire.Request?
+    
+    init(URLString: String, parseRssCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()) {
+        self.URLString = URLString
+        self.parseRssCompletionHandler = parseRssCompletionHandler
+        super.init()
+    }
+    
+    override func main() {
+        request = Alamofire.request(.GET, URLString)
+            .responseString { (request, response, data, error) in
+                //println(request)
+                //println(response)
+                //println(error)
+                //println(data)
+                var xml = SWXMLHash.parse(data!)
+                let title = xml["rss"]["channel"]["title"].element?.text
+                println("Feed: \(title) was parsed.")
+                
+                // return a list of image links.
+                var imgLinkList = [String]()
+                for item in xml["rss"]["channel"]["item"] {
+                    if let link = item["link"].element?.text {
+                        if !contains(imgLinkList, link) {
+                            imgLinkList += [link]
+                        }
+                    }
+                }
+
+                self.parseRssCompletionHandler(responseObject: imgLinkList, error: error)
+                self.completeOperation()
         }
     }
     
