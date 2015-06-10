@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBar = NSStatusBar.systemStatusBar()
     var statusBarItem : NSStatusItem = NSStatusItem()
     var menu: NSMenu = NSMenu()
-    var imgLinks = NSMutableArray()
+    var imgLinks = [String]()
     var myPreference = Preference()
     var state = AppState.Ready
     var currentTry = [Int]()
@@ -49,8 +49,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         detectScreenMode()
     }
     
-    var rssParserSetWallpaperObserver = RssParserSetWallpaperObserver()
-
     func getTargetScreens() {
         targetScreens = [TargetScreen]()
         if let screenList = NSScreen.screens() as? [NSScreen] {
@@ -78,18 +76,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // clean all var
         photos = [PhotoRecord]()
-        
+
         // load rss url
         let defaults = NSUserDefaults.standardUserDefaults()
-        if let rssUrl = defaults.stringForKey("rssUrl") {
-            println("rss url \(rssUrl) loaded.")
-            rssParserSetWallpaperObserver.rssParser.parseRssFromUrl(rssUrl)
-            
-            // get image will be done after parseRssFromUrl done.
-            // set background will be done after getImageFromUrl queue done.
-        } else {
-            println("No predefined rss url.")
+        var rssUrls = [String]()
+        //["http://feed.tsai.it/500px/popular.rss", "http://feed.tsai.it/flickr/interestingness.rss"]
+        let rssUrl = defaults.stringForKey("rssUrl")
+        if rssUrl != "" {
+            rssUrls.append(defaults.stringForKey("rssUrl")!)
         }
+        
+        if rssUrls.count == 0 {
+            notify("No predefined RSS url.")
+        }
+        
+        for url in rssUrls {
+            println(url)
+            let operation = ParseRss(URLString: url) {
+                (responseObject, error) in
+                
+                if responseObject == nil {
+                    // handle error here
+                    
+                    println("failed: \(error)")
+                } else {
+                    //println("responseObject=\(responseObject!)")
+                    self.imgLinks += responseObject as! [String]
+                }
+            }
+            newRssParser.queue.addOperation(operation)
+        }
+
     }
     
     @IBAction func btnSequentSetBackgrounds(sender: AnyObject) {
@@ -122,8 +139,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         queue.maxConcurrentOperationCount = 1
         
         for imgLink in imgLinks {
-            let urlStr:String = imgLink["link"] as? String ?? ""
-            let name:String = imgLink["name"] as? String ?? ""
+            let urlStr:String = imgLink as String
 
             let operation = DownloadImage(URLString: urlStr) {
                 (responseObject, error) in
@@ -133,8 +149,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     
                     println("failed: \(error)")
                 } else {
-                    // update UI to reflect the `responseObject` finished successfully
-                    
                     println("responseObject=\(responseObject!)")
                     if let targetScreen = self.getNoWallpaperScreen() {
                         var this_photo: PhotoRecord? = responseObject as? PhotoRecord
@@ -153,21 +167,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func btnGetImageFromUrl(sender: AnyObject) {
-        for imgLink in imgLinks {
-            let urlStr:String = imgLink["link"] as? String ?? ""
-            let name:String = imgLink["name"] as? String ?? ""
-            let url = NSURL(string: urlStr)
-            if url != nil {
-                let photoRecord = PhotoRecord(name:name, url:url!)
-                if (find(photos, photoRecord) == nil) {
-                    photos.append(photoRecord)
-                }
-            }
-        }
     }
     
     @IBAction func btnShowQueue(sender: AnyObject) {
-        println(imgLinks)
     }
     
     @IBAction func btnLoad(sender: AnyObject) {
@@ -189,6 +191,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let newRssParser = RssParserObserver()
     @IBAction func btnTestAlamofire(sender: AnyObject) {
         newRssParser.queue.maxConcurrentOperationCount = 1
+        imgLinks = [String]()
+
+        #if DEBUG
+            timeStart = CFAbsoluteTimeGetCurrent()
+        #endif
         
         var rssUrl = ["http://feed.tsai.it/500px/popular.rss", "http://feed.tsai.it/flickr/interestingness.rss"]
         
@@ -202,9 +209,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     
                     println("failed: \(error)")
                 } else {
-                    // update UI to reflect the `responseObject` finished successfully
-                    
                     //println("responseObject=\(responseObject!)")
+                    self.imgLinks += responseObject as! [String]
                 }
             }
             newRssParser.queue.addOperation(operation)
