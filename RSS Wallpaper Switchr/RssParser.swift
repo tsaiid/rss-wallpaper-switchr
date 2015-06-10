@@ -10,36 +10,60 @@ import Cocoa
 import Alamofire
 import SWXMLHash
 
-enum RssParserStatus: String {
-    case Init = "Init"
-    case Done = "Done"
-    case Error = "Error"
-}
-
-class RssParser: NSObject {
-    var elements = NSMutableDictionary()
-    var imgLinks = NSMutableArray()
-    dynamic private(set) var statusRaw: String?
-    var status:RssParserStatus? {
-        didSet {
-            statusRaw = status?.rawValue
+class ParseRss : ConcurrentOperation {
+    let URLString: String
+    let parseRssCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
+    
+    weak var request: Alamofire.Request?
+    
+    init(URLString: String, parseRssCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()) {
+        self.URLString = URLString
+        self.parseRssCompletionHandler = parseRssCompletionHandler
+        super.init()
+    }
+    
+    override func main() {
+        request = Alamofire.request(.GET, URLString)
+            .responseString { (request, response, data, error) in
+                //println(request)
+                //println(response)
+                //println(error)
+                //println(data)
+                var xml = SWXMLHash.parse(data!)
+                let title = xml["rss"]["channel"]["title"].element?.text
+                println("Feed: \(title) was parsed.")
+                
+                // return a list of image links.
+                var imgLinkList = [String]()
+                for item in xml["rss"]["channel"]["item"] {
+                    if let link = item["link"].element?.text {
+                        if !contains(imgLinkList, link) {
+                            imgLinkList += [link]
+                        }
+                    }
+                }
+                
+                self.parseRssCompletionHandler(responseObject: imgLinkList, error: error)
+                self.completeOperation()
         }
+    }
+    
+    override func cancel() {
+        request?.cancel()
+        super.cancel()
     }
 }
 
 private var myContext = 0   // for KVO
 
 class RssParserObserver: NSObject {
-    var rssParser = RssParser()
     var queue = NSOperationQueue()
     
     override init() {
         super.init()
-        rssParser.addObserver(self, forKeyPath: "statusRaw", options: .New, context: &myContext)
         queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
     }
     deinit {
-        rssParser.removeObserver(self, forKeyPath: "statusRaw", context: &myContext)
         queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
         println("deinit")
     }
