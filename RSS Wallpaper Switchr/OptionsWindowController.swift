@@ -151,14 +151,21 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
 
     // for RSS URL List Data Source
     func tableView(tableView: NSTableView, viewForTableColumn: NSTableColumn?, row: Int) -> NSView? {
-        var list = ["aaa", "bbb", "ccc"]
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let myPref = appDelegate.myPreference
+        
+        var list = myPref.newRssUrls as AnyObject as! [String]
         var cell = tableView.makeViewWithIdentifier("rssList", owner: self) as! NSTableCellView
         cell.textField!.stringValue = list[row]
+//        cell.textField!.stringValue = "test"
         return cell;
     }
     
     func numberOfRowsInTableView(aTableView: NSTableView) -> Int {
-        return 3
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let myPref = appDelegate.myPreference
+
+        return myPref.newRssUrls.count
     }
 
     // Add Rss Feed Window Panel
@@ -231,6 +238,22 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
     override func controlTextDidChange(obj: NSNotification) {
         if btnAddNewRssAdd.enabled {
             btnAddNewRssAdd.enabled = false
+        }
+    }
+    
+    @IBAction func btnAddNewRssUrl(sender: AnyObject) {
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let myPref = appDelegate.myPreference
+
+        let rssUrl:String = textNewRssUrl.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if myPref.newRssUrls.containsObject(rssUrl) {
+            println("\(rssUrl) exists.")
+        } else {
+            myPref.newRssUrls.addObject(rssUrl)
+            println("\(rssUrl) added.")
+            println("\(myPref.newRssUrls) added.")
+            self.window!.endSheet(sheetAddRss)
+            sheetAddRss.orderOut(sender)
         }
     }
 }
