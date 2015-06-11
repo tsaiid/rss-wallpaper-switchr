@@ -251,7 +251,8 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         } else {
             myPref.newRssUrls.addObject(rssUrl)
             println("\(rssUrl) added.")
-            println("\(myPref.newRssUrls) added.")
+            println("current rss urls: \(myPref.newRssUrls).")
+            rssListTable.reloadData()
             self.window!.endSheet(sheetAddRss)
             sheetAddRss.orderOut(sender)
         }

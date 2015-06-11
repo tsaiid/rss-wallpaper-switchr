@@ -29,7 +29,7 @@ class Preference {
         println("option rssUrl: \(rssUrl)")
         
         if let tmpRssUrls: AnyObject = defaults.objectForKey("rssUrls") {
-            newRssUrls = tmpRssUrls as! NSMutableArray
+            newRssUrls = tmpRssUrls.mutableCopy() as! NSMutableArray
             println("option rssUrl: \(newRssUrls)")
         }
 
