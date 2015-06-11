@@ -105,6 +105,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         println("Updating timer while closing option window.")
         appDelegate.updateSwitchTimer()
+        appDelegate.optWin = nil    // force release the opt window controller
     }
 
     // for RSS URL List Data Source

@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var timeStart: CFAbsoluteTime?
     #endif
 
-    lazy var optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
+    var optWin: OptionsWindowController?
 
     func detectScreenMode() {
         if let screenList = NSScreen.screens() as? [NSScreen] {
@@ -320,7 +320,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func showOptionsWindow(sender: AnyObject) {
-        optWin.showWindow(sender)
+        optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
+        optWin!.showWindow(sender)
         NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
 
