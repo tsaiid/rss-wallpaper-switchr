@@ -10,7 +10,7 @@ import Cocoa
 import Alamofire
 import SWXMLHash
 
-class OptionsWindowController: NSWindowController {
+class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTableViewDelegate {
 
     var mainW: NSWindow = NSWindow()
 
@@ -21,6 +21,10 @@ class OptionsWindowController: NSWindowController {
     @IBOutlet weak var chkboxFilterSmallerImages: NSButton!
     @IBOutlet weak var txtImageLowerLimitLength: NSTextField!
 
+    @IBOutlet weak var rssListTable: NSTableView!
+    
+    @IBOutlet var sheetAddRss: NSPanel!
+    
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -134,5 +138,28 @@ class OptionsWindowController: NSWindowController {
         println("Updating timer while closing option window.")
         appDelegate.updateSwitchTimer()
     }
+
+    // for RSS URL List Data Source
+    func tableView(tableView: NSTableView, viewForTableColumn: NSTableColumn?, row: Int) -> NSView? {
+        var list = ["aaa", "bbb", "ccc"]
+        var cell = tableView.makeViewWithIdentifier("rssList", owner: self) as! NSTableCellView
+        cell.textField!.stringValue = list[row]
+        return cell;
+    }
+    
+    func numberOfRowsInTableView(aTableView: NSTableView) -> Int {
+        return 3
+    }
+
+    // Add Rss Feed Window
+    @IBAction func btnShowAddRssSheet(sender: AnyObject) {
+        self.window!.beginSheet(sheetAddRss, completionHandler: nil)
+    }
+    
+    @IBAction func btnEndAddingRssWindow(sender: AnyObject) {
+        self.window!.endSheet(sheetAddRss)
+        sheetAddRss.orderOut(sender)
+    }
+
 }
 
