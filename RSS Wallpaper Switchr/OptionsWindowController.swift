@@ -22,6 +22,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
     @IBOutlet weak var txtImageLowerLimitLength: NSTextField!
 
     @IBOutlet weak var rssListTable: NSTableView!
+    var rssUrls = NSMutableArray()
     
     @IBOutlet var sheetAddRss: NSPanel!
     
@@ -38,6 +39,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         if (myPref.rssUrl != nil) {
             rssUrlText.stringValue = myPref.rssUrl!
         }
+        rssUrls = myPref.newRssUrls
         popupUpdateInterval.selectItemWithTag(myPref.switchInterval)
         if myPref.fitScreenOrientation {
             chkboxFitScreenOrientation.state = NSOnState
@@ -70,6 +72,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         let myPref = appDelegate.myPreference
         myPref.rssUrl = rssUrlText.stringValue
+        myPref.newRssUrls = rssUrls
         myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
         myPref.switchInterval = popupUpdateInterval.selectedItem!.tag
         myPref.filterSmallerImages = (chkboxFilterSmallerImages.state == NSOnState ? true : false)
@@ -151,21 +154,14 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
 
     // for RSS URL List Data Source
     func tableView(tableView: NSTableView, viewForTableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let myPref = appDelegate.myPreference
-        
-        var list = myPref.newRssUrls as AnyObject as! [String]
+        var list = rssUrls as AnyObject as! [String]
         var cell = tableView.makeViewWithIdentifier("rssList", owner: self) as! NSTableCellView
         cell.textField!.stringValue = list[row]
-//        cell.textField!.stringValue = "test"
         return cell;
     }
     
     func numberOfRowsInTableView(aTableView: NSTableView) -> Int {
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let myPref = appDelegate.myPreference
-
-        return myPref.newRssUrls.count
+        return rssUrls.count
     }
 
     // Add Rss Feed Window Panel
@@ -242,16 +238,13 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
     }
     
     @IBAction func btnAddNewRssUrl(sender: AnyObject) {
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let myPref = appDelegate.myPreference
-
         let rssUrl:String = textNewRssUrl.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        if myPref.newRssUrls.containsObject(rssUrl) {
+        if rssUrls.containsObject(rssUrl) {
             println("\(rssUrl) exists.")
         } else {
-            myPref.newRssUrls.addObject(rssUrl)
+            rssUrls.addObject(rssUrl)
             println("\(rssUrl) added.")
-            println("current rss urls: \(myPref.newRssUrls).")
+            println("current rss urls: \(rssUrls).")
             rssListTable.reloadData()
             self.window!.endSheet(sheetAddRss)
             sheetAddRss.orderOut(sender)
@@ -262,9 +255,6 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         let selectedRow = rssListTable.selectedRow
         println("selected row: \(selectedRow)")
         if selectedRow > -1 {
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-            let myPref = appDelegate.myPreference
-            let rssUrls = myPref.newRssUrls
             rssUrls.removeObjectAtIndex(selectedRow)
             rssListTable.reloadData()
         }
