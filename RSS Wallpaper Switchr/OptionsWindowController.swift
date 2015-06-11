@@ -10,7 +10,7 @@ import Cocoa
 import Alamofire
 import SWXMLHash
 
-class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTableViewDelegate {
+class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate {
 
     var mainW: NSWindow = NSWindow()
 
@@ -49,6 +49,9 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
 
         // stop timer after showing option window
         appDelegate.stopSwitchTimer()
+        
+        // in order to moniter NSTextField change
+        textNewRssUrl.delegate = self
     }
     
     @IBAction func popupSetUpdateInterval(sender: AnyObject) {
@@ -131,6 +134,13 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         myPopup.informativeText = msg
         myPopup.beginSheetModalForWindow(self.window!, completionHandler: nil)
     }
+    
+    func validateAlertPopup(msg: String!){
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "RSS Validation";
+        myPopup.informativeText = msg
+        myPopup.runModal()
+    }
 
     func windowWillClose(notification: NSNotification) {
         // update timer.
@@ -151,15 +161,77 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         return 3
     }
 
-    // Add Rss Feed Window
+    // Add Rss Feed Window Panel
     @IBAction func btnShowAddRssSheet(sender: AnyObject) {
         self.window!.beginSheet(sheetAddRss, completionHandler: nil)
     }
+    
+    // Panel window
+    @IBOutlet weak var textNewRssUrl: NSTextField!
+    @IBOutlet weak var btnValidateRss: NSButton!
+    @IBOutlet weak var btnAddNewRssCancel: NSButton!
+    @IBOutlet weak var btnAddNewRssAdd: NSButton!
     
     @IBAction func btnEndAddingRssWindow(sender: AnyObject) {
         self.window!.endSheet(sheetAddRss)
         sheetAddRss.orderOut(sender)
     }
-
+    
+    @IBAction func btnValidateNewRss(sender: NSButton) {
+        // have to trim string to prevent Alamofire crash
+        let rssUrl:String = textNewRssUrl.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        textNewRssUrl.stringValue = rssUrl
+        
+        btnValidateRss.enabled = false
+        btnValidateRss.title = "Validating"
+        Alamofire.request(.GET, rssUrl)
+            .responseString { (request, response, data, error) in
+                //println(request)
+                //println(response)
+                if error != nil {
+                    println("Error: \(error)")
+                    if let localizedDescription = error!.localizedDescription as String? {
+                        self.validateAlertPopup(localizedDescription)
+                    }
+                    self.btnValidateRss.enabled = true
+                    self.btnValidateRss.title = "Validate"
+                    return
+                }
+                
+                if let httpResponse = response as NSHTTPURLResponse? {
+                    let statusCode = httpResponse.statusCode
+                    if statusCode != 200 {
+                        println("NSHTTPURLResponse.statusCode = \(statusCode)")
+                        //println("Text of response = \(data)")
+                        if let localizedResponse = NSHTTPURLResponse.localizedStringForStatusCode(statusCode) as String? {
+                            self.validateAlertPopup(localizedResponse)
+                        }
+                        self.btnValidateRss.enabled = true
+                        self.btnValidateRss.title = "Validate"
+                        return
+                    }
+                }
+                
+                //println(data)
+                let xml = SWXMLHash.lazy(data!)
+                var imgCount = 0
+                for item in xml["rss"]["channel"]["item"] {
+                    if let imgUrl = item["link"].element?.text {
+                        imgCount++
+                    }
+                }
+                self.validateAlertPopup("Valid feed. \(imgCount) image(s) found.")
+                self.btnValidateRss.enabled = true
+                self.btnAddNewRssAdd.enabled = true
+                self.btnValidateRss.title = "Validate"
+        }
+    }
+    
+    // detect
+    override func controlTextDidChange(obj: NSNotification) {
+        if btnAddNewRssAdd.enabled {
+            btnAddNewRssAdd.enabled = false
+        }
+    }
 }
 

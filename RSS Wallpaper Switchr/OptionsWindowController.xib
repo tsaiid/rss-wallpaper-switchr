@@ -6,12 +6,16 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OptionsWindowController" customModule="RSS_Wallpaper_Switchr" customModuleProvider="target">
             <connections>
+                <outlet property="btnAddNewRssAdd" destination="Lr0-kk-zmI" id="UZw-Kg-RQv"/>
+                <outlet property="btnAddNewRssCancel" destination="uag-yb-QXU" id="aru-sM-HqR"/>
+                <outlet property="btnValidateRss" destination="lUy-In-Skx" id="1AC-v3-bwG"/>
                 <outlet property="chkboxFilterSmallerImages" destination="eqs-Hq-3ye" id="NJi-FY-a9e"/>
                 <outlet property="chkboxFitScreenOrientation" destination="rhy-J8-cc0" id="7sO-jq-OzQ"/>
                 <outlet property="popupUpdateInterval" destination="0qS-5s-zCw" id="uZ6-RR-cww"/>
                 <outlet property="rssListTable" destination="SM4-WS-LU8" id="pNJ-Ns-NaH"/>
                 <outlet property="rssUrlText" destination="z18-ha-1Yj" id="Nny-jI-lIn"/>
                 <outlet property="sheetAddRss" destination="oAH-ON-F4N" id="K5z-p0-CmU"/>
+                <outlet property="textNewRssUrl" destination="DYu-E7-CRu" id="WDR-az-bWb"/>
                 <outlet property="txtImageLowerLimitLength" destination="E3s-IU-9xq" id="vgo-JR-CsA"/>
                 <outlet property="window" destination="SuR-Nb-RWb" id="fZ4-Tq-SQh"/>
             </connections>
@@ -265,14 +269,14 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="oAH-ON-F4N" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" topStrut="YES"/>
-            <rect key="contentRect" x="513" y="392" width="457" height="91"/>
+            <rect key="contentRect" x="513" y="392" width="472" height="91"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="qdm-JW-Tl4">
-                <rect key="frame" x="0.0" y="-6" width="457" height="91"/>
+                <rect key="frame" x="0.0" y="0.0" width="472" height="91"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uag-yb-QXU">
-                        <rect key="frame" x="272" y="13" width="89" height="32"/>
+                        <rect key="frame" x="264" y="13" width="97" height="32"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5U6-6S-BeW">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -293,22 +297,25 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lUy-In-Skx">
-                        <rect key="frame" x="361" y="42" width="89" height="32"/>
+                        <rect key="frame" x="361" y="42" width="97" height="32"/>
                         <buttonCell key="cell" type="push" title="Validate" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UgG-3G-H6j">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="btnValidateNewRss:" target="-2" id="mh1-O7-kbk"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lr0-kk-zmI">
-                        <rect key="frame" x="361" y="13" width="89" height="32"/>
-                        <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pom-ZK-9py">
+                        <rect key="frame" x="361" y="13" width="97" height="32"/>
+                        <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pom-ZK-9py">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-33.5" y="332.5"/>
+            <point key="canvasLocation" x="-26" y="332.5"/>
         </window>
     </objects>
 </document>
