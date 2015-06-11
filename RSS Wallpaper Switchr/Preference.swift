@@ -9,8 +9,7 @@
 import Foundation
 
 class Preference {
-    var rssUrl:String? = ""
-    var newRssUrls = NSMutableArray()
+    var rssUrls = NSMutableArray()
     var switchInterval:Int = 0
     var fitScreenOrientation:Bool = true
     var filterSmallerImages:Bool = false
@@ -25,12 +24,9 @@ class Preference {
     func load() {
         let defaults = NSUserDefaults.standardUserDefaults()
 
-        rssUrl = defaults.stringForKey("rssUrl")
-        println("option rssUrl: \(rssUrl)")
-        
         if let tmpRssUrls: AnyObject = defaults.objectForKey("rssUrls") {
-            newRssUrls = tmpRssUrls.mutableCopy() as! NSMutableArray
-            println("option rssUrl: \(newRssUrls)")
+            rssUrls = tmpRssUrls.mutableCopy() as! NSMutableArray
+            println("option rssUrl: \(rssUrls)")
         }
 
         fitScreenOrientation = defaults.boolForKey("fitScreenOrientation")
@@ -46,8 +42,7 @@ class Preference {
 
     func save() {
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(rssUrl, forKey: "rssUrl")
-        defaults.setObject(newRssUrls, forKey: "rssUrls")
+        defaults.setObject(rssUrls, forKey: "rssUrls")
         defaults.setObject(fitScreenOrientation, forKey: "fitScreenOrientation")
         defaults.setObject(switchInterval, forKey: "switchInterval")
         defaults.setObject(filterSmallerImages, forKey: "filterSmallerImages")

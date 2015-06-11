@@ -78,21 +78,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         photos = [PhotoRecord]()
 
         // load rss url
-        let defaults = NSUserDefaults.standardUserDefaults()
-        var rssUrls = [String]()
-        //["http://feed.tsai.it/500px/popular.rss", "http://feed.tsai.it/flickr/interestingness.rss"]
-        let rssUrl = defaults.stringForKey("rssUrl")
-        if rssUrl != "" {
-            rssUrls.append(defaults.stringForKey("rssUrl")!)
-        }
-        
+        let rssUrls = myPreference.rssUrls
         if rssUrls.count == 0 {
             notify("No predefined RSS url.")
         }
         
         for url in rssUrls {
             println(url)
-            let operation = ParseRss(URLString: url) {
+            let operation = ParseRss(URLString: url as! String) {
                 (responseObject, error) in
                 
                 if responseObject == nil {

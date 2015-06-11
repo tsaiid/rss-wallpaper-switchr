@@ -14,7 +14,6 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
 
     var mainW: NSWindow = NSWindow()
 
-    @IBOutlet weak var rssUrlText: NSTextField!
     @IBOutlet weak var chkboxFitScreenOrientation: NSButton!
     @IBOutlet weak var popupUpdateInterval: NSPopUpButtonCell!
 
@@ -36,10 +35,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         // use Preference class to load Preference
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         let myPref = appDelegate.myPreference
-        if (myPref.rssUrl != nil) {
-            rssUrlText.stringValue = myPref.rssUrl!
-        }
-        rssUrls = myPref.newRssUrls
+        rssUrls = myPref.rssUrls
         popupUpdateInterval.selectItemWithTag(myPref.switchInterval)
         if myPref.fitScreenOrientation {
             chkboxFitScreenOrientation.state = NSOnState
@@ -71,8 +67,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
 
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         let myPref = appDelegate.myPreference
-        myPref.rssUrl = rssUrlText.stringValue
-        myPref.newRssUrls = rssUrls
+        myPref.rssUrls = rssUrls
         myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
         myPref.switchInterval = popupUpdateInterval.selectedItem!.tag
         myPref.filterSmallerImages = (chkboxFilterSmallerImages.state == NSOnState ? true : false)
@@ -91,46 +86,6 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         self.close()
     }
 
-    @IBAction func btnValidateRSS(sender: AnyObject) {
-        let rssUrl:String = rssUrlText.stringValue
-
-        // update UI will be done in the observer
-        Alamofire.request(.GET, rssUrl)
-            .responseString { (request, response, data, error) in
-                //println(request)
-                //println(response)
-                if error != nil {
-                    println("Error: \(error)")
-                    if let localizedDescription = error!.localizedDescription as String? {
-                        self.validateAlert(localizedDescription)
-                    }
-                    return
-                }
-
-                if let httpResponse = response as NSHTTPURLResponse? {
-                    let statusCode = httpResponse.statusCode
-                    if statusCode != 200 {
-                        println("NSHTTPURLResponse.statusCode = \(statusCode)")
-                        //println("Text of response = \(data)")
-                        if let localizedResponse = NSHTTPURLResponse.localizedStringForStatusCode(statusCode) as String? {
-                            self.validateAlert(localizedResponse)
-                        }
-                        return
-                    }
-                }
-
-                //println(data)
-                let xml = SWXMLHash.lazy(data!)
-                var imgCount = 0
-                for item in xml["rss"]["channel"]["item"] {
-                    if let imgUrl = item["link"].element?.text {
-                        imgCount++
-                    }
-                }
-                self.validateAlert("Valid feed. \(imgCount) image(s) found.")
-        }
-    }
-    
     func validateAlert(msg: String!){
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "RSS Validation";
