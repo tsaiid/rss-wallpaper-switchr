@@ -210,6 +210,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="btnDeleteSeletedRow:" target="-2" id="um4-qi-ylj"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Ien-hb-GeM">
                         <rect key="frame" x="531" y="158" width="20" height="20"/>

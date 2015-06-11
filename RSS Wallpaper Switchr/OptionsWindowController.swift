@@ -257,5 +257,18 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
             sheetAddRss.orderOut(sender)
         }
     }
+    
+    @IBAction func btnDeleteSeletedRow(sender: NSButton) {
+        let selectedRow = rssListTable.selectedRow
+        println("selected row: \(selectedRow)")
+        if selectedRow > -1 {
+            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+            let myPref = appDelegate.myPreference
+            let rssUrls = myPref.newRssUrls
+            rssUrls.removeObjectAtIndex(selectedRow)
+            rssListTable.reloadData()
+        }
+    }
+    
 }
 
