@@ -129,7 +129,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func getImageFromUrl() {
         let queue = NSOperationQueue()
-        queue.maxConcurrentOperationCount = 1
+        queue.maxConcurrentOperationCount = 2
         
         for imgLink in imgLinks {
             let urlStr:String = imgLink as String
@@ -415,9 +415,11 @@ class DownloadImage : ConcurrentOperation {
             }
             return temporaryURL
         }).response { (request, response, responseObject, error) in
-            var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
-            self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
-            self.completeOperation()
+            if let finalPath = self.finalPath {
+                var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
+                self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
+                self.completeOperation()
+            }
         }
     }
     
