@@ -109,6 +109,27 @@
 			name = GUI;
 			sourceTree = "<group>";
 		};
+		D376EAA41B2A8C5800B7BF69 /* Window Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D376EAA21B2A75A700B7BF69 /* AboutWindowController.swift */,
+				D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */,
+			);
+			name = "Window Controllers";
+			sourceTree = "<group>";
+		};
+		D376EAA51B2A8C7E00B7BF69 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				D34CA30E1A91B474009FAA38 /* TargetScreen.swift */,
+				D3A1EFCC1A7F56440032C16A /* RssParser.swift */,
+				D3AAB3F71A8338EA00EA1439 /* Preference.swift */,
+				D334C6C31A80F4E600726130 /* PhotoOperations.swift */,
+				D3F9570F1B2804200007D831 /* ConcurrentOperation.swift */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
 		D3E62F511A7DF30E00A40EBA = {
 			isa = PBXGroup;
 			children = (
@@ -132,18 +153,13 @@
 		D3E62F5C1A7DF30E00A40EBA /* RSS Wallpaper Switchr */ = {
 			isa = PBXGroup;
 			children = (
-				D376EAA21B2A75A700B7BF69 /* AboutWindowController.swift */,
-				D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */,
 				D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */,
-				D34CA30E1A91B474009FAA38 /* TargetScreen.swift */,
+				D376EAA51B2A8C7E00B7BF69 /* Classes */,
+				D376EAA41B2A8C5800B7BF69 /* Window Controllers */,
 				D369F0991A84E21F00FC00FE /* debug.swift */,
-				D3AAB3F71A8338EA00EA1439 /* Preference.swift */,
 				D33307971B2973A600729641 /* Extensions */,
-				D334C6C31A80F4E600726130 /* PhotoOperations.swift */,
-				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
 				D33307981B2973E000729641 /* GUI */,
-				D3A1EFCC1A7F56440032C16A /* RssParser.swift */,
-				D3F9570F1B2804200007D831 /* ConcurrentOperation.swift */,
+				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
 				D3E62F5D1A7DF30E00A40EBA /* Supporting Files */,
 			);
 			path = "RSS Wallpaper Switchr";
