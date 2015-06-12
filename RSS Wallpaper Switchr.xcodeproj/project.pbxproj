@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		03DE8FD56230ACB0CB7237CD /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924CF25B3F0D233BAADB143D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */; };
-		D320FE751A7E703B00C5E7D1 /* OptionsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */; };
+		D320FE751A7E703B00C5E7D1 /* OptionsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* OptionsWindow.xib */; };
 		D334C6C41A80F4E600726130 /* PhotoOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D334C6C31A80F4E600726130 /* PhotoOperations.swift */; };
 		D34CA30F1A91B474009FAA38 /* TargetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA30E1A91B474009FAA38 /* TargetScreen.swift */; };
 		D369F09A1A84E21F00FC00FE /* debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D369F0991A84E21F00FC00FE /* debug.swift */; };
@@ -39,7 +39,7 @@
 /* Begin PBXFileReference section */
 		924CF25B3F0D233BAADB143D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWindowController.swift; sourceTree = "<group>"; };
-		D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsWindowController.xib; sourceTree = "<group>"; };
+		D320FE731A7E703B00C5E7D1 /* OptionsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsWindow.xib; sourceTree = "<group>"; };
 		D334C6C31A80F4E600726130 /* PhotoOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoOperations.swift; sourceTree = "<group>"; };
 		D34CA30E1A91B474009FAA38 /* TargetScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetScreen.swift; sourceTree = "<group>"; };
 		D369F0991A84E21F00FC00FE /* debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = debug.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				D3E62F631A7DF30E00A40EBA /* MainMenu.xib */,
-				D320FE731A7E703B00C5E7D1 /* OptionsWindowController.xib */,
+				D320FE731A7E703B00C5E7D1 /* OptionsWindow.xib */,
 				D3B58A811B2A64040085DAD5 /* AboutWindow.xib */,
 			);
 			name = GUI;
@@ -265,7 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D320FE751A7E703B00C5E7D1 /* OptionsWindowController.xib in Resources */,
+				D320FE751A7E703B00C5E7D1 /* OptionsWindow.xib in Resources */,
 				D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */,
 				D3E62F651A7DF30E00A40EBA /* MainMenu.xib in Resources */,
 				D3B58A821B2A64040085DAD5 /* AboutWindow.xib in Resources */,

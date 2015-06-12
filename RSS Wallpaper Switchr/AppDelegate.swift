@@ -321,7 +321,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func showOptionsWindow(sender: AnyObject) {
-        optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
+        optWin = OptionsWindowController(windowNibName: "OptionsWindow")
         optWin!.showWindow(sender)
         NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
