@@ -1,3 +1,44 @@
 # RSS Wallpaper Switchr
 
-A Mac App to periodically change the desktop wallpaper from RSS feed.
+![RSS Wallpaper Switchr Logo][logo]
+
+A Mac OS X menubar App to periodically change the desktop wallpaper from RSS feeds.
+
+OS requirement: 10.9
+
+[logo]: https://raw.githubusercontent.com/tsaiid/rss-wallpaper-switchr/master/RSS%20Wallpaper%20Switchr/Images.xcassets/AppIcon.appiconset/RWS-icon_128x128.png
+
+### Features
+
+1. Different screen uses different wallpaper. 
+2. Can detect screen orientation and try to choose a matched image such as portrait or landscape.
+3. Can set a lower limit of image size. 
+
+### RSS Feed Requirement
+
+The current RSS parser only recognize document structure as below:
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<channel>
+  <title>W3Schools Home Page</title>
+  <link>http://www.w3schools.com</link>
+  <description>Free web building tutorials</description>
+  <item>
+    <title>RSS Tutorial</title>
+    <link>http://www.w3schools.com/webservices</link>
+    <description>New RSS tutorial on W3Schools</description>
+  </item>
+  <item>
+    <title>XML Tutorial</title>
+    <link>http://www.w3schools.com/xml</link>
+    <description>New XML tutorial on W3Schools</description>
+  </item>
+</channel>
+
+</rss>
+```
+
+The link of items will be extracted for fetching images. 
