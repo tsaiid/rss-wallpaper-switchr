@@ -42,3 +42,16 @@ The current RSS parser only recognize document structure as below:
 ```
 
 The link of items will be extracted for fetching images. 
+
+### Build
+
+uses [CocoaPods][] for managing Cocoa dependency.
+
+Dependent Pods: 
+
+1. [Alamofire][]
+2. [SWXMLHash][]
+
+[CocoaPods]:  https://github.com/cocoapods/cocoapods
+[Alamofire]:  https://github.com/Alamofire/Alamofire
+[SWXMLHash]:  https://github.com/drmohundro/SWXMLHash
