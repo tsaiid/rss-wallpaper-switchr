@@ -80,8 +80,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // load rss url
         let rssUrls = myPreference.rssUrls
+        println(rssUrls.count)
         if rssUrls.count == 0 {
             notify("No predefined RSS url.")
+            println("No predefined RSS url.")
+            stateToReady()
+            return
         }
         
         for url in rssUrls {
@@ -100,7 +104,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             rssParser.queue.addOperation(operation)
         }
-
     }
     
     @IBAction func btnSequentSetBackgrounds(sender: AnyObject) {
