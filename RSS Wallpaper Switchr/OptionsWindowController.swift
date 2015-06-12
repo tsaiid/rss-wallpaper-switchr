@@ -140,9 +140,14 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         // have to trim string to prevent Alamofire crash
         let rssUrl:String = textNewRssUrl.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         textNewRssUrl.stringValue = rssUrl
-        
-        btnValidateRss.enabled = false
-        btnValidateRss.title = "Validating"
+
+        // check if feed exists
+        if rssUrls.containsObject(rssUrl) {
+            validateAlertPopup("The feed already exists.")
+            return
+        }
+
+        validateBtnStateToRunning()
         Alamofire.request(.GET, rssUrl)
             .responseString { (request, response, data, error) in
                 //println(request)
@@ -152,8 +157,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
                     if let localizedDescription = error!.localizedDescription as String? {
                         self.validateAlertPopup(localizedDescription)
                     }
-                    self.btnValidateRss.enabled = true
-                    self.btnValidateRss.title = "Validate"
+                    self.validateBtnStateToReady()
                     return
                 }
                 
@@ -165,27 +169,46 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
                         if let localizedResponse = NSHTTPURLResponse.localizedStringForStatusCode(statusCode) as String? {
                             self.validateAlertPopup(localizedResponse)
                         }
-                        self.btnValidateRss.enabled = true
-                        self.btnValidateRss.title = "Validate"
+                        self.validateBtnStateToReady()
                         return
                     }
                 }
-                
-                //println(data)
-                let xml = SWXMLHash.lazy(data!)
+
+                // parse xml and get image count
                 var imgCount = 0
-                for item in xml["rss"]["channel"]["item"] {
-                    if let imgUrl = item["link"].element?.text {
-                        imgCount++
+                let xml = SWXMLHash.parse(data!)
+                switch xml["rss"] {
+                case .Element:
+                    var imgCountMsg:String
+                    for item in xml["rss"]["channel"]["item"] {
+                        if let imgUrl = item["link"].element?.text {
+                            imgCount++
+                        }
                     }
+                    imgCountMsg = imgCount > 0 ? "\(imgCount) image(s) found." : "However, no image found."
+                    self.validateAlertPopup("Valid feed. \(imgCountMsg)")
+                    self.btnAddNewRssAdd.enabled = true
+                case .Error(let error):
+                    println(error)
+                    self.validateAlertPopup("Not a valid feed.")
+                default:
+                    println("nothing")  // switch must have a default !?!
                 }
-                self.validateAlertPopup("Valid feed. \(imgCount) image(s) found.")
-                self.btnValidateRss.enabled = true
-                self.btnAddNewRssAdd.enabled = true
-                self.btnValidateRss.title = "Validate"
+
+                self.validateBtnStateToReady()
         }
     }
     
+    // control validate button state
+    private func validateBtnStateToRunning() {
+        btnValidateRss.enabled = false
+        btnValidateRss.title = "Validating"
+    }
+    private func validateBtnStateToReady() {
+        btnValidateRss.enabled = true
+        btnValidateRss.title = "Validate"
+    }
+
     // detect
     override func controlTextDidChange(obj: NSNotification) {
         if btnAddNewRssAdd.enabled {
