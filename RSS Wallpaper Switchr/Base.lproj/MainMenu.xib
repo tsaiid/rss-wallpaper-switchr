@@ -786,6 +786,13 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="fc0-JQ-4Tz"/>
+                <menuItem title="About" id="Yxo-sq-AFA">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showAboutWindow:" target="Voe-Tx-rLC" id="K6e-W0-BBT"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="MlQ-ny-uPO"/>
                 <menuItem title="Quit" id="Nwl-wC-Cak">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>

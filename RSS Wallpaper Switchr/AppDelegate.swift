@@ -36,6 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     #endif
 
     var optWin: OptionsWindowController?
+    var aboutWin: AboutWindowController?
 
     func detectScreenMode() {
         if let screenList = NSScreen.screens() as? [NSScreen] {
@@ -322,6 +323,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func showOptionsWindow(sender: AnyObject) {
         optWin = OptionsWindowController(windowNibName: "OptionsWindowController")
         optWin!.showWindow(sender)
+        NSApplication.sharedApplication().activateIgnoringOtherApps(true)
+    }
+    
+    @IBAction func showAboutWindow(sender: AnyObject) {
+        aboutWin = AboutWindowController(windowNibName: "AboutWindow")
+        aboutWin!.showWindow(sender)
         NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
 
