@@ -1,0 +1,10 @@
+{
+  "title": "RSS Wallpaper Switchr",
+  "icon": "RWS.icns",
+  "background": "../RSS Wallpaper Switchr/Images.xcassets/Dmg Background.imageset/DmgBackground.png",
+  "icon-size": 128,
+  "contents": [
+    { "x": 360, "y": 110, "type": "link", "path": "/Applications" },
+    { "x": 120, "y": 110, "type": "file", "path": "RSS Wallpaper Switchr.app" }
+  ]
+}
