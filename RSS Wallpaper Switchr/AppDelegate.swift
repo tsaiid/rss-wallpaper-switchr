@@ -83,7 +83,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         println(rssUrls.count)
         if rssUrls.count == 0 {
             notify("No predefined RSS url.")
-            println("No predefined RSS url.")
             stateToReady()
             return
         }
@@ -313,6 +312,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var userNotify = NSUserNotification()
         userNotify.title = title as String
         userNotify.informativeText = msg as String
+        
+        #if DEBUG
+            println(msg)
+        #endif
 
         NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(userNotify)
     }
@@ -374,7 +377,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     }
                 }
             }
-            notify("Wallpaper changes!", title: "Successful")
+            println("Wallpaper changes!", title: "Successful")
         } else {
             println("getNoWallpaperScreen incomplete.")
         }
