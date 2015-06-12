@@ -29,7 +29,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hq1-58-5yW">
-                        <rect key="frame" x="20" y="20" width="130" height="34"/>
+                        <rect key="frame" x="20" y="21" width="130" height="34"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" id="747-1y-0E1">
                             <font key="font" metaFont="system"/>
                             <string key="title">By I-Ta Tsai (@tsaiid)
@@ -49,7 +49,7 @@ https://github.com/drmohundro/SWXMLHash</string>
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c7N-LP-Que">
-                        <rect key="frame" x="171" y="35" width="326" height="17"/>
+                        <rect key="frame" x="171" y="36" width="326" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="RSS Wallpaper Switchr makes use of the followings:" id="NZO-7l-8oL">
                             <font key="font" metaFont="miniSystemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
