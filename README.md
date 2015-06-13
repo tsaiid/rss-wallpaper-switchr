@@ -4,7 +4,7 @@
 
 A Mac OS X menubar App to periodically change the desktop wallpaper from RSS feeds.
 
-OS requirement: 10.9
+The project page: [http://tsai.it/project/osx/rss-wallpaper-switchr/]()
 
 [logo]: https://raw.githubusercontent.com/tsaiid/rss-wallpaper-switchr/master/RSS%20Wallpaper%20Switchr/Images.xcassets/AppIcon.appiconset/RWS-icon_128x128.png
 
@@ -45,7 +45,7 @@ The link of items will be extracted for fetching images.
 
 ### Build
 
-uses [CocoaPods][] for managing Cocoa dependency.
+It uses [CocoaPods][] for managing Cocoa dependency.
 
 Dependent Pods: 
 
@@ -55,3 +55,13 @@ Dependent Pods:
 [CocoaPods]:  https://github.com/cocoapods/cocoapods
 [Alamofire]:  https://github.com/Alamofire/Alamofire
 [SWXMLHash]:  https://github.com/drmohundro/SWXMLHash
+
+### Package
+
+It uses [node-appdmg][] for packaging. Exporting to `AppDmg/` and execute:
+
+```bash
+$ appdmg spec.json RssWallpaperSwitchr.dmg
+```
+
+[node-appdmg]:  https://github.com/LinusU/node-appdmg
