@@ -1,4 +1,9 @@
-Change Log for RSS Wallpaper Switchr
-====================================
+## Change Log for RSS Wallpaper Switchr
 
-2015-06-12  v0.1  Initial release. 
+### v0.2
+
++ Can set desktop image scaling mode. (Issue #3)
+
+### v0.1
+
++ Initial release. 
