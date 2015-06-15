@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Alamofire
 
 // This enum contains all the possible states a photo record can be in
 enum PhotoRecordState {
@@ -114,31 +115,25 @@ func ==(lhs: PhotoRecord, rhs: PhotoRecord) -> Bool {
     return (lhs.name == rhs.name && lhs.url == rhs.url)
 }
 
-class PendingOperations:NSObject {
-    lazy var downloadsInProgress = [String:NSOperation]()
-    dynamic var downloadQueue:NSOperationQueue = {
-        var queue = NSOperationQueue()
-        queue.name = "Download queue"
-        queue.maxConcurrentOperationCount = 4
-
-        return queue
-        }()
-}
-
 private var myContext = 0
 
-class PendingOperationsObserver: NSObject {
-    var pendingOperations = PendingOperations()
+class ImageDownloadObserver: NSObject {
+    var queue = NSOperationQueue()
+
     override init() {
         super.init()
-        pendingOperations.addObserver(self, forKeyPath: "downloadQueue.operationCount", options: .New, context: &myContext)
+        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
     }
+    deinit {
+        queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
+    }
+
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
         if context == &myContext {
-            if pendingOperations.downloadQueue.operationCount == 0 {
-                println("Complete queue.")
+            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
 
-                let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+            if self.queue.operations.count == 0 {
+                println("Image Download Complete queue.")
 
                 // set backgrounds.
                 appDelegate.setDesktopBackgrounds()
@@ -147,46 +142,46 @@ class PendingOperationsObserver: NSObject {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
-    deinit {
-        pendingOperations.removeObserver(self, forKeyPath: "downloadQueue.operationCount", context: &myContext)
-    }
+
 }
 
-class ImageDownloader: NSOperation {
-    let photoRecord: PhotoRecord
-    
-    init(photoRecord: PhotoRecord) {
-        self.photoRecord = photoRecord
+class DownloadImageOperation : ConcurrentOperation {
+    let URLString: String
+    let downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
+
+    weak var request: Alamofire.Request?
+    var finalPath: NSURL?
+
+    init(URLString: String, downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()) {
+        self.URLString = URLString
+        self.downloadImageCompletionHandler = downloadImageCompletionHandler
+        super.init()
     }
-    
+
     override func main() {
-        if self.cancelled {
-            return
-        }
+        request = Alamofire.download(.GET, URLString, { (temporaryURL, response) in
+            let fileName = response.suggestedFilename!
+            self.finalPath = NSURL(fileURLWithPath: NSTemporaryDirectory().stringByAppendingPathComponent(fileName as String))
+            if self.finalPath != nil {
+                //println(finalPath)
+                return self.finalPath!
+            }
+            return temporaryURL
+        }).response { (request, response, responseObject, error) in
+            if error != nil {
+                println("DownloadImage error: \(error)")
+            }
 
-        var error:NSError?
-        let imageData = NSData(contentsOfURL:self.photoRecord.url!, options: nil, error: &error)
-        if (error != nil) {
-            self.photoRecord.state = .Failed
-            self.photoRecord.image = NSImage(named: "Failed")
-            println("NSData contentsOfURL error: \(error)")
-            return
+            if let finalPath = self.finalPath {
+                var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
+                self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
+            }
+            self.completeOperation()
         }
+    }
 
-        if self.cancelled {
-            return
-        }
-        
-        if imageData?.length > 0 {
-            self.photoRecord.image = NSImage(data:imageData!)
-            self.photoRecord.state = .Downloaded
-            self.photoRecord.calcOrientation()
-            self.photoRecord.imgRep = self.photoRecord.image!.representations.first as! NSImageRep
-        }
-        else
-        {
-            self.photoRecord.state = .Failed
-            self.photoRecord.image = NSImage(named: "Failed")
-        }
+    override func cancel() {
+        request?.cancel()
+        super.cancel()
     }
 }

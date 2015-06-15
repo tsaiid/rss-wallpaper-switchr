@@ -10,7 +10,7 @@ import Cocoa
 import Alamofire
 import SWXMLHash
 
-class ParseRss : ConcurrentOperation {
+class ParseRssOperation : ConcurrentOperation {
     let URLString: String
     let parseRssCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
     
@@ -57,7 +57,6 @@ class ParseRss : ConcurrentOperation {
     override func cancel() {
         request?.cancel()
         super.cancel()
-        completeOperation()
     }
 }
 

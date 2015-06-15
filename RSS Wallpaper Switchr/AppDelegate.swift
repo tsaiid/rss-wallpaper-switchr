@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var imgLinks = [String]()
     var myPreference = Preference()
     let rssParser = RssParserObserver()
-    let imageDownloadQueue = NSOperationQueue()
+    let imageDownload = ImageDownloadObserver()
     var state = AppState.Ready
     var switchTimer = NSTimer()
     var targetScreens = [TargetScreen]()
@@ -74,10 +74,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         #endif
 
         stateToRunning()
-        getTargetScreens()
 
         // clean all var
-        photos = [PhotoRecord]()
+        getTargetScreens()
+        imgLinks = [String]()
 
         // load rss url
         let rssUrls = myPreference.rssUrls
@@ -90,7 +90,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         for url in rssUrls {
             println(url)
-            let operation = ParseRss(URLString: url as! String) {
+            let operation = ParseRssOperation(URLString: url as! String) {
                 (responseObject, error) in
                 
                 if responseObject == nil {
@@ -132,12 +132,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func getImageFromUrl() {
-        imageDownloadQueue.maxConcurrentOperationCount = 2
+        imageDownload.queue.maxConcurrentOperationCount = 2
+
+        println("image queue: \(imageDownload.queue.operations.count)")
         
         for imgLink in imgLinks {
             let urlStr:String = imgLink as String
 
-            let operation = DownloadImage(URLString: urlStr) {
+            let operation = DownloadImageOperation(URLString: urlStr) {
                 (responseObject, error) in
                 
                 if responseObject == nil {
@@ -153,12 +155,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         }
                     } else {
                         println("All targetScreens are done.")
-                        self.imageDownloadQueue.cancelAllOperations()
-                        self.setDesktopBackgrounds()
+                        self.imageDownload.queue.cancelAllOperations()
                     }
                 }
             }
-            imageDownloadQueue.addOperation(operation)
+            imageDownload.queue.addOperation(operation)
         }
     }
     
@@ -196,7 +197,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         for url in rssUrl {
             println(url)
-            let operation = ParseRss(URLString: url) {
+            let operation = ParseRssOperation(URLString: url) {
                 (responseObject, error) in
 
                 if responseObject == nil {
@@ -329,11 +330,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func statusBarCancellingOperations(sender: AnyObject) {
+        println("self: \(self)")
         println("Force cancelling operation.")
         rssParser.queue.cancelAllOperations()
-        imageDownloadQueue.cancelAllOperations()
+        imageDownload.queue.cancelAllOperations()
         stateToReady()
-        println("queue: \(rssParser.queue)")
+        println("queue: \(imageDownload.queue.operations.count)")
+        println("self: \(self)")
     }
 
     @IBAction func showOptionsWindow(sender: AnyObject) {
@@ -412,7 +415,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // set desktop image options
         var options = getDesktopImageOptions(myPreference.scalingMode)
-        println("scaling options: \(options)")
+        //println("scaling options: \(options)")
 
         if getNoWallpaperScreen() == nil {
             for targetScreen in targetScreens {
@@ -456,42 +459,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             updateSwitchTimer()
         }
-    }
-}
-
-class DownloadImage : ConcurrentOperation {
-    let URLString: String
-    let downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
-    
-    weak var request: Alamofire.Request?
-    var finalPath: NSURL?
-    
-    init(URLString: String, downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()) {
-        self.URLString = URLString
-        self.downloadImageCompletionHandler = downloadImageCompletionHandler
-        super.init()
-    }
-    
-    override func main() {
-        request = Alamofire.download(.GET, URLString, { (temporaryURL, response) in
-            let fileName = response.suggestedFilename!
-            self.finalPath = NSURL(fileURLWithPath: NSTemporaryDirectory().stringByAppendingPathComponent(fileName as String))
-            if self.finalPath != nil {
-                //println(finalPath)
-                return self.finalPath!
-            }
-            return temporaryURL
-        }).response { (request, response, responseObject, error) in
-            if let finalPath = self.finalPath {
-                var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
-                self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
-                self.completeOperation()
-            }
-        }
-    }
-    
-    override func cancel() {
-        request?.cancel()
-        super.cancel()
     }
 }
