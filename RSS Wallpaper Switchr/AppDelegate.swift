@@ -27,6 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var imgLinks = [String]()
     var myPreference = Preference()
     let rssParser = RssParserObserver()
+    let imageDownloadQueue = NSOperationQueue()
     var state = AppState.Ready
     var switchTimer = NSTimer()
     var targetScreens = [TargetScreen]()
@@ -131,8 +132,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func getImageFromUrl() {
-        let queue = NSOperationQueue()
-        queue.maxConcurrentOperationCount = 2
+        imageDownloadQueue.maxConcurrentOperationCount = 2
         
         for imgLink in imgLinks {
             let urlStr:String = imgLink as String
@@ -153,12 +153,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         }
                     } else {
                         println("All targetScreens are done.")
-                        queue.cancelAllOperations()
+                        self.imageDownloadQueue.cancelAllOperations()
                         self.setDesktopBackgrounds()
                     }
                 }
             }
-            queue.addOperation(operation)
+            imageDownloadQueue.addOperation(operation)
         }
     }
     
@@ -328,12 +328,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         sequentSetBackgrounds()
     }
 
+    func statusBarCancellingOperations(sender: AnyObject) {
+        println("Force cancelling operation.")
+        rssParser.queue.cancelAllOperations()
+        imageDownloadQueue.cancelAllOperations()
+        stateToReady()
+        println("queue: \(rssParser.queue)")
+    }
+
     @IBAction func showOptionsWindow(sender: AnyObject) {
         optWin = OptionsWindowController(windowNibName: "OptionsWindow")
         optWin!.showWindow(sender)
         NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
-    
+
     @IBAction func showAboutWindow(sender: AnyObject) {
         aboutWin = AboutWindowController(windowNibName: "AboutWindow")
         aboutWin!.showWindow(sender)
@@ -348,16 +356,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    func statusBarItemStatusToRunning() {
+        statusBarStartEndItem.title = "Cancel Operations?"
+        statusBarStartEndItem.action = "statusBarCancellingOperations:"
+    }
+
+    func statusBarItemStatusToReady() {
+        statusBarStartEndItem.title = "Switch Wallpapers"
+        statusBarStartEndItem.action = "statusBarForceSetWallpapers:"
+    }
+
     func stateToRunning() {
         state = .Running
         menuIconActivate()
-        statusBarStartEndItem.title = "Running"
+        statusBarItemStatusToRunning()
     }
 
     func stateToReady() {
         state = .Ready
         menuIconDeactivate()
-        statusBarStartEndItem.title = "Switch Wallpapers"
+        statusBarItemStatusToReady()
     }
 
     private func getDesktopImageOptions(scalingMode: Int) -> [NSObject : AnyObject]? {
