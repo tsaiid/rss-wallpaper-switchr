@@ -7,8 +7,6 @@
 //
 
 import Cocoa
-import Alamofire
-import SWXMLHash
 
 enum AppState {
     case Ready
@@ -45,10 +43,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 var targetScreen = TargetScreen(screen: screen)
             }
         }
-    }
-    
-    @IBAction func btnDetectScreenMode(sender: AnyObject) {
-        detectScreenMode()
     }
     
     func getTargetScreens() {
@@ -110,17 +104,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         sequentSetBackgrounds()
     }
     
-    @IBAction func btnParseRSS(sender: AnyObject) {
-        
-    }
-    
-    @IBAction func btnSetBackground(sender: AnyObject) {
-        setDesktopBackgrounds()
-    }
-
-    // use NSOperation and NSOperationQueue to handle picture downloading.
-    var photos = [PhotoRecord]()
-
     func getNoWallpaperScreen() -> TargetScreen? {
         for targetScreen in targetScreens {
             if targetScreen.wallpaperPhoto == nil {
@@ -161,68 +144,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             imageDownload.queue.addOperation(operation)
         }
-    }
-    
-    @IBAction func btnGetImageFromUrl(sender: AnyObject) {
-    }
-    
-    @IBAction func btnShowQueue(sender: AnyObject) {
-    }
-    
-    @IBAction func btnLoad(sender: AnyObject) {
-        /*
-        println("Load")
-
-        // use NSUserDefaults to load Preference
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let rssUrl = defaults.stringForKey("rssUrl") {
-            println("option rssUrl: \(rssUrl)")
-        }
-        if let fitScreenOrientation = defaults.stringForKey("fitScreenOrientation") {
-            println("option fitScreenOrientation: \(fitScreenOrientation)")
-        }
-        */
-        println("preference: \(myPreference)")
-    }
-    
-    @IBAction func btnTestAlamofire(sender: AnyObject) {
-        rssParser.queue.maxConcurrentOperationCount = 1
-        imgLinks = [String]()
-
-        #if DEBUG
-            timeStart = CFAbsoluteTimeGetCurrent()
-        #endif
-        
-        var rssUrl = ["http://feed.tsai.it/500px/popular.rss", "http://feed.tsai.it/flickr/interestingness.rss"]
-        
-        for url in rssUrl {
-            println(url)
-            let operation = ParseRssOperation(URLString: url) {
-                (responseObject, error) in
-
-                if responseObject == nil {
-                    // handle error here
-                    
-                    println("failed: \(error)")
-                } else {
-                    //println("responseObject=\(responseObject!)")
-                    self.imgLinks += responseObject as! [String]
-                }
-            }
-            rssParser.queue.addOperation(operation)
-        }
-    }
-    
-    @IBAction func btnSave(sender: AnyObject) {
-        println("Save")
-
-        // use NSUserDefaults to save Preference
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let rssUrls = "http://feeds.feedburner.com/500pxPopularWallpapers"
-        defaults.setObject(rssUrls, forKey: "rssUrl")
-        defaults.setObject(false, forKey: "fitScreenOrientation")
-        
-        println("Saved")
     }
 
     func menuIconDeactivate() {

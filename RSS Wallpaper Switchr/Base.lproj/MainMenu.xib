@@ -678,76 +678,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gu5-M5-3l3">
-                        <rect key="frame" x="37" y="302" width="71" height="32"/>
-                        <buttonCell key="cell" type="push" title="Load" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xB1-8Y-670">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnLoad:" target="Voe-Tx-rLC" id="9u0-Cz-4Qk"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cYT-ey-GId">
-                        <rect key="frame" x="37" y="269" width="103" height="32"/>
-                        <buttonCell key="cell" type="push" title="ParseRSS" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7AA-EO-4tC">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnParseRSS:" target="Voe-Tx-rLC" id="DMn-b8-IeF"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hEA-L2-Zho">
-                        <rect key="frame" x="133" y="302" width="71" height="32"/>
-                        <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Fi-8A-H6F">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnSave:" target="Voe-Tx-rLC" id="AJl-KG-jrI"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VLA-OM-oUC">
-                        <rect key="frame" x="37" y="236" width="195" height="32"/>
-                        <buttonCell key="cell" type="push" title="Set Desktop Background" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U4F-3G-aBB">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnSetBackground:" target="Voe-Tx-rLC" id="VMP-M6-GAe"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I69-0z-v0X">
-                        <rect key="frame" x="37" y="203" width="161" height="32"/>
-                        <buttonCell key="cell" type="push" title="Get Image From Url" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XYL-Cf-sIp">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnGetImageFromUrl:" target="Voe-Tx-rLC" id="V3G-T9-sdU"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YiS-kK-uqq">
-                        <rect key="frame" x="242" y="236" width="167" height="32"/>
-                        <buttonCell key="cell" type="push" title="Detect Screen Mode" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1vj-d8-WsO">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnDetectScreenMode:" target="Voe-Tx-rLC" id="1BR-eR-xoJ"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iMu-ZW-10P">
-                        <rect key="frame" x="199" y="203" width="119" height="32"/>
-                        <buttonCell key="cell" type="push" title="Show Queue" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zi8-t3-OYr">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnShowQueue:" target="Voe-Tx-rLC" id="HQj-7C-fEM"/>
-                        </connections>
-                    </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mp3-Dq-MfY">
                         <rect key="frame" x="37" y="170" width="315" height="32"/>
                         <buttonCell key="cell" type="push" title="Parse RSS + Get Images + Set Backgrounds" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4JX-62-QTS">
@@ -757,16 +687,6 @@
                                 <action selector="btnSequentSetBackgrounds:" target="Voe-Tx-rLC" id="ncs-Qr-iXa"/>
                             </connections>
                         </buttonCell>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oAD-JR-LNT">
-                        <rect key="frame" x="37" y="137" width="127" height="32"/>
-                        <buttonCell key="cell" type="push" title="Test Alamofire" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Jj-oC-2I6">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="btnTestAlamofire:" target="Voe-Tx-rLC" id="ht5-Uj-M3C"/>
-                        </connections>
                     </button>
                 </subviews>
             </view>
