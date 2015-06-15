@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var imgLinks = [String]()
     var myPreference = Preference()
     let rssParser = RssParserObserver()
-    let imageDownload = ImageDownloadObserver()
+    let imageDownload = ImageDownloaderObserver()
     var state = AppState.Ready
     var switchTimer = NSTimer()
     var targetScreens = [TargetScreen]()
