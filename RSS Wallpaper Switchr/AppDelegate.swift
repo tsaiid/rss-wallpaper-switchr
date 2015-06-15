@@ -323,6 +323,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Menu Item Actions
     @IBAction func statusBarForceSetWallpapers(sender: AnyObject) {
         println("Force set wallpapers.")
+        updateSwitchTimer()
         sequentSetBackgrounds()
     }
 
