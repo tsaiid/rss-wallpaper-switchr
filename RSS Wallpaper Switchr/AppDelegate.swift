@@ -356,16 +356,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menuIconDeactivate()
     }
 
+    private func getDesktopImageOptions(scalingMode: Int) -> [NSObject : AnyObject]? {
+        var options: [NSObject : AnyObject]?
+        var scaling: NSImageScaling
+
+        switch scalingMode {
+        case 1: // fill the screen
+            scaling = .ImageScaleProportionallyUpOrDown
+            options = [
+                "NSWorkspaceDesktopImageScalingKey": NSImageScaling.ImageScaleProportionallyUpOrDown.rawValue,
+                "NSWorkspaceDesktopImageAllowClippingKey": true
+            ]
+        case 2: // fit screen size
+            options = [
+                "NSWorkspaceDesktopImageScalingKey": NSImageScaling.ImageScaleProportionallyUpOrDown.rawValue,
+                "NSWorkspaceDesktopImageAllowClippingKey": false
+            ]
+        case 3: // centering
+            options = [
+                "NSWorkspaceDesktopImageScalingKey": NSImageScaling.ImageScaleNone.rawValue,
+                "NSWorkspaceDesktopImageAllowClippingKey": false
+            ]
+        default:
+            return nil
+        }
+
+        return options
+    }
+
     func setDesktopBackgrounds() {
         var workspace = NSWorkspace.sharedWorkspace()
         var error: NSError?
-        
+
+        // set desktop image options
+        var options = getDesktopImageOptions(myPreference.scalingMode)
+        println("scaling options: \(options)")
+
         if getNoWallpaperScreen() == nil {
             for targetScreen in targetScreens {
                 let screenList = NSScreen.screens() as? [NSScreen]
                 if (find(screenList!, targetScreen.screen!) != nil) {
                     if let photo = targetScreen.wallpaperPhoto {
-                        var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
+                        var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: targetScreen.screen!, options: options, error: &error)
                         if result {
                             println("\(targetScreen.screen!) set to \(photo.localPath) from \(photo.url) fitScreenOrientation: \(myPreference.fitScreenOrientation)")
                         } else {
