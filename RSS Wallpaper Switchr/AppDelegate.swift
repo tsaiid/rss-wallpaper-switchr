@@ -321,6 +321,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // Menu Item Actions
+    @IBOutlet weak var statusBarStartEndItem: NSMenuItem!
     @IBAction func statusBarForceSetWallpapers(sender: AnyObject) {
         println("Force set wallpapers.")
         updateSwitchTimer()
@@ -350,11 +351,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func stateToRunning() {
         state = .Running
         menuIconActivate()
+        statusBarStartEndItem.title = "Running"
     }
 
     func stateToReady() {
         state = .Ready
         menuIconDeactivate()
+        statusBarStartEndItem.title = "Switch Wallpapers"
     }
 
     private func getDesktopImageOptions(scalingMode: Int) -> [NSObject : AnyObject]? {
