@@ -24,7 +24,9 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
     var rssUrls = NSMutableArray()
     
     @IBOutlet var sheetAddRss: NSPanel!
-    
+
+    @IBOutlet weak var popupScalingMode: NSPopUpButton!
+
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -44,6 +46,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
             chkboxFilterSmallerImages.state = NSOnState
         }
         txtImageLowerLimitLength.stringValue = String(myPref.imageLowerLimitLength)
+        popupScalingMode.selectItemWithTag(myPref.scalingMode)
 
         // stop timer after showing option window
         appDelegate.stopSwitchTimer()
@@ -80,6 +83,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
             }
         }
         myPref.imageLowerLimitLength = txtImageLowerLimitLength.stringValue.toInt()!
+        myPref.scalingMode = popupScalingMode.selectedItem!.tag
 
         myPref.save()
         
