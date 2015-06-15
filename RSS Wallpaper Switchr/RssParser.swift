@@ -27,23 +27,29 @@ class ParseRss : ConcurrentOperation {
             .responseString { (request, response, data, error) in
                 //println(request)
                 //println(response)
-                //println(error)
+                if error != nil {
+                    println("ParseRss error: \(error)")
+                }
                 //println(data)
-                var xml = SWXMLHash.parse(data!)
-                let title = xml["rss"]["channel"]["title"].element?.text
-                println("Feed: \(title) was parsed.")
-                
-                // return a list of image links.
-                var imgLinkList = [String]()
-                for item in xml["rss"]["channel"]["item"] {
-                    if let link = item["link"].element?.text {
-                        if !contains(imgLinkList, link) {
-                            imgLinkList += [link]
+                if data != nil {
+                    var xml = SWXMLHash.parse(data!)
+                    let title = xml["rss"]["channel"]["title"].element?.text
+                    println("Feed: \(title) was parsed.")
+
+                    // return a list of image links.
+                    var imgLinkList = [String]()
+                    for item in xml["rss"]["channel"]["item"] {
+                        if let link = item["link"].element?.text {
+                            if !contains(imgLinkList, link) {
+                                imgLinkList += [link]
+                            }
                         }
                     }
+
+                    self.parseRssCompletionHandler(responseObject: imgLinkList, error: error)
                 }
-                
-                self.parseRssCompletionHandler(responseObject: imgLinkList, error: error)
+
+                // however error or succeeded, it should complete.
                 self.completeOperation()
         }
     }
@@ -51,6 +57,7 @@ class ParseRss : ConcurrentOperation {
     override func cancel() {
         request?.cancel()
         super.cancel()
+        completeOperation()
     }
 }
 
