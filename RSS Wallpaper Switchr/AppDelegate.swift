@@ -19,8 +19,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var statusMenu: NSMenu!
 
-    var statusBar = NSStatusBar.systemStatusBar()
-    var statusBarItem : NSStatusItem = NSStatusItem()
+    private let statusBarItem: NSStatusItem
+    private let activeIcon: NSImage
+    private let deactiveIcon: NSImage
     var menu: NSMenu = NSMenu()
     var imgLinks = [String]()
     var myPreference = Preference()
@@ -36,6 +37,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var optWin: OptionsWindowController?
     var aboutWin: AboutWindowController?
+
+    override init() {
+        let statusBar = NSStatusBar.systemStatusBar()
+        self.statusBarItem = statusBar.statusItemWithLength(-1)
+
+        // init app icon, can switch between active and deactive icons
+        self.activeIcon = NSImage(named: "Menu Icon Active")!
+        self.activeIcon.setTemplate(true)
+        self.deactiveIcon = NSImage(named: "Menu Icon")!
+        self.deactiveIcon.setTemplate(true)
+
+        statusBarItem.button?.image = deactiveIcon
+
+        super.init()
+    }
 
     func detectScreenMode() {
         if let screenList = NSScreen.screens() as? [NSScreen] {
@@ -147,25 +163,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func menuIconDeactivate() {
-        let menuIcon = NSImage(named: "Menu Icon")
-        menuIcon?.setTemplate(true)
-        statusBarItem.button?.image = menuIcon
-        statusBarItem.menu = statusMenu
+        statusBarItem.button?.image = deactiveIcon
     }
 
     func menuIconActivate() {
-        let menuIcon = NSImage(named: "Menu Icon Active")
-        menuIcon?.setTemplate(true)
-        statusBarItem.button?.image = menuIcon
-        statusBarItem.menu = statusMenu
+        statusBarItem.button?.image = activeIcon
     }
 
     override func awakeFromNib() {
         println("Loading statusBar")
 
-        //Add statusBarItem and attach the menu from xib.
-        statusBarItem = statusBar.statusItemWithLength(-1)
-        menuIconDeactivate()
+        // Attach the menu from xib. Cannot put in init()
+        statusBarItem.menu = statusMenu
     }
 
     // Timer related
