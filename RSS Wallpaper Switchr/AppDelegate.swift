@@ -22,11 +22,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let statusBarItem: NSStatusItem
     private let activeIcon: NSImage
     private let deactiveIcon: NSImage
-    var menu: NSMenu = NSMenu()
     var imgLinks = [String]()
     var myPreference = Preference()
-    let rssParser = RssParserObserver()
-    let imageDownload = ImageDownloaderObserver()
+    var rssParser = RssParserObserver()
+    var imageDownload = ImageDownloaderObserver()
     var state = AppState.Ready
     var switchTimer = NSTimer()
     var targetScreens = [TargetScreen]()
@@ -48,17 +47,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.deactiveIcon = NSImage(named: "Menu Icon")!
         self.deactiveIcon.setTemplate(true)
 
-        statusBarItem.button?.image = deactiveIcon
+        statusBarItem.image = deactiveIcon
 
         super.init()
-    }
-
-    func detectScreenMode() {
-        if let screenList = NSScreen.screens() as? [NSScreen] {
-            for screen in screenList {
-                var targetScreen = TargetScreen(screen: screen)
-            }
-        }
     }
     
     func getTargetScreens() {
@@ -66,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let screenList = NSScreen.screens() as? [NSScreen] {
             for screen in screenList {
                 var targetScreen = TargetScreen(screen: screen)
-                self.targetScreens.append(targetScreen)
+                targetScreens.append(targetScreen)
             }
         }
     }
@@ -163,11 +154,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func menuIconDeactivate() {
-        statusBarItem.button?.image = deactiveIcon
+        statusBarItem.image = deactiveIcon
     }
 
     func menuIconActivate() {
-        statusBarItem.button?.image = activeIcon
+        statusBarItem.image = activeIcon
     }
 
     override func awakeFromNib() {
@@ -260,13 +251,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func statusBarCancellingOperations(sender: AnyObject) {
-        println("self: \(self)")
         println("Force cancelling operation.")
         rssParser.queue.cancelAllOperations()
         imageDownload.queue.cancelAllOperations()
         stateToReady()
         println("queue: \(imageDownload.queue.operations.count)")
-        println("self: \(self)")
     }
 
     @IBAction func showOptionsWindow(sender: AnyObject) {
@@ -290,13 +279,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func statusBarItemStatusToRunning() {
-        statusBarStartEndItem.title = "Cancel Operations?"
-        statusBarStartEndItem.action = "statusBarCancellingOperations:"
+        statusBarStartEndItem!.title = "Cancel Operations?"
+        statusBarStartEndItem!.action = "statusBarCancellingOperations:"
     }
 
     func statusBarItemStatusToReady() {
-        statusBarStartEndItem.title = "Switch Wallpapers"
-        statusBarStartEndItem.action = "statusBarForceSetWallpapers:"
+        statusBarStartEndItem!.title = "Switch Wallpapers"
+        statusBarStartEndItem!.action = "statusBarForceSetWallpapers:"
     }
 
     func stateToRunning() {
