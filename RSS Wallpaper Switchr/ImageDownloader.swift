@@ -57,7 +57,18 @@ class DownloadImageOperation : ConcurrentOperation {
             let fileName = response.suggestedFilename!
             self.finalPath = NSURL(fileURLWithPath: NSTemporaryDirectory().stringByAppendingPathComponent(fileName as String))
             if self.finalPath != nil {
-                //println(finalPath)
+                // check if temp file exists, then remove
+                let finalPathStr:String = self.finalPath!.path!.stringByExpandingTildeInPath
+                if NSFileManager.defaultManager().fileExistsAtPath(finalPathStr) {
+                    var removeFileError: NSError?
+                    if NSFileManager.defaultManager().removeItemAtPath(finalPathStr, error: &removeFileError) {
+                        println("tmp file: \(finalPathStr) exists and removed.")
+                    } else {
+                        println("removing tmp file: \(finalPathStr) error: \(removeFileError)")
+                    }
+                } else {
+                    //println("\(finalPathStr) not exists.")
+                }
                 return self.finalPath!
             }
             return temporaryURL
