@@ -21,7 +21,7 @@
         </customObject>
         <menu id="KOR-qe-mSB" userLabel="StatusMenu">
             <items>
-                <menuItem title="Switch Wallpapers" id="96P-Eo-FDF">
+                <menuItem title="Switch Wallpapers" tag="1" id="96P-Eo-FDF">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="switchWallpapersClicked:" target="WwA-L6-1os" id="tES-x6-eoG"/>

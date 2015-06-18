@@ -15,6 +15,7 @@ enum AppState {
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    var statusMenuController: StatusMenuController!
     var imgLinks = [String]()
     var state = AppState.Ready
     var switchTimer = NSTimer()
@@ -23,43 +24,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var timeStart: CFAbsoluteTime?
     #endif
 
+    //
+    // Init
+    //
+
     override func awakeFromNib() {
-        println("Loading statusBar")
-
-        // Attach the menu from xib. Cannot put in init()
-        //statusBarItem.menu = statusMenu
     }
 
-    // Timer related
-    
-    func timerDidFire() {
-        println("\(Preference().switchInterval) minutes passed.")
-        let switchrAPI = SwitchrAPI()
-        switchrAPI.switchWallpapers()
-    }
-
-    func stopSwitchTimer() {
-        if switchTimer.valid {
-            println("Stopping Timer: \(switchTimer) will be invalidated.")
-            switchTimer.invalidate()
-        }
-    }
-
-    func updateSwitchTimer(){
-        let forMinutes = Preference().switchInterval
-        if switchTimer.valid {
-            println("Timer: \(switchTimer) will be invalidated.")
-            switchTimer.invalidate()
-        }
-        let switchInterval:NSTimeInterval = (Double(forMinutes) * 60)
-        if  switchInterval > 0 {
-            switchTimer = NSTimer.scheduledTimerWithTimeInterval(switchInterval, target: self, selector: Selector("timerDidFire"), userInfo: nil, repeats: true)
-            println("Timer is set: \(switchTimer) for interval: \(forMinutes) minutes.")
-        }
-    }
-    
-    // App init
-    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
 
@@ -89,35 +60,54 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateSwitchTimer()
     }
 
-    // Menu Item Actions
-    @IBOutlet weak var statusBarStartEndItem: NSMenuItem!
-
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
     }
 
-    func statusBarItemStatusToRunning() {
-        statusBarStartEndItem!.title = "Cancel Operations?"
-        statusBarStartEndItem!.action = "statusBarCancellingOperations:"
+    //
+    // Timer related
+    //
+
+    func timerDidFire() {
+        println("\(Preference().switchInterval) minutes passed.")
+        let switchrAPI = SwitchrAPI()
+        switchrAPI.switchWallpapers()
     }
 
-    func statusBarItemStatusToReady() {
-        statusBarStartEndItem!.title = "Switch Wallpapers"
-        statusBarStartEndItem!.action = "statusBarForceSetWallpapers:"
+    func stopSwitchTimer() {
+        if switchTimer.valid {
+            println("Stopping Timer: \(switchTimer) will be invalidated.")
+            switchTimer.invalidate()
+        }
     }
 
+    func updateSwitchTimer(){
+        let forMinutes = Preference().switchInterval
+        if switchTimer.valid {
+            println("Timer: \(switchTimer) will be invalidated.")
+            switchTimer.invalidate()
+        }
+        let switchInterval:NSTimeInterval = (Double(forMinutes) * 60)
+        if  switchInterval > 0 {
+            switchTimer = NSTimer.scheduledTimerWithTimeInterval(switchInterval, target: self, selector: Selector("timerDidFire"), userInfo: nil, repeats: true)
+            println("Timer is set: \(switchTimer) for interval: \(forMinutes) minutes.")
+        }
+    }
+
+    //
+    // App State Control
+    //
     func stateToRunning() {
         state = .Running
-        //menuIconActivate()
-        //statusBarItemStatusToRunning()
+        statusMenuController.menuIconActivate()
+        statusMenuController.statusBarItemStatusToRunning()
     }
 
     func stateToReady() {
         state = .Ready
-        //menuIconDeactivate()
-        //statusBarItemStatusToReady()
+        statusMenuController.menuIconDeactivate()
+        statusMenuController.statusBarItemStatusToReady()
     }
-
 
     //
     // notification handlers

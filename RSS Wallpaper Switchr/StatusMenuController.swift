@@ -9,15 +9,22 @@
 import Cocoa
 
 class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDelegate {
+
     @IBOutlet weak var statusMenu: NSMenu!
     var preferencesWindow: PreferencesWindow!
     var aboutWindow: AboutWindow!
+    var statusBarStartEndItem: NSMenuItem!
 
     private let activeIcon: NSImage
     private let deactiveIcon: NSImage
 
+    var appDelegate: AppDelegate!
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1) // NSVariableStatusItemLength
     var switchrAPI = SwitchrAPI()
+
+    //
+    // Init
+    //
 
     override init() {
         // init app icon, can switch between active and deactive icons
@@ -32,43 +39,37 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
     override func awakeFromNib() {
         statusItem.image = deactiveIcon
         statusItem.menu = statusMenu
+        statusBarStartEndItem = statusItem.menu?.itemWithTag(1)
 
         preferencesWindow = PreferencesWindow()
         preferencesWindow.delegate = self
 
         aboutWindow = AboutWindow()
         aboutWindow.delegate = self
+
+        appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.statusMenuController = self
     }
 
-    func updateWallpapers() {
-        switchrAPI.switchWallpapers()
-    }
+    //
+    // Menu Item Linked Func
+    //
 
     @IBAction func switchWallpapersClicked(sender: NSMenuItem) {
-        NSLog("Force set wallpapers.")
-        updateWallpapers()
-    }
-
-    func cancellingClicked(sender: NSMenuItem) {
-        println("Force cancelling operation.")
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-
-        switchrAPI.rssParser.queue.cancelAllOperations()
-        switchrAPI.imageDownload.queue.cancelAllOperations()
-        appDelegate.stateToReady()
-        println("queue: \(switchrAPI.imageDownload.queue.operations.count)")
+        switch appDelegate.state {
+        case .Ready:
+            println("Force set wallpapers.")
+            updateWallpapers()
+        case .Running:
+            println("Force cancelling operation.")
+            cancelUpdate()
+        default:
+            println("Strange AppState: \(appDelegate.state)")
+        }
     }
 
     @IBAction func preferencesClicked(sender: NSMenuItem) {
         preferencesWindow.showWindow(self)
-    }
-
-    func preferencesDidUpdate() {
-        NSLog("Preferences did update.")
-    }
-
-    func aboutDidClose() {
-        NSLog("About did close.")
     }
 
     @IBAction func aboutClicked(sender: NSMenuItem) {
@@ -79,12 +80,45 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
         NSApplication.sharedApplication().terminate(self)
     }
 
-    private func menuIconDeactivate() {
+    private func updateWallpapers() {
+        switchrAPI.switchWallpapers()
+    }
+
+    private func cancelUpdate() {
+        switchrAPI.rssParser.queue.cancelAllOperations()
+        switchrAPI.imageDownload.queue.cancelAllOperations()
+        appDelegate.stateToReady()
+    }
+
+    //
+    // Control menu item
+    //
+
+    func menuIconDeactivate() {
         statusItem.image = deactiveIcon
     }
 
-    private func menuIconActivate() {
+    func menuIconActivate() {
         statusItem.image = activeIcon
     }
 
+    func statusBarItemStatusToRunning() {
+        statusBarStartEndItem!.title = "Cancel Operations?"
+    }
+
+    func statusBarItemStatusToReady() {
+        statusBarStartEndItem!.title = "Switch Wallpapers"
+    }
+
+    //
+    // Preserved Delegate Implamentation.
+    //
+
+    func preferencesDidUpdate() {
+        NSLog("Preferences did update.")
+    }
+
+    func aboutDidClose() {
+        NSLog("About did close.")
+    }
 }
