@@ -23,7 +23,7 @@ class TargetScreen {
         if screen != nil {
             let width = screen!.frame.width
             let height = screen!.frame.height
-            println("TargetScreen.calcOrientation: \(screen) size: \(width) x \(height)")
+            // println("TargetScreen.calcOrientation: \(screen) size: \(width) x \(height)")
             if width / height < 1 {
                 orientation = .Portrait
             } else {

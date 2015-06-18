@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		03DE8FD56230ACB0CB7237CD /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924CF25B3F0D233BAADB143D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */; };
-		D320FE751A7E703B00C5E7D1 /* OptionsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* OptionsWindow.xib */; };
+		D320FE741A7E703B00C5E7D1 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* PreferencesWindow.swift */; };
+		D320FE751A7E703B00C5E7D1 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* PreferencesWindow.xib */; };
 		D334C6C41A80F4E600726130 /* PhotoOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D334C6C31A80F4E600726130 /* PhotoOperations.swift */; };
 		D34CA30F1A91B474009FAA38 /* TargetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA30E1A91B474009FAA38 /* TargetScreen.swift */; };
+		D353C9031B32878500D9FD9C /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353C9021B32878500D9FD9C /* StatusMenuController.swift */; };
+		D353C9051B328BC600D9FD9C /* SwitchrAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */; };
 		D369F09A1A84E21F00FC00FE /* debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D369F0991A84E21F00FC00FE /* debug.swift */; };
 		D36CB3801B2F38C8001C2B51 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36CB37F1B2F38C8001C2B51 /* ImageDownloader.swift */; };
-		D376EAA31B2A75A800B7BF69 /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D376EAA21B2A75A700B7BF69 /* AboutWindowController.swift */; };
+		D376EAA31B2A75A800B7BF69 /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D376EAA21B2A75A700B7BF69 /* AboutWindow.swift */; };
 		D39484821A7F6981006E84FD /* NSMutableArray_Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39484811A7F6981006E84FD /* NSMutableArray_Shuffle.swift */; };
 		D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1EFCC1A7F56440032C16A /* RssParser.swift */; };
 		D3A75C451B285BEC00CEC833 /* Array_shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */; };
@@ -39,13 +41,15 @@
 
 /* Begin PBXFileReference section */
 		924CF25B3F0D233BAADB143D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWindowController.swift; sourceTree = "<group>"; };
-		D320FE731A7E703B00C5E7D1 /* OptionsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsWindow.xib; sourceTree = "<group>"; };
+		D320FE721A7E703B00C5E7D1 /* PreferencesWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
+		D320FE731A7E703B00C5E7D1 /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		D334C6C31A80F4E600726130 /* PhotoOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoOperations.swift; sourceTree = "<group>"; };
 		D34CA30E1A91B474009FAA38 /* TargetScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetScreen.swift; sourceTree = "<group>"; };
+		D353C9021B32878500D9FD9C /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
+		D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchrAPI.swift; sourceTree = "<group>"; };
 		D369F0991A84E21F00FC00FE /* debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = debug.swift; sourceTree = "<group>"; };
 		D36CB37F1B2F38C8001C2B51 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
-		D376EAA21B2A75A700B7BF69 /* AboutWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWindowController.swift; sourceTree = "<group>"; };
+		D376EAA21B2A75A700B7BF69 /* AboutWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
 		D39484811A7F6981006E84FD /* NSMutableArray_Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMutableArray_Shuffle.swift; sourceTree = "<group>"; };
 		D3A1EFCC1A7F56440032C16A /* RssParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RssParser.swift; sourceTree = "<group>"; };
 		D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array_shuffle.swift; sourceTree = "<group>"; };
@@ -105,19 +109,19 @@
 			isa = PBXGroup;
 			children = (
 				D3E62F631A7DF30E00A40EBA /* MainMenu.xib */,
-				D320FE731A7E703B00C5E7D1 /* OptionsWindow.xib */,
+				D320FE731A7E703B00C5E7D1 /* PreferencesWindow.xib */,
 				D3B58A811B2A64040085DAD5 /* AboutWindow.xib */,
 			);
 			name = GUI;
 			sourceTree = "<group>";
 		};
-		D376EAA41B2A8C5800B7BF69 /* Window Controllers */ = {
+		D376EAA41B2A8C5800B7BF69 /* Windows */ = {
 			isa = PBXGroup;
 			children = (
-				D376EAA21B2A75A700B7BF69 /* AboutWindowController.swift */,
-				D320FE721A7E703B00C5E7D1 /* OptionsWindowController.swift */,
+				D376EAA21B2A75A700B7BF69 /* AboutWindow.swift */,
+				D320FE721A7E703B00C5E7D1 /* PreferencesWindow.swift */,
 			);
-			name = "Window Controllers";
+			name = Windows;
 			sourceTree = "<group>";
 		};
 		D376EAA51B2A8C7E00B7BF69 /* Classes */ = {
@@ -157,9 +161,11 @@
 			isa = PBXGroup;
 			children = (
 				D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */,
-				D376EAA51B2A8C7E00B7BF69 /* Classes */,
-				D376EAA41B2A8C5800B7BF69 /* Window Controllers */,
+				D353C9021B32878500D9FD9C /* StatusMenuController.swift */,
+				D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */,
 				D369F0991A84E21F00FC00FE /* debug.swift */,
+				D376EAA51B2A8C7E00B7BF69 /* Classes */,
+				D376EAA41B2A8C5800B7BF69 /* Windows */,
 				D33307971B2973A600729641 /* Extensions */,
 				D33307981B2973E000729641 /* GUI */,
 				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
@@ -284,7 +290,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D320FE751A7E703B00C5E7D1 /* OptionsWindow.xib in Resources */,
+				D320FE751A7E703B00C5E7D1 /* PreferencesWindow.xib in Resources */,
 				D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */,
 				D3E62F651A7DF30E00A40EBA /* MainMenu.xib in Resources */,
 				D3B58A821B2A64040085DAD5 /* AboutWindow.xib in Resources */,
@@ -356,10 +362,12 @@
 				D3F957101B2804210007D831 /* ConcurrentOperation.swift in Sources */,
 				D3A75C451B285BEC00CEC833 /* Array_shuffle.swift in Sources */,
 				D39484821A7F6981006E84FD /* NSMutableArray_Shuffle.swift in Sources */,
-				D320FE741A7E703B00C5E7D1 /* OptionsWindowController.swift in Sources */,
+				D320FE741A7E703B00C5E7D1 /* PreferencesWindow.swift in Sources */,
 				D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */,
 				D334C6C41A80F4E600726130 /* PhotoOperations.swift in Sources */,
-				D376EAA31B2A75A800B7BF69 /* AboutWindowController.swift in Sources */,
+				D353C9031B32878500D9FD9C /* StatusMenuController.swift in Sources */,
+				D353C9051B328BC600D9FD9C /* SwitchrAPI.swift in Sources */,
+				D376EAA31B2A75A800B7BF69 /* AboutWindow.swift in Sources */,
 				D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */,
 				D369F09A1A84E21F00FC00FE /* debug.swift in Sources */,
 				D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */,

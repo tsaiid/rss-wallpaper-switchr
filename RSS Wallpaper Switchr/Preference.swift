@@ -17,8 +17,7 @@ class Preference {
     var scalingMode:Int = 1
     
     init() {
-        println("Loading stored preference.")
-
+        //println("Loading stored preference.")
         load()
     }
 
@@ -27,21 +26,13 @@ class Preference {
 
         if let tmpRssUrls: AnyObject = defaults.objectForKey("rssUrls") {
             rssUrls = tmpRssUrls.mutableCopy() as! NSMutableArray
-            println("option rssUrl: \(rssUrls)")
         }
 
         fitScreenOrientation = defaults.boolForKey("fitScreenOrientation")
-        println("option fitScreenOrientation: \(fitScreenOrientation)")
-
         switchInterval = defaults.integerForKey("switchInterval")
-        println("option switchInterval: \(switchInterval)")
-
         filterSmallerImages = defaults.boolForKey("filterSmallerImages")
         imageLowerLimitLength = defaults.integerForKey("imageLowerLimitLength")
-        println("option filterSmallerImages: \(filterSmallerImages), imageLowerLimitLength: \(imageLowerLimitLength)")
-
         scalingMode = defaults.integerForKey("scalingMode")
-        println("option scalingMode: \(scalingMode)")
     }
 
     func save() {

@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="AboutWindowController" customModule="RSS_Wallpaper_Switchr" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="AboutWindow" customModule="RSS_Wallpaper_Switchr" customModuleProvider="target">
             <connections>
                 <outlet property="labelVersion" destination="6TB-kz-fXl" id="elE-Ba-I94"/>
             </connections>

@@ -11,11 +11,17 @@ import Alamofire
 
 private var myContext = 0
 
-class ImageDownloaderObserver: NSObject {
+protocol ImageDownloadDelegate {
+    func imagesDidDownload()
+}
+
+class ImageDownloadObserver: NSObject {
+    var delegate: ImageDownloadDelegate?
     var queue = NSOperationQueue()
 
-    override init() {
+    init(delegate: ImageDownloadDelegate) {
         super.init()
+        self.delegate = delegate
         queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
     }
     deinit {
@@ -27,16 +33,15 @@ class ImageDownloaderObserver: NSObject {
             let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
 
             if self.queue.operations.count == 0 {
-                println("Image Download Complete queue.")
+                println("Image Download Complete queue: \(self.queue)")
 
                 // set backgrounds.
-                appDelegate.setDesktopBackgrounds()
+                self.delegate?.imagesDidDownload()
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
-
 }
 
 class DownloadImageOperation : ConcurrentOperation {

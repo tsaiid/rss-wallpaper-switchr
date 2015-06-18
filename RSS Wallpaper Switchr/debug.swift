@@ -17,3 +17,15 @@ func println(object: Any) {
         Swift.println("\(timestamp): \(object)")
     #endif
 }
+
+func notify(msg: NSString!, title: NSString = "Error"){
+    var userNotify = NSUserNotification()
+    userNotify.title = title as String
+    userNotify.informativeText = msg as String
+
+    #if DEBUG
+        println(msg)
+    #endif
+
+    NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(userNotify)
+}

@@ -8,11 +8,19 @@
 
 import Cocoa
 
-class AboutWindowController: NSWindowController {
-    var mainW: NSWindow = NSWindow()
+protocol AboutWindowDelegate {
+    func aboutDidClose()
+}
+
+class AboutWindow: NSWindowController {
+    var delegate: AboutWindowDelegate?
 
     @IBOutlet weak var labelVersion: NSTextField!
-    
+
+    override var windowNibName : String! {
+        return "AboutWindow"
+    }
+
     override func windowDidLoad() {
         super.windowDidLoad()
         

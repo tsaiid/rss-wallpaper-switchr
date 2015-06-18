@@ -1,5 +1,5 @@
 //
-//  OptionsWindowController.swift
+//  PreferencesWindowController.swift
 //  RSS Wallpaper Switchr
 //
 //  Created by 蔡依達 on 2015/2/1.
@@ -10,9 +10,13 @@ import Cocoa
 import Alamofire
 import SWXMLHash
 
-class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate {
+protocol PreferencesWindowDelegate {
+    func preferencesDidUpdate()
+}
 
-    var mainW: NSWindow = NSWindow()
+class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate {
+
+    var delegate: PreferencesWindowDelegate?
 
     @IBOutlet weak var chkboxFitScreenOrientation: NSButton!
     @IBOutlet weak var popupUpdateInterval: NSPopUpButtonCell!
@@ -27,6 +31,10 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
 
     @IBOutlet weak var popupScalingMode: NSPopUpButton!
 
+    override var windowNibName : String! {
+        return "PreferencesWindow"
+    }
+
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -36,7 +44,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
 
         // use Preference class to load Preference
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let myPref = appDelegate.myPreference
+        let myPref = Preference()
         rssUrls = myPref.rssUrls
         popupUpdateInterval.selectItemWithTag(myPref.switchInterval)
         if myPref.fitScreenOrientation {
@@ -53,14 +61,10 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         
         // in order to moniter NSTextField change
         textNewRssUrl.delegate = self
-    }
-    
-    @IBAction func popupSetUpdateInterval(sender: AnyObject) {
-        /*
-        if let item = sender.selectedItem as NSMenuItem! {
-            println("\(item.tag)")
-        }
-        */
+
+        self.window?.center()
+        self.window?.makeKeyAndOrderFront(nil)
+        NSApp.activateIgnoringOtherApps(true)
     }
 
     //method called, when "Close" - Button clicked
@@ -69,7 +73,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         println("Try saving options.")
 
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let myPref = appDelegate.myPreference
+        let myPref = Preference()
         myPref.rssUrls = rssUrls
         myPref.fitScreenOrientation = (chkboxFitScreenOrientation.state == NSOnState ? true : false)
         myPref.switchInterval = popupUpdateInterval.selectedItem!.tag
@@ -86,6 +90,7 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         myPref.scalingMode = popupScalingMode.selectedItem!.tag
 
         myPref.save()
+        delegate?.preferencesDidUpdate()
         
         self.close()
     }
@@ -109,7 +114,6 @@ class OptionsWindowController: NSWindowController, NSTableViewDataSource, NSTabl
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         println("Updating timer while closing option window.")
         appDelegate.updateSwitchTimer()
-        appDelegate.optWin = nil    // force release the opt window controller
     }
 
     // for RSS URL List Data Source

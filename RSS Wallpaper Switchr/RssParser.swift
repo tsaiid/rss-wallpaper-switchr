@@ -62,11 +62,17 @@ class ParseRssOperation : ConcurrentOperation {
 
 private var myContext = 0   // for KVO
 
+protocol RssParserObserverDelegate {
+    func rssDidParse()
+}
+
 class RssParserObserver: NSObject {
+    var delegate: RssParserObserverDelegate?
     var queue = NSOperationQueue()
     
-    override init() {
+    init(delegate: RssParserObserverDelegate) {
         super.init()
+        self.delegate = delegate
         queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
     }
     deinit {
@@ -80,13 +86,12 @@ class RssParserObserver: NSObject {
 
             if (self.queue.operations.count == 0) {
                 println("queue completed.")
-                //println(appDelegate.newImgLinks)
                 if (appDelegate.imgLinks.count > 0) {
                     appDelegate.imgLinks.shuffle()
-                    appDelegate.getImageFromUrl()
+                    self.delegate?.rssDidParse()
                 } else {
                     println("No image link found")
-                    appDelegate.notify("No image link found")
+                    notify("No image link found")
                     appDelegate.stateToReady()
                 }
             }
