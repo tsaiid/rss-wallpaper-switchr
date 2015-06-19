@@ -62,6 +62,10 @@ class PhotoRecord: Equatable {
         }
     }
 
+    func size() -> NSSize {
+        return NSSize(width: image!.size.width, height: image!.size.height)
+    }
+
     func fitSizeLimitation(limit: Int) -> Bool {
         let height = self.imgRep.pixelsHigh
         let width = self.imgRep.pixelsWide
