@@ -82,16 +82,22 @@ class DownloadImageOperation : ConcurrentOperation {
                 println("DownloadImage error: \(error)")
             }
 
-            if let finalPath = self.finalPath {
-                var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
-                self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
+            if self.cancelled {
+                println("DownloadImageOperation.main() Alamofire.download cancelled while downlading. Not proceed into PhotoRecord.")
+            } else {
+                if let finalPath = self.finalPath {
+                    var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
+                    self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
+                }
             }
+
             self.completeOperation()
         }
     }
 
     override func cancel() {
-        request?.cancel()
+        // should also cancel Alamofire request, but it results in strange memory problem!
+        //request?.cancel()
         super.cancel()
     }
 }

@@ -31,22 +31,27 @@ class ParseRssOperation : ConcurrentOperation {
                     println("ParseRss error: \(error)")
                 }
                 //println(data)
-                if data != nil {
-                    var xml = SWXMLHash.parse(data!)
-                    let title = xml["rss"]["channel"]["title"].element?.text
-                    println("Feed: \(title) was parsed.")
 
-                    // return a list of image links.
-                    var imgLinkList = [String]()
-                    for item in xml["rss"]["channel"]["item"] {
-                        if let link = item["link"].element?.text {
-                            if !contains(imgLinkList, link) {
-                                imgLinkList += [link]
+                if self.cancelled {
+                    println("ParseRssOperation.main() Alamofire.download cancelled while downlading. Not proceed into PhotoRecord.")
+                } else {
+                    if data != nil {
+                        var xml = SWXMLHash.parse(data!)
+                        let title = xml["rss"]["channel"]["title"].element?.text
+                        println("Feed: \(title) was parsed.")
+
+                        // return a list of image links.
+                        var imgLinkList = [String]()
+                        for item in xml["rss"]["channel"]["item"] {
+                            if let link = item["link"].element?.text {
+                                if !contains(imgLinkList, link) {
+                                    imgLinkList += [link]
+                                }
                             }
                         }
-                    }
 
-                    self.parseRssCompletionHandler(responseObject: imgLinkList, error: error)
+                        self.parseRssCompletionHandler(responseObject: imgLinkList, error: error)
+                    }
                 }
 
                 // however error or succeeded, it should complete.
@@ -55,7 +60,8 @@ class ParseRssOperation : ConcurrentOperation {
     }
     
     override func cancel() {
-        request?.cancel()
+        // should also cancel Alamofire request, but it results in strange memory problem!
+        //request?.cancel()
         super.cancel()
     }
 }
