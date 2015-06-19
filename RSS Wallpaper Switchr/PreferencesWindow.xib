@@ -12,8 +12,9 @@
                 <outlet property="btnValidateRss" destination="lUy-In-Skx" id="1AC-v3-bwG"/>
                 <outlet property="chkboxFilterSmallerImages" destination="eqs-Hq-3ye" id="NJi-FY-a9e"/>
                 <outlet property="chkboxFitScreenOrientation" destination="rhy-J8-cc0" id="7sO-jq-OzQ"/>
-                <outlet property="popupScalingMode" destination="rxe-CG-Vvg" id="vLj-WW-cOy"/>
+                <outlet property="popupScalingMode" destination="ee2-3r-nJL" id="keX-z4-bn2"/>
                 <outlet property="popupUpdateInterval" destination="0qS-5s-zCw" id="uZ6-RR-cww"/>
+                <outlet property="popupWallpaperMode" destination="rxe-CG-Vvg" id="Bnd-5N-zvf"/>
                 <outlet property="rssListTable" destination="SM4-WS-LU8" id="pNJ-Ns-NaH"/>
                 <outlet property="sheetAddRss" destination="oAH-ON-F4N" id="K5z-p0-CmU"/>
                 <outlet property="textNewRssUrl" destination="DYu-E7-CRu" id="WDR-az-bWb"/>
@@ -220,39 +221,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rxe-CG-Vvg">
-                        <rect key="frame" x="172" y="115" width="324" height="26"/>
-                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="xfN-lG-pZv">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
-                            <menu key="menu" id="9Xx-dT-trZ">
-                                <items>
-                                    <menuItem title="Single image" tag="1" id="LFA-wz-wJz">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                    </menuItem>
-                                    <menuItem title="Four-image group" tag="2" id="a4M-HK-DNJ"/>
-                                </items>
-                            </menu>
-                        </popUpButtonCell>
-                    </popUpButton>
-                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ee2-3r-nJL">
-                        <rect key="frame" x="172" y="185" width="324" height="26"/>
-                        <popUpButtonCell key="cell" type="push" title="Fill the screen" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" id="Qsz-Di-uwd">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
-                            <menu key="menu" id="qn0-CY-XOM">
-                                <items>
-                                    <menuItem title="Fill the screen" state="on" tag="1" id="aKA-cR-M2p">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                    </menuItem>
-                                    <menuItem title="Fit screen size" tag="2" id="yNr-zB-tpo"/>
-                                    <menuItem title="Centering" tag="3" id="mkh-3X-Cyf">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                    </menuItem>
-                                </items>
-                            </menu>
-                        </popUpButtonCell>
-                    </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WLf-hP-IwD">
                         <rect key="frame" x="29" y="189" width="125" height="19"/>
                         <constraints>
@@ -264,6 +232,41 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ee2-3r-nJL">
+                        <rect key="frame" x="172" y="114" width="324" height="26"/>
+                        <popUpButtonCell key="cell" type="push" title="Centering" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3" imageScaling="proportionallyDown" inset="2" selectedItem="mkh-3X-Cyf" id="Qsz-Di-uwd">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="qn0-CY-XOM">
+                                <items>
+                                    <menuItem title="Fill the screen" state="on" tag="1" id="aKA-cR-M2p">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Fit screen size" tag="2" id="yNr-zB-tpo"/>
+                                    <menuItem title="Centering" state="on" tag="3" id="mkh-3X-Cyf">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rxe-CG-Vvg">
+                        <rect key="frame" x="172" y="185" width="324" height="26"/>
+                        <popUpButtonCell key="cell" type="push" title="Single image" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="LFA-wz-wJz" id="xfN-lG-pZv">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="9Xx-dT-trZ">
+                                <items>
+                                    <menuItem title="Single image" state="on" tag="1" id="LFA-wz-wJz">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Four-image group" tag="2" id="a4M-HK-DNJ">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="E3s-IU-9xq" secondAttribute="trailing" constant="112" id="1XK-hZ-h3r"/>
