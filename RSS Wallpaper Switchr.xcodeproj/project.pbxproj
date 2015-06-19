@@ -11,6 +11,7 @@
 		D320FE741A7E703B00C5E7D1 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* PreferencesWindow.swift */; };
 		D320FE751A7E703B00C5E7D1 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* PreferencesWindow.xib */; };
 		D334C6C41A80F4E600726130 /* PhotoOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D334C6C31A80F4E600726130 /* PhotoOperations.swift */; };
+		D3416BE21B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3416BE11B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift */; };
 		D34CA30F1A91B474009FAA38 /* TargetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA30E1A91B474009FAA38 /* TargetScreen.swift */; };
 		D353C9031B32878500D9FD9C /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353C9021B32878500D9FD9C /* StatusMenuController.swift */; };
 		D353C9051B328BC600D9FD9C /* SwitchrAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */; };
@@ -44,6 +45,7 @@
 		D320FE721A7E703B00C5E7D1 /* PreferencesWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		D320FE731A7E703B00C5E7D1 /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		D334C6C31A80F4E600726130 /* PhotoOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoOperations.swift; sourceTree = "<group>"; };
+		D3416BE11B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSImage_saveAsJpegWithName.swift; sourceTree = "<group>"; };
 		D34CA30E1A91B474009FAA38 /* TargetScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetScreen.swift; sourceTree = "<group>"; };
 		D353C9021B32878500D9FD9C /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
 		D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchrAPI.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */,
 				D39484811A7F6981006E84FD /* NSMutableArray_Shuffle.swift */,
+				D3416BE11B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3416BE21B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift in Sources */,
 				D3F957101B2804210007D831 /* ConcurrentOperation.swift in Sources */,
 				D3A75C451B285BEC00CEC833 /* Array_shuffle.swift in Sources */,
 				D39484821A7F6981006E84FD /* NSMutableArray_Shuffle.swift in Sources */,
