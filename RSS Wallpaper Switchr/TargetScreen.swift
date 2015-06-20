@@ -44,7 +44,11 @@ class TargetScreen {
 
     private func getCenterRect(targetSize: NSSize, sourceSize: NSSize) -> NSRect {
         var width, height, xPos, yPos: CGFloat
-        if targetSize.width >= targetSize.height {
+
+        let targetRatio = targetSize.width / targetSize.height
+        let sourceRatio = sourceSize.width / sourceSize.height
+
+        if targetRatio >= sourceRatio {
             width = sourceSize.width
             height = targetSize.height * sourceSize.width / targetSize.width
             xPos = 0
