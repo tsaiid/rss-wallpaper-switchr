@@ -41,11 +41,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             object: NSWorkspace.sharedWorkspace())
 
         // for notification of screensavor and screen lock
-        /*
-            // do not need to handle with screensaver, it also trigger screenIsLocked and screenIsUnlocked
+        // Both NSWorkspace and NSDistributedNotificationCenter need to exist.
+        // Different version osx sends different notification.
+        NSWorkspace.sharedWorkspace().notificationCenter.addObserver(self,
+            selector: "screenLockHandler:",
+            name: NSWorkspaceScreensDidWakeNotification,
+            object: NSWorkspace.sharedWorkspace())
+
+        NSWorkspace.sharedWorkspace().notificationCenter.addObserver(self,
+            selector: "screenLockHandler:",
+            name: NSWorkspaceScreensDidSleepNotification,
+            object: NSWorkspace.sharedWorkspace())
+
+        NSDistributedNotificationCenter.defaultCenter().addObserver(self,
+            selector: "screenLockHandler:",
             name: "com.apple.screensaver.didstart",
+            object: nil)
+
+        NSDistributedNotificationCenter.defaultCenter().addObserver(self,
+            selector: "screenLockHandler:",
             name: "com.apple.screensaver.didstop",
-        */
+            object: nil)
 
         NSDistributedNotificationCenter.defaultCenter().addObserver(self,
             selector: "screenLockHandler:",
@@ -119,7 +135,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func screenLockHandler(aNotification: NSNotification) {
         println("screen status: \(aNotification.name)")
-        if aNotification.name == "com.apple.screenIsLocked" {
+        let appNeedToStopNotifications = [
+            NSWorkspaceScreensDidSleepNotification,
+            "com.apple.screensaver.didstart",
+            "com.apple.screenIsLocked"
+        ]
+
+        if contains(appNeedToStopNotifications, aNotification.name) {
             stopSwitchTimer()
         } else {
             updateSwitchTimer()
