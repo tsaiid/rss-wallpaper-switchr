@@ -8,6 +8,11 @@
 
 import Cocoa
 
+// some debug flags
+#if DEBUG
+    let DEBUG_DEINIT:Bool = true
+#endif
+
 func println(object: Any) {
     #if DEBUG
         let date = NSDate()
