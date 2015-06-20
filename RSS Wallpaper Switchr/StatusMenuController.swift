@@ -70,6 +70,7 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
 
     @IBAction func preferencesClicked(sender: NSMenuItem) {
         preferencesWindow.showWindow(self)
+        NSApp.activateIgnoringOtherApps(true)
     }
 
     @IBAction func aboutClicked(sender: NSMenuItem) {
