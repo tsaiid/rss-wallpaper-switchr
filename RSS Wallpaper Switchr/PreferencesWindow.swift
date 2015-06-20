@@ -19,7 +19,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
     var delegate: PreferencesWindowDelegate?
 
     @IBOutlet weak var chkboxFitScreenOrientation: NSButton!
-    @IBOutlet weak var popupUpdateInterval: NSPopUpButtonCell!
+    @IBOutlet weak var popupUpdateInterval: NSPopUpButton!
 
     @IBOutlet weak var chkboxFilterSmallerImages: NSButton!
     @IBOutlet weak var txtImageLowerLimitLength: NSTextField!
