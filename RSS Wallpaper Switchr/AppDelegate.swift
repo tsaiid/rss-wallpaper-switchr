@@ -19,6 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var imgLinks = [String]()
     var state = AppState.Ready
     var switchTimer = NSTimer()
+    var switchrAPI: SwitchrAPI?
 
     #if DEBUG
     var timeStart: CFAbsoluteTime?
@@ -86,8 +87,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func timerDidFire() {
         println("\(Preference().switchInterval) minutes passed.")
-        let switchrAPI = SwitchrAPI()
-        switchrAPI.switchWallpapers()
+        if switchrAPI == nil {
+            switchrAPI = SwitchrAPI()
+        }
+        switchrAPI!.switchWallpapers()
     }
 
     func stopSwitchTimer() {

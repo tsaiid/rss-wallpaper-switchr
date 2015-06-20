@@ -20,7 +20,6 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
 
     var appDelegate: AppDelegate!
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1) // NSVariableStatusItemLength
-    var switchrAPI = SwitchrAPI()
 
     //
     // Init
@@ -34,6 +33,12 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
         self.deactiveIcon.setTemplate(true)
 
         super.init()
+    }
+
+    deinit {
+        if DEBUG_DEINIT {
+            println("StatusMenuController deinit.")
+        }
     }
 
     override func awakeFromNib() {
@@ -82,12 +87,18 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
     }
 
     private func updateWallpapers() {
-        switchrAPI.switchWallpapers()
+        if appDelegate.switchrAPI == nil {
+            appDelegate.switchrAPI = SwitchrAPI()
+        }
+        appDelegate.switchrAPI!.switchWallpapers()
     }
 
     private func cancelUpdate() {
-        switchrAPI.rssParser.queue.cancelAllOperations()
-        switchrAPI.imageDownload.queue.cancelAllOperations()
+        if let switchrAPI = appDelegate.switchrAPI {
+            switchrAPI.rssParser?.queue.cancelAllOperations()
+            switchrAPI.imageDownload?.queue.cancelAllOperations()
+        }
+        appDelegate.switchrAPI = nil
         appDelegate.stateToReady()
     }
 
