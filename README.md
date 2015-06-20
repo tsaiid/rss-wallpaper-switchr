@@ -23,18 +23,18 @@ The current RSS parser only recognize document structure as below:
 <rss version="2.0">
 
 <channel>
-  <title>W3Schools Home Page</title>
-  <link>http://www.w3schools.com</link>
-  <description>Free web building tutorials</description>
+  <title>Flickr Interestingness Wallpaper Feed</title>
+  <link>http://feed.tsai.it/flickr/interestingness.rss</link>
+  <description>Flickr Interestingness Wallpaper Feed</description>
   <item>
-    <title>RSS Tutorial</title>
-    <link>http://www.w3schools.com/webservices</link>
-    <description>New RSS tutorial on W3Schools</description>
+    <title>Hornby Lighthouse</title>
+    <link>https://farm1.staticflickr.com/334/18726872639_d551e8ce0e_k.jpg</link>
+    <description>Hornby Lighthouse</description>
   </item>
   <item>
-    <title>XML Tutorial</title>
-    <link>http://www.w3schools.com/xml</link>
-    <description>New XML tutorial on W3Schools</description>
+    <title>Lady Bird</title>
+    <link>https://farm4.staticflickr.com/3809/18921256432_b7ad6ad1c2_k.jpg</link>
+    <description>Lady Bird</description>
   </item>
 </channel>
 
