@@ -31,6 +31,12 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
     @IBOutlet weak var popupWallpaperMode: NSPopUpButton!
     @IBOutlet weak var popupScalingMode: NSPopUpButton!
 
+    deinit {
+        if DEBUG_DEINIT {
+            println("PreferencesWindow deinit.")
+        }
+    }
+
     override var windowNibName : String! {
         return "PreferencesWindow"
     }

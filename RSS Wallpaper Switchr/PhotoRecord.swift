@@ -46,6 +46,12 @@ class PhotoRecord: Equatable {
             self.imgRep = image.representations.first as! NSImageRep
         }
     }
+
+    deinit {
+        if DEBUG_DEINIT {
+            println("PhotoRecord deinit.")
+        }
+    }
     
     func calcOrientation() {
         if let nsImg = self.image {

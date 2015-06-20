@@ -20,6 +20,12 @@ class TargetScreen {
         calcOrientation()
     }
 
+    deinit {
+        if DEBUG_DEINIT {
+            println("TargetScreen deinit.")
+        }
+    }
+
     func calcOrientation() {
         if screen != nil {
             let width = screen!.frame.width
@@ -113,7 +119,7 @@ class TargetScreen {
             wallpaperPhoto = PhotoRecord(name: "four-image-group", url: tmpPath!, localPathUrl: tmpPath!)
             println("wallpaperPhoto: \(wallpaperPhoto)")
         } else {
-            println("No enough photos to merge in the pool. targetScreen: \(self as TargetScreen)")
+            println("No enough photos to merge in the pool. targetScreen: \(self)")
         }
     }
 }
