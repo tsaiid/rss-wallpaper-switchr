@@ -17,6 +17,12 @@ class AboutWindow: NSWindowController {
 
     @IBOutlet weak var labelVersion: NSTextField!
 
+    deinit {
+        if DEBUG_DEINIT {
+            println("AboutWindow deinit.")
+        }
+    }
+
     override var windowNibName : String! {
         return "AboutWindow"
     }

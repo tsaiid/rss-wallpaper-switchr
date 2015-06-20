@@ -21,6 +21,12 @@ class ParseRssOperation : ConcurrentOperation {
         self.parseRssCompletionHandler = parseRssCompletionHandler
         super.init()
     }
+
+    deinit {
+        if DEBUG_DEINIT {
+            println("ParseRssOperation deinit.")
+        }
+    }
     
     override func main() {
         request = Alamofire.request(.GET, URLString)
@@ -81,9 +87,12 @@ class RssParserObserver: NSObject {
         self.delegate = delegate
         queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
     }
+
     deinit {
         queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
-        println("deinit")
+        if DEBUG_DEINIT {
+            println("RssParserObserver deinit.")
+        }
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {

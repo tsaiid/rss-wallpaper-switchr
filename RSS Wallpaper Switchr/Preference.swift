@@ -22,6 +22,12 @@ class Preference {
         load()
     }
 
+    deinit {
+        if DEBUG_DEINIT {
+            println("Preference deinit.")
+        }
+    }
+
     func load() {
         let defaults = NSUserDefaults.standardUserDefaults()
 

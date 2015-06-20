@@ -24,8 +24,12 @@ class ImageDownloadObserver: NSObject {
         self.delegate = delegate
         queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
     }
+
     deinit {
         queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
+        if DEBUG_DEINIT {
+            println("ImageDownloadObserver deinit.")
+        }
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -55,6 +59,13 @@ class DownloadImageOperation : ConcurrentOperation {
         self.URLString = URLString
         self.downloadImageCompletionHandler = downloadImageCompletionHandler
         super.init()
+    }
+
+    deinit {
+        request = nil
+        if DEBUG_DEINIT {
+            println("DownloadImageOperation deinit.")
+        }
     }
 
     override func main() {
