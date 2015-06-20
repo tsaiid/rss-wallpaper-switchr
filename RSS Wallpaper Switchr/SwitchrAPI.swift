@@ -51,7 +51,15 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                     if let targetScreen = self.getNoWallpaperScreen() {
                         var this_photo: PhotoRecord? = responseObject as? PhotoRecord
                         if this_photo!.isSuitable(targetScreen, preference: myPreference) {
-                            targetScreen.wallpaperPhoto = this_photo
+                            switch Preference().wallpaperMode {
+                            case 2: // four-image group
+                                if targetScreen.photoPool.count < 4 {
+                                    targetScreen.photoPool.append(this_photo!)
+                                    targetScreen.currentTry = 0 // every grid can have tries.
+                                }
+                            default:    // single image
+                                targetScreen.wallpaperPhoto = this_photo
+                            }
                         }
                     } else {
                         println("All targetScreens are done.")
@@ -70,8 +78,14 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     func getNoWallpaperScreen() -> TargetScreen? {
         for targetScreen in targetScreens {
             if targetScreen.wallpaperPhoto == nil {
-                //println("Some targetScreens have no wallpaperPhoto.")
-                return targetScreen
+                switch Preference().wallpaperMode {
+                case 2: // four-image group
+                    if targetScreen.photoPool.count < 4 {
+                        return targetScreen
+                    }
+                default:    // single image
+                    return targetScreen
+                }
             }
         }
         return nil
@@ -148,6 +162,10 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
             for targetScreen in targetScreens {
                 let screenList = NSScreen.screens() as? [NSScreen]
                 if (find(screenList!, targetScreen.screen!) != nil) {
+                    if Preference().wallpaperMode == 2 {    // four-image group
+                        targetScreen.mergeFourPhotos()
+                    }
+
                     if let photo = targetScreen.wallpaperPhoto {
                         var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: targetScreen.screen!, options: options, error: &error)
                         if result {

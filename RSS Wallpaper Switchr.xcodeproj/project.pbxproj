@@ -11,6 +11,8 @@
 		D320FE741A7E703B00C5E7D1 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D320FE721A7E703B00C5E7D1 /* PreferencesWindow.swift */; };
 		D320FE751A7E703B00C5E7D1 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D320FE731A7E703B00C5E7D1 /* PreferencesWindow.xib */; };
 		D334C6C41A80F4E600726130 /* PhotoRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D334C6C31A80F4E600726130 /* PhotoRecord.swift */; };
+		D3416BE21B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3416BE11B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift */; };
+		D3416BE91B347B8700FC4543 /* String_md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3416BE81B347B8700FC4543 /* String_md5.swift */; };
 		D34CA30F1A91B474009FAA38 /* TargetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA30E1A91B474009FAA38 /* TargetScreen.swift */; };
 		D353C9031B32878500D9FD9C /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353C9021B32878500D9FD9C /* StatusMenuController.swift */; };
 		D353C9051B328BC600D9FD9C /* SwitchrAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */; };
@@ -44,6 +46,9 @@
 		D320FE721A7E703B00C5E7D1 /* PreferencesWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		D320FE731A7E703B00C5E7D1 /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		D334C6C31A80F4E600726130 /* PhotoRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoRecord.swift; sourceTree = "<group>"; };
+		D3416BE11B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSImage_saveAsJpegWithName.swift; sourceTree = "<group>"; };
+		D3416BE31B347AD100FC4543 /* ObjC-Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ObjC-Swift-Bridging-Header.h"; sourceTree = "<group>"; };
+		D3416BE81B347B8700FC4543 /* String_md5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String_md5.swift; sourceTree = "<group>"; };
 		D34CA30E1A91B474009FAA38 /* TargetScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetScreen.swift; sourceTree = "<group>"; };
 		D353C9021B32878500D9FD9C /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
 		D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchrAPI.swift; sourceTree = "<group>"; };
@@ -101,6 +106,9 @@
 			children = (
 				D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */,
 				D39484811A7F6981006E84FD /* NSMutableArray_Shuffle.swift */,
+				D3416BE11B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift */,
+				D3416BE31B347AD100FC4543 /* ObjC-Swift-Bridging-Header.h */,
+				D3416BE81B347B8700FC4543 /* String_md5.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -359,12 +367,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3416BE21B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift in Sources */,
 				D3F957101B2804210007D831 /* ConcurrentOperation.swift in Sources */,
 				D3A75C451B285BEC00CEC833 /* Array_shuffle.swift in Sources */,
 				D39484821A7F6981006E84FD /* NSMutableArray_Shuffle.swift in Sources */,
 				D320FE741A7E703B00C5E7D1 /* PreferencesWindow.swift in Sources */,
 				D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */,
 				D334C6C41A80F4E600726130 /* PhotoRecord.swift in Sources */,
+				D3416BE91B347B8700FC4543 /* String_md5.swift in Sources */,
 				D353C9031B32878500D9FD9C /* StatusMenuController.swift in Sources */,
 				D353C9051B328BC600D9FD9C /* SwitchrAPI.swift in Sources */,
 				D376EAA31B2A75A800B7BF69 /* AboutWindow.swift in Sources */,
@@ -497,7 +507,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"DEBUG\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "RSS Wallpaper Switchr/ObjC-Swift-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -513,7 +524,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "RSS Wallpaper Switchr/ObjC-Swift-Bridging-Header.h";
 			};
 			name = Release;
 		};

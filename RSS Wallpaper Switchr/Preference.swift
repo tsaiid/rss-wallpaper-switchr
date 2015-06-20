@@ -15,6 +15,7 @@ class Preference {
     var filterSmallerImages:Bool = false
     var imageLowerLimitLength:Int = 1024
     var scalingMode:Int = 1
+    var wallpaperMode:Int = 1
     
     init() {
         //println("Loading stored preference.")
@@ -33,6 +34,7 @@ class Preference {
         filterSmallerImages = defaults.boolForKey("filterSmallerImages")
         imageLowerLimitLength = defaults.integerForKey("imageLowerLimitLength")
         scalingMode = defaults.integerForKey("scalingMode")
+        wallpaperMode = defaults.integerForKey("wallpaperMode")
     }
 
     func save() {
@@ -43,5 +45,6 @@ class Preference {
         defaults.setObject(filterSmallerImages, forKey: "filterSmallerImages")
         defaults.setObject(imageLowerLimitLength, forKey: "imageLowerLimitLength")
         defaults.setObject(scalingMode, forKey: "scalingMode")
+        defaults.setObject(wallpaperMode, forKey: "wallpaperMode")
     }
 }

@@ -28,7 +28,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
     var rssUrls = NSMutableArray()
     
     @IBOutlet var sheetAddRss: NSPanel!
-
+    @IBOutlet weak var popupWallpaperMode: NSPopUpButton!
     @IBOutlet weak var popupScalingMode: NSPopUpButton!
 
     override var windowNibName : String! {
@@ -54,6 +54,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
             chkboxFilterSmallerImages.state = NSOnState
         }
         txtImageLowerLimitLength.stringValue = String(myPref.imageLowerLimitLength)
+        popupWallpaperMode.selectItemWithTag(myPref.wallpaperMode)
         popupScalingMode.selectItemWithTag(myPref.scalingMode)
 
         // stop timer after showing option window
@@ -87,6 +88,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
             }
         }
         myPref.imageLowerLimitLength = txtImageLowerLimitLength.stringValue.toInt()!
+        myPref.wallpaperMode = popupWallpaperMode.selectedItem!.tag
         myPref.scalingMode = popupScalingMode.selectedItem!.tag
 
         myPref.save()
