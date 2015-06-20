@@ -15,13 +15,17 @@ protocol SwitchrAPIDelegate {
 class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     var targetScreens = [TargetScreen]()
 
-    var rssParser: RssParserObserver!
-    var imageDownload: ImageDownloadObserver!
+    var rssParser: RssParserObserver?
+    var imageDownload: ImageDownloadObserver?
 
     override init() {
         super.init()
-        rssParser = RssParserObserver(delegate: self)
-        imageDownload = ImageDownloadObserver(delegate: self)
+    }
+
+    deinit {
+        if DEBUG_DEINIT {
+            println("SwitchrAPI deinit.")
+        }
     }
 
     func rssDidParse() {
@@ -33,12 +37,12 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
 
         switch Preference().wallpaperMode {
         case 2:     // four-image group
-            imageDownload.queue.maxConcurrentOperationCount = 4
+            imageDownload!.queue.maxConcurrentOperationCount = 4
         default:    // single image
-            imageDownload.queue.maxConcurrentOperationCount = 2
+            imageDownload!.queue.maxConcurrentOperationCount = 2
         }
 
-        println("image queue: \(imageDownload.queue.operations.count)")
+        println("image queue: \(imageDownload!.queue.operations.count)")
 
         for imgLink in appDelegate.imgLinks {
             let urlStr:String = imgLink as String
@@ -68,11 +72,11 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                         }
                     } else {
                         println("All targetScreens are done.")
-                        self.imageDownload.queue.cancelAllOperations()
+                        self.imageDownload!.queue.cancelAllOperations()
                     }
                 }
             }
-            imageDownload.queue.addOperation(operation)
+            imageDownload!.queue.addOperation(operation)
         }
     }
 
@@ -125,6 +129,8 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
         // clean all var
         getTargetScreens()
         appDelegate.imgLinks = [String]()
+        rssParser = RssParserObserver(delegate: self)
+        imageDownload = ImageDownloadObserver(delegate: self)
 
         // load rss url
         let rssUrls = Preference().rssUrls
@@ -148,7 +154,7 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                     appDelegate.imgLinks += responseObject as! [String]
                 }
             }
-            rssParser.queue.addOperation(operation)
+            rssParser!.queue.addOperation(operation)
         }
     }
 
@@ -194,8 +200,10 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
             println("time used: \(timeElapsed)")
         #endif
 
+        rssParser = nil
+        imageDownload = nil
+        appDelegate.switchrAPI = nil
         appDelegate.stateToReady()
-
     }
 
     private func getDesktopImageOptions(scalingMode: Int) -> [NSObject : AnyObject]? {
