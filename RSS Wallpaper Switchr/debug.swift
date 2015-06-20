@@ -9,9 +9,7 @@
 import Cocoa
 
 // some debug flags
-#if DEBUG
-    let DEBUG_DEINIT:Bool = true
-#endif
+let DEBUG_DEINIT:Bool = true
 
 func println(object: Any) {
     #if DEBUG
