@@ -48,18 +48,6 @@
                         <action selector="quitClicked:" target="WwA-L6-1os" id="zny-aA-6sh"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Test" id="MbQ-wO-iaJ">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="testAlamofire:" target="WwA-L6-1os" id="Kcd-Pl-ljm"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Cancel Test" id="NJh-Y4-Vvd">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="cancelAlamofire:" target="WwA-L6-1os" id="kxP-6z-Z5y"/>
-                    </connections>
-                </menuItem>
             </items>
             <point key="canvasLocation" x="-20" y="113.5"/>
         </menu>

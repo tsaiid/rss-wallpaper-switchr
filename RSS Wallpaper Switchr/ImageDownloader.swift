@@ -9,7 +9,7 @@
 import Cocoa
 import Alamofire
 
-private var myContext = 0
+private var imageDownloadContext = 0
 
 protocol ImageDownloadDelegate {
     func imagesDidDownload()
@@ -22,27 +22,22 @@ class ImageDownloadObserver: NSObject {
     init(delegate: ImageDownloadDelegate) {
         super.init()
         self.delegate = delegate
-        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
+        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &imageDownloadContext)
         NSLog("ImageDownloadObserver init.")
     }
 
     deinit {
-        self.queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
+        queue.removeObserver(self, forKeyPath: "operations", context: &imageDownloadContext)
         if DEBUG_DEINIT {
-            println("ImageDownloadObserver deinit.")
+            //println("ImageDownloadObserver deinit.")
         }
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
-        if context == &myContext {
+        if context == &imageDownloadContext {
             if self.queue.operations.count == 0 {
                 println("Image Download Complete queue. keyPath: \(keyPath); object: \(object); context: \(context)")
-
-                //let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-
-                // set backgrounds.
                 self.delegate?.imagesDidDownload()
-                //appDelegate.stateToReady()
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
@@ -52,10 +47,9 @@ class ImageDownloadObserver: NSObject {
 
 class DownloadImageOperation : ConcurrentOperation {
     let URLString: String
-    let downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
-
-    weak var request: Alamofire.Request?
     var finalPath: NSURL?
+    let downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
+    weak var request: Alamofire.Request?
 
     init(URLString: String, downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()) {
         self.URLString = URLString
@@ -64,14 +58,15 @@ class DownloadImageOperation : ConcurrentOperation {
     }
 
     deinit {
-        request = nil
         if DEBUG_DEINIT {
         //    println("DownloadImageOperation deinit.")
         }
     }
 
     override func main() {
-        request = Alamofire.download(.GET, URLString, { (temporaryURL, response) in
+        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
+            (temporaryURL, response) in
+
             let fileName = response.suggestedFilename!
             self.finalPath = NSURL(fileURLWithPath: NSTemporaryDirectory().stringByAppendingPathComponent(fileName as String))
             if self.finalPath != nil {
@@ -90,26 +85,21 @@ class DownloadImageOperation : ConcurrentOperation {
                 return self.finalPath!
             }
             return temporaryURL
-        }).response { (request, response, responseObject, error) in
-            if error != nil {
-                println("DownloadImage error: \(error)")
-            }
+        }
+
+        request = Alamofire.download(.GET, URLString, destination).response {
+            (request, response, responseObject, error) in
 
             if self.cancelled {
                 println("DownloadImageOperation.main() Alamofire.download cancelled while downlading. Not proceed into PhotoRecord.")
             } else {
-                if let finalPath = self.finalPath {
-                    var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
-                    self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
-                }
+                self.downloadImageCompletionHandler(responseObject: self.finalPath, error: error)
             }
-
             self.completeOperation()
         }
     }
 
     override func cancel() {
-        // should also cancel Alamofire request, but it results in strange memory problem!
         request?.cancel()
         super.cancel()
     }

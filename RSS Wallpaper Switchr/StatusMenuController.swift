@@ -21,7 +21,8 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
     var appDelegate: AppDelegate!
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1) // NSVariableStatusItemLength
 
-    var testAlamofire: TestAlamofire?
+    //var switchrAPI: SwitchrAPI?
+
     //
     // Init
     //
@@ -62,16 +63,9 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
     //
 
     @IBAction func switchWallpapersClicked(sender: NSMenuItem) {
-        switch appDelegate.state {
-        case .Ready:
-            println("Force set wallpapers.")
-            updateWallpapers()
-        case .Running:
-            println("Force cancelling operation.")
-            cancelUpdate()
-        default:
-            println("Strange AppState: \(appDelegate.state)")
-        }
+        if !appDelegate.switchrWillStart() {
+            appDelegate.switchrAPI!.cancelOperations()
+        } else { NSLog("switchrAPI start??") }
     }
 
     @IBAction func preferencesClicked(sender: NSMenuItem) {
@@ -87,32 +81,6 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
         NSApplication.sharedApplication().terminate(self)
     }
 
-    private func updateWallpapers() {
-        /*
-        if appDelegate.switchrAPI == nil {
-            appDelegate.switchrAPI = SwitchrAPI()
-        }
-*/
-        appDelegate.switchrAPI.switchWallpapers()
-    }
-
-    private func cancelUpdate() {
-//        if let switchrAPI = appDelegate.switchrAPI {
-            appDelegate.switchrAPI.rssParser?.queue.cancelAllOperations()
-            appDelegate.switchrAPI.imageDownload?.queue.cancelAllOperations()
-//        }
-//        appDelegate.switchrAPI = nil
-        appDelegate.stateToReady()
-    }
-
-    @IBAction func testAlamofire(sender: AnyObject) {
-        testAlamofire = TestAlamofire()
-        testAlamofire!.test()
-    }
-
-    @IBAction func cancelAlamofire(sender: AnyObject) {
-        testAlamofire!.cancelTest()
-    }
     //
     // Control menu item
     //

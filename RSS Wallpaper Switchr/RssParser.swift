@@ -47,16 +47,16 @@ class ParseRssOperation : ConcurrentOperation {
                         println("Feed: \(title) was parsed.")
 
                         // return a list of image links.
-                        var imgLinkList = [String]()
+                        var imgLinks = [String]()
                         for item in xml["rss"]["channel"]["item"] {
                             if let link = item["link"].element?.text {
-                                if !contains(imgLinkList, link) {
-                                    imgLinkList += [link]
+                                if !contains(imgLinks, link) {
+                                    imgLinks += [link]
                                 }
                             }
                         }
 
-                        self.parseRssCompletionHandler(responseObject: imgLinkList, error: error)
+                        self.parseRssCompletionHandler(responseObject: imgLinks, error: error)
                     }
                 }
 
@@ -72,7 +72,7 @@ class ParseRssOperation : ConcurrentOperation {
     }
 }
 
-private var myContext = 0   // for KVO
+private var rssParserContext = 0   // for KVO
 
 protocol RssParserObserverDelegate {
     func rssDidParse()
@@ -85,30 +85,21 @@ class RssParserObserver: NSObject {
     init(delegate: RssParserObserverDelegate) {
         super.init()
         self.delegate = delegate
-        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
+        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &rssParserContext)
     }
 
     deinit {
-        queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
+        queue.removeObserver(self, forKeyPath: "operations", context: &rssParserContext)
         if DEBUG_DEINIT {
             println("RssParserObserver deinit.")
         }
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
-        if context == &myContext {
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-
+        if context == &rssParserContext {
             if (self.queue.operations.count == 0) {
                 println("queue completed.")
-                if (appDelegate.imgLinks.count > 0) {
-                    appDelegate.imgLinks.shuffle()
-                    self.delegate?.rssDidParse()
-                } else {
-                    println("No image link found")
-                    notify("No image link found")
-                    appDelegate.stateToReady()
-                }
+                self.delegate?.rssDidParse()
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)

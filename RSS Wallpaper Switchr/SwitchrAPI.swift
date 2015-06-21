@@ -9,45 +9,43 @@
 import Cocoa
 
 protocol SwitchrAPIDelegate {
-    func wallpaperDidUpdate(targetScreens: [TargetScreen])
+    func switchrWillStart() -> Bool
+    func switchrDidEnd()
 }
 
 class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
-    var targetScreens = [TargetScreen]()
-
+    var delegate: SwitchrAPIDelegate?
     var rssParser: RssParserObserver?
     var imageDownload: ImageDownloadObserver?
 
-    override init() {
+    var targetScreens = [TargetScreen]()
+    var imgLinks = [String]()
+
+    init(delegate: SwitchrAPIDelegate) {
         super.init()
+        self.delegate = delegate
+        rssParser = RssParserObserver(delegate: self)
         imageDownload = ImageDownloadObserver(delegate: self)
     }
 
     deinit {
         if DEBUG_DEINIT {
-            println("SwitchrAPI deinit.")
+            //println("SwitchrAPI deinit.")
         }
     }
 
-    func rssDidParse() {
-        getImageFromUrl()
-    }
-
-    func getImageFromUrl() {
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-
+    func downloadImages(imgLinks: [String]?) {
+        /*
         switch Preference().wallpaperMode {
         case 2:     // four-image group
             imageDownload!.queue.maxConcurrentOperationCount = 4
         default:    // single image
             imageDownload!.queue.maxConcurrentOperationCount = 2
         }
+*/
 
-        for imgLink in appDelegate.imgLinks {
-            let urlStr:String = imgLink as String
-            //let myPreference = Preference()
-
-            let operation = DownloadImageOperation(URLString: urlStr) {
+        for imgLink in imgLinks! {
+            let operation = DownloadImageOperation(URLString: imgLink) {
                 (responseObject, error) in
 
                 if responseObject == nil {
@@ -56,20 +54,28 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                     println("failed: \(error)")
                 } else {
                     if let targetScreen = self.getNoWallpaperScreen() {
-                        var this_photo: PhotoRecord? = responseObject as? PhotoRecord
+                        let url:NSURL = responseObject as! NSURL
+                        let downloadedPhoto = PhotoRecord(name: "", url: url, localPathUrl: url)
+                        /*
                         if this_photo!.isSuitable(targetScreen, preference: Preference()) {
+                        */
                             switch Preference().wallpaperMode {
                             case 2: // four-image group
                                 if targetScreen.photoPool.count < 4 {
-                                    targetScreen.photoPool.append(this_photo!)
+                                    targetScreen.photoPool.append(downloadedPhoto)
                                     targetScreen.currentTry = 0 // every grid can have tries.
+
+                                    if targetScreen.photoPool.count == 4 {    // photo count is 4
+                                        targetScreen.mergeFourPhotos()
+                                    }
                                 }
                             default:    // single image
-                                targetScreen.wallpaperPhoto = this_photo
+                                targetScreen.wallpaperPhoto = downloadedPhoto
                             }
+                        /*
                         }
+                        */
                     } else {
-                        println("All targetScreens are done.")
                         self.imageDownload!.queue.cancelAllOperations()
                     }
                 }
@@ -80,7 +86,37 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
 
     func imagesDidDownload() {
         NSLog("imagesDidDownload.")
-        //setDesktopBackgrounds()
+        // set desktop image options
+        var options = getDesktopImageOptions(Preference().scalingMode)
+        //let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+
+        var workspace = NSWorkspace.sharedWorkspace()
+        var error: NSError?
+
+        if getNoWallpaperScreen() == nil {
+            for targetScreen in targetScreens {
+                if let localPathUrl = targetScreen.wallpaperPhoto?.localPathUrl {
+                    NSWorkspace.sharedWorkspace().setDesktopImageURL(localPathUrl, forScreen: targetScreen.screen!, options: options, error: &error)
+                    if error != nil {
+                        NSLog("\(error)")
+                    }
+                }
+            }
+        } else {
+            println("getNoWallpaperScreen incomplete.")
+        }
+
+        delegate?.switchrDidEnd()
+    }
+
+    func getTargetScreens() {
+        targetScreens = [TargetScreen]()
+        if let screenList = NSScreen.screens() as? [NSScreen] {
+            for screen in screenList {
+                var targetScreen = TargetScreen(screen: screen)
+                targetScreens.append(targetScreen)
+            }
+        }
     }
 
     func getNoWallpaperScreen() -> TargetScreen? {
@@ -99,43 +135,30 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
         return nil
     }
 
-    func getTargetScreens() {
-        targetScreens = [TargetScreen]()
-        if let screenList = NSScreen.screens() as? [NSScreen] {
-            for screen in screenList {
-                var targetScreen = TargetScreen(screen: screen)
-                targetScreens.append(targetScreen)
-            }
-        }
+    func switchWallpapers() {
+        getTargetScreens()
+        imgLinks = [String]()
+
+        parseRss()
     }
 
-    func switchWallpapers() {
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+    func cancelOperations() {
+        rssParser!.queue.cancelAllOperations()
+        imageDownload!.queue.cancelAllOperations()
+    }
 
-        if appDelegate.state != .Ready {
-            println("A process is running. Please wait.")
-            return
-        }
-
-        println("start sequence set backgrounds.")
-
+    func parseRss() {
+/*
         #if DEBUG
             appDelegate.timeStart = CFAbsoluteTimeGetCurrent()
         #endif
-
-        appDelegate.stateToRunning()
-
-        // clean all var
-        getTargetScreens()
-        appDelegate.imgLinks = [String]()
-        rssParser = RssParserObserver(delegate: self)
-        //imageDownload = ImageDownloadObserver(delegate: self)
+*/
+//        appDelegate.stateToRunning()
 
         // load rss url
         let rssUrls = Preference().rssUrls
         if rssUrls.count == 0 {
             notify("No predefined RSS url.")
-            appDelegate.stateToReady()
             return
         }
 
@@ -150,59 +173,17 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                     println("failed: \(error)")
                 } else {
                     //println("responseObject=\(responseObject!)")
-                    appDelegate.imgLinks += responseObject as! [String]
+                    self.imgLinks += responseObject as! [String]
                 }
             }
             rssParser!.queue.addOperation(operation)
         }
     }
 
-    func setDesktopBackgrounds() {
-        // set desktop image options
-        let scalingMode = Preference().scalingMode
-        var options = getDesktopImageOptions(scalingMode)
-        //println("scaling options: \(options)")
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-
-        var workspace = NSWorkspace.sharedWorkspace()
-        var error: NSError?
-        let myPreference = Preference()
-
-        if getNoWallpaperScreen() == nil {
-            for targetScreen in targetScreens {
-                let screenList = NSScreen.screens() as? [NSScreen]
-                if (find(screenList!, targetScreen.screen!) != nil) {
-                    if Preference().wallpaperMode == 2 {    // four-image group
-                        targetScreen.mergeFourPhotos()
-                    }
-
-                    if let photo = targetScreen.wallpaperPhoto {
-                        var result:Bool = workspace.setDesktopImageURL(photo.localPathUrl, forScreen: targetScreen.screen!, options: options, error: &error)
-                        if result {
-                            println("\(targetScreen.screen!) set to \(photo.localPath) from \(photo.url) fitScreenOrientation: \(myPreference.fitScreenOrientation)")
-                        } else {
-                            println("error setDesktopImageURL for screen: \(targetScreen.screen!)")
-                            return
-                        }
-                    } else {
-                        println("No wallpaper set for \(targetScreen.screen!)")
-                    }
-                }
-            }
-            //println("Wallpaper changes!", title: "Successful")
-        } else {
-            println("getNoWallpaperScreen incomplete.")
-        }
-
-        #if DEBUG
-            let timeElapsed = CFAbsoluteTimeGetCurrent() - appDelegate.timeStart!
-            println("time used: \(timeElapsed)")
-        #endif
-
-        rssParser = nil
-        //imageDownload = nil
-        //appDelegate.switchrAPI = nil
-        appDelegate.stateToReady()
+    func rssDidParse() {
+        NSLog("rssDidParse.")
+        imgLinks.shuffle()
+        downloadImages(imgLinks)
     }
 
     private func getDesktopImageOptions(scalingMode: Int) -> [NSObject : AnyObject]? {

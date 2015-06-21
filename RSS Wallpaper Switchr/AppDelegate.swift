@@ -14,12 +14,11 @@ enum AppState {
 }
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, SwitchrAPIDelegate {
     var statusMenuController: StatusMenuController!
-    var imgLinks = [String]()
     var state = AppState.Ready
     var switchTimer = NSTimer()
-    var switchrAPI = SwitchrAPI()
+    var switchrAPI: SwitchrAPI?
 
     #if DEBUG
     var timeStart: CFAbsoluteTime?
@@ -82,17 +81,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     //
+    // SwitchrAPI delegate protocol
+    //
+    func switchrWillStart() -> Bool {
+        if stateToRunning() {
+            switchrAPI = SwitchrAPI(delegate: self)
+            switchrAPI!.switchWallpapers()
+            return true
+        } else {
+            NSLog("Another process is running. Please wait.")
+            return false
+        }
+    }
+
+    func switchrDidEnd() {
+        switchrAPI = nil
+        stateToReady()
+    }
+
+    //
     // Timer related
     //
 
     func timerDidFire() {
         println("\(Preference().switchInterval) minutes passed.")
-        /*
-        if switchrAPI == nil {
-            switchrAPI = SwitchrAPI()
-        }
-*/
-        switchrAPI.switchWallpapers()
+        switchrAPI = SwitchrAPI(delegate: self)
+        switchrAPI!.switchWallpapers()
     }
 
     func stopSwitchTimer() {
@@ -118,10 +132,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     //
     // App State Control
     //
-    func stateToRunning() {
-        state = .Running
-        statusMenuController.menuIconActivate()
-        statusMenuController.statusBarItemStatusToRunning()
+    func stateToRunning() -> Bool {
+        if state == .Ready {
+            state = .Running
+            statusMenuController.menuIconActivate()
+            statusMenuController.statusBarItemStatusToRunning()
+            return true
+        }
+        return false
     }
 
     func stateToReady() {
