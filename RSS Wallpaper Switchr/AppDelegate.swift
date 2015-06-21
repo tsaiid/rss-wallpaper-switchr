@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SwitchrAPIDelegate {
     var switchrAPI: SwitchrAPI?
 
     #if DEBUG
-    var timeStart: CFAbsoluteTime?
+    var timeStart: CFAbsoluteTime?  // DEBUG_SHOW_TIME_ELAPSED
     #endif
 
     //
@@ -85,6 +85,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SwitchrAPIDelegate {
     //
     func switchrWillStart() -> Bool {
         if stateToRunning() {
+            if DEBUG_SHOW_TIME_ELAPSED {
+                timeStart = CFAbsoluteTimeGetCurrent()
+            }
+
             switchrAPI = SwitchrAPI(delegate: self)
             switchrAPI!.switchWallpapers()
             return true
@@ -97,6 +101,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SwitchrAPIDelegate {
     func switchrDidEnd() {
         switchrAPI = nil
         stateToReady()
+
+        if DEBUG_SHOW_TIME_ELAPSED {
+            let timeElapsed = CFAbsoluteTimeGetCurrent() - timeStart!
+            NSLog("time used: \(timeElapsed)")
+        }
     }
 
     //

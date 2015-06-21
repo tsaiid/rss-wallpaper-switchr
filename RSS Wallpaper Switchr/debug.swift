@@ -10,6 +10,7 @@ import Cocoa
 
 // some debug flags
 let DEBUG_DEINIT:Bool = true
+let DEBUG_SHOW_TIME_ELAPSED:Bool = true
 
 func println(object: Any) {
     #if DEBUG

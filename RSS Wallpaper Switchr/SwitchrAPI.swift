@@ -139,13 +139,6 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     }
 
     func parseRss() {
-/*
-        #if DEBUG
-            appDelegate.timeStart = CFAbsoluteTimeGetCurrent()
-        #endif
-*/
-//        appDelegate.stateToRunning()
-
         // load rss url
         let rssUrls = Preference().rssUrls
         if rssUrls.count == 0 {
