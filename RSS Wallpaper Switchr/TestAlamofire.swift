@@ -197,6 +197,10 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
                             if targetScreen.photoPool.count < 4 {
                                 targetScreen.photoPool.append(downloadedPhoto)
                                 targetScreen.currentTry = 0 // every grid can have tries.
+
+                                if targetScreen.photoPool.count == 4 {    // photo count is 4
+                                    targetScreen.mergeFourPhotos()
+                                }
                             }
                         default:    // single image
                             targetScreen.wallpaperPhoto = downloadedPhoto
@@ -213,24 +217,16 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
     func imagesDidDownload() {
         NSLog("imagesDidDownload.")
         // set desktop image options
-        let scalingMode = Preference().scalingMode
-        //var options = getDesktopImageOptions(scalingMode)
-        //println("scaling options: \(options)")
+        var options = getDesktopImageOptions(Preference().scalingMode)
         //let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
 
         var workspace = NSWorkspace.sharedWorkspace()
         var error: NSError?
-        let myPreference = Preference()
 
         if getNoWallpaperScreen() == nil {
             for targetScreen in targetScreens {
-                if Preference().wallpaperMode == 2 {    // four-image group
-                    targetScreen.mergeFourPhotos()
-                }
-
                 if let localPathUrl = targetScreen.wallpaperPhoto?.localPathUrl {
-                    NSWorkspace.sharedWorkspace().setDesktopImageURL(localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
-
+                    NSWorkspace.sharedWorkspace().setDesktopImageURL(localPathUrl, forScreen: targetScreen.screen!, options: options, error: &error)
                     if error != nil {
                         NSLog("\(error)")
                     }
@@ -241,6 +237,35 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
         }
     }
 }
+
+private func getDesktopImageOptions(scalingMode: Int) -> [NSObject : AnyObject]? {
+    var options: [NSObject : AnyObject]?
+    var scaling: NSImageScaling
+
+    switch scalingMode {
+    case 1: // fill the screen
+        scaling = .ImageScaleProportionallyUpOrDown
+        options = [
+            "NSWorkspaceDesktopImageScalingKey": NSImageScaling.ImageScaleProportionallyUpOrDown.rawValue,
+            "NSWorkspaceDesktopImageAllowClippingKey": true
+        ]
+    case 2: // fit screen size
+        options = [
+            "NSWorkspaceDesktopImageScalingKey": NSImageScaling.ImageScaleProportionallyUpOrDown.rawValue,
+            "NSWorkspaceDesktopImageAllowClippingKey": false
+        ]
+    case 3: // centering
+        options = [
+            "NSWorkspaceDesktopImageScalingKey": NSImageScaling.ImageScaleNone.rawValue,
+            "NSWorkspaceDesktopImageAllowClippingKey": false
+        ]
+    default:
+        return nil
+    }
+
+    return options
+}
+
 
 class TAParseRssOperation : ConcurrentOperation {
     let URLString: String
