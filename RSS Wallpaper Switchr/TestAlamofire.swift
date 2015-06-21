@@ -176,7 +176,6 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
     func rssDidParse() {
         NSLog("rssDidParse.")
         imgLinks.shuffle()
-        //NSLog("\(imgLinks)")
         downloadImages(imgLinks)
     }
 
@@ -190,10 +189,18 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
 
                     println("failed: \(error)")
                 } else {
-                    //println("responseObject=\(responseObject!)")
                     if let targetScreen = self.getNoWallpaperScreen() {
                         let url:NSURL = responseObject as! NSURL
-                        targetScreen.wallpaperPhoto = PhotoRecord(name: "", url: url, localPathUrl: url)
+                        let downloadedPhoto = PhotoRecord(name: "", url: url, localPathUrl: url)
+                        switch Preference().wallpaperMode {
+                        case 2: // four-image group
+                            if targetScreen.photoPool.count < 4 {
+                                targetScreen.photoPool.append(downloadedPhoto)
+                                targetScreen.currentTry = 0 // every grid can have tries.
+                            }
+                        default:    // single image
+                            targetScreen.wallpaperPhoto = downloadedPhoto
+                        }
                     } else {
                         self.testAlamofireObserver!.queue.cancelAllOperations()
                     }
@@ -209,20 +216,28 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
         let scalingMode = Preference().scalingMode
         //var options = getDesktopImageOptions(scalingMode)
         //println("scaling options: \(options)")
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        //let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
 
         var workspace = NSWorkspace.sharedWorkspace()
         var error: NSError?
         let myPreference = Preference()
 
-        for targetScreen in targetScreens {
-            if let localPathUrl = targetScreen.wallpaperPhoto?.localPathUrl {
-                NSWorkspace.sharedWorkspace().setDesktopImageURL(localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
+        if getNoWallpaperScreen() == nil {
+            for targetScreen in targetScreens {
+                if Preference().wallpaperMode == 2 {    // four-image group
+                    targetScreen.mergeFourPhotos()
+                }
 
-                if error != nil {
-                    NSLog("\(error)")
+                if let localPathUrl = targetScreen.wallpaperPhoto?.localPathUrl {
+                    NSWorkspace.sharedWorkspace().setDesktopImageURL(localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
+
+                    if error != nil {
+                        NSLog("\(error)")
+                    }
                 }
             }
+        } else {
+            println("getNoWallpaperScreen incomplete.")
         }
     }
 }
