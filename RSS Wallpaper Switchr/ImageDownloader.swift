@@ -58,8 +58,9 @@ class DownloadImageOperation : ConcurrentOperation {
     }
 
     deinit {
+        request = nil
         if DEBUG_DEINIT {
-        //    println("DownloadImageOperation deinit.")
+            println("DownloadImageOperation deinit.")
         }
     }
 
