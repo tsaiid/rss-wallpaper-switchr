@@ -35,15 +35,6 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     }
 
     func downloadImages(imgLinks: [String]?) {
-        /*
-        switch Preference().wallpaperMode {
-        case 2:     // four-image group
-            imageDownload!.queue.maxConcurrentOperationCount = 4
-        default:    // single image
-            imageDownload!.queue.maxConcurrentOperationCount = 2
-        }
-*/
-
         for imgLink in imgLinks! {
             let operation = DownloadImageOperation(URLString: imgLink) {
                 (responseObject, error) in
