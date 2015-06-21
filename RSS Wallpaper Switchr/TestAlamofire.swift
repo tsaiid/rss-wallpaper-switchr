@@ -98,14 +98,43 @@ class TestAlamofireObserver: NSObject {
 
 class TestAlamofire: NSObject, ImageDownloadDelegate {
     var testAlamofireObserver: TestAlamofireObserver?
-    var finalPath: NSURL?
+    //var finalPath: NSURL?
+    var targetScreens = [TargetScreen]()
 
     override init() {
         super.init()
         testAlamofireObserver = TestAlamofireObserver(delegate: self)
     }
 
+    func getTargetScreens() {
+        targetScreens = [TargetScreen]()
+        if let screenList = NSScreen.screens() as? [NSScreen] {
+            for screen in screenList {
+                var targetScreen = TargetScreen(screen: screen)
+                targetScreens.append(targetScreen)
+            }
+        }
+    }
+
+    func getNoWallpaperScreen() -> TargetScreen? {
+        for targetScreen in targetScreens {
+            if targetScreen.wallpaperPhoto == nil {
+                switch Preference().wallpaperMode {
+                case 2: // four-image group
+                    if targetScreen.photoPool.count < 4 {
+                        return targetScreen
+                    }
+                default:    // single image
+                    return targetScreen
+                }
+            }
+        }
+        return nil
+    }
+
     func test() {
+        getTargetScreens()
+
         let imgLinks = [
         "https://farm4.staticflickr.com/3925/18769503068_1fc09427ec_k.jpg",
         "https://farm1.staticflickr.com/338/18933828356_4f57420df7_k.jpg",
@@ -136,7 +165,12 @@ class TestAlamofire: NSObject, ImageDownloadDelegate {
                     println("failed: \(error)")
                 } else {
                     //println("responseObject=\(responseObject!)")
-                    self.finalPath = responseObject as? NSURL
+                    if let targetScreen = self.getNoWallpaperScreen() {
+                        let url:NSURL = responseObject as! NSURL
+                        targetScreen.wallpaperPhoto = PhotoRecord(name: "", url: url, localPathUrl: url)
+                    } else {
+                        self.testAlamofireObserver!.queue.cancelAllOperations()
+                    }
                 }
             }
             testAlamofireObserver!.queue.addOperation(operation)
@@ -159,19 +193,13 @@ class TestAlamofire: NSObject, ImageDownloadDelegate {
         var error: NSError?
         let myPreference = Preference()
 
-        let url = finalPath
-        var targetScreens = [TargetScreen]()
-        if let screenList = NSScreen.screens() as? [NSScreen] {
-            for screen in screenList {
-                var targetScreen = TargetScreen(screen: screen)
-                targetScreens.append(targetScreen)
-            }
-        }
         for targetScreen in targetScreens {
-            targetScreen.wallpaperPhoto = PhotoRecord(name: "testAlamofire", url: url!, localPathUrl: url!)
-            NSWorkspace.sharedWorkspace().setDesktopImageURL(url!, forScreen: targetScreen.screen!, options: nil, error: &error)
-            if error != nil {
-                NSLog("\(error)")
+            if let localPathUrl = targetScreen.wallpaperPhoto?.localPathUrl {
+                NSWorkspace.sharedWorkspace().setDesktopImageURL(localPathUrl, forScreen: targetScreen.screen!, options: nil, error: &error)
+
+                if error != nil {
+                    NSLog("\(error)")
+                }
             }
         }
     }
