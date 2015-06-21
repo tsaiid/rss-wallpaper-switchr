@@ -21,6 +21,10 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     var targetScreens = [TargetScreen]()
     var imgLinks = [String]()
 
+    //
+    // Init
+    //
+
     init(delegate: SwitchrAPIDelegate) {
         super.init()
         self.delegate = delegate
@@ -33,6 +37,62 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
             //println("SwitchrAPI deinit.")
         }
     }
+
+    //
+    // API entry points
+    //
+
+    func switchWallpapers() {
+        getTargetScreens()
+        imgLinks = [String]()
+
+        parseRss()
+    }
+
+    func cancelOperations() {
+        rssParser!.queue.cancelAllOperations()
+        imageDownload!.queue.cancelAllOperations()
+    }
+
+    //
+    // 1. parse rss
+    //
+
+    func parseRss() {
+        // load rss url
+        let rssUrls = Preference().rssUrls
+        if rssUrls.count == 0 {
+            notify("No predefined RSS url.")
+            return
+        }
+
+        for url in rssUrls {
+            println(url)
+            let operation = ParseRssOperation(URLString: url as! String) {
+                (responseObject, error) in
+
+                if responseObject == nil {
+                    // handle error here
+
+                    println("failed: \(error)")
+                } else {
+                    //println("responseObject=\(responseObject!)")
+                    self.imgLinks += responseObject as! [String]
+                }
+            }
+            rssParser!.queue.addOperation(operation)
+        }
+    }
+
+    func rssDidParse() {
+        NSLog("rssDidParse.")
+        imgLinks.shuffle()
+        downloadImages(imgLinks)
+    }
+
+    //
+    // 2. download images
+    //
 
     func downloadImages(imgLinks: [String]?) {
         for imgLink in imgLinks! {
@@ -50,19 +110,19 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                         /*
                         if this_photo!.isSuitable(targetScreen, preference: Preference()) {
                         */
-                            switch Preference().wallpaperMode {
-                            case 2: // four-image group
-                                if targetScreen.photoPool.count < 4 {
-                                    targetScreen.photoPool.append(downloadedPhoto)
-                                    targetScreen.currentTry = 0 // every grid can have tries.
+                        switch Preference().wallpaperMode {
+                        case 2: // four-image group
+                            if targetScreen.photoPool.count < 4 {
+                                targetScreen.photoPool.append(downloadedPhoto)
+                                targetScreen.currentTry = 0 // every grid can have tries.
 
-                                    if targetScreen.photoPool.count == 4 {    // photo count is 4
-                                        targetScreen.mergeFourPhotos()
-                                    }
+                                if targetScreen.photoPool.count == 4 {    // photo count is 4
+                                    targetScreen.mergeFourPhotos()
                                 }
-                            default:    // single image
-                                targetScreen.wallpaperPhoto = downloadedPhoto
                             }
+                        default:    // single image
+                            targetScreen.wallpaperPhoto = downloadedPhoto
+                        }
                         /*
                         }
                         */
@@ -100,7 +160,11 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
         delegate?.switchrDidEnd()
     }
 
-    func getTargetScreens() {
+    //
+    // Private func
+    //
+
+    private func getTargetScreens() {
         targetScreens = [TargetScreen]()
         if let screenList = NSScreen.screens() as? [NSScreen] {
             for screen in screenList {
@@ -110,7 +174,7 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
         }
     }
 
-    func getNoWallpaperScreen() -> TargetScreen? {
+    private func getNoWallpaperScreen() -> TargetScreen? {
         for targetScreen in targetScreens {
             if targetScreen.wallpaperPhoto == nil {
                 switch Preference().wallpaperMode {
@@ -124,50 +188,6 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
             }
         }
         return nil
-    }
-
-    func switchWallpapers() {
-        getTargetScreens()
-        imgLinks = [String]()
-
-        parseRss()
-    }
-
-    func cancelOperations() {
-        rssParser!.queue.cancelAllOperations()
-        imageDownload!.queue.cancelAllOperations()
-    }
-
-    func parseRss() {
-        // load rss url
-        let rssUrls = Preference().rssUrls
-        if rssUrls.count == 0 {
-            notify("No predefined RSS url.")
-            return
-        }
-
-        for url in rssUrls {
-            println(url)
-            let operation = ParseRssOperation(URLString: url as! String) {
-                (responseObject, error) in
-
-                if responseObject == nil {
-                    // handle error here
-
-                    println("failed: \(error)")
-                } else {
-                    //println("responseObject=\(responseObject!)")
-                    self.imgLinks += responseObject as! [String]
-                }
-            }
-            rssParser!.queue.addOperation(operation)
-        }
-    }
-
-    func rssDidParse() {
-        NSLog("rssDidParse.")
-        imgLinks.shuffle()
-        downloadImages(imgLinks)
     }
 
     private func getDesktopImageOptions(scalingMode: Int) -> [NSObject : AnyObject]? {
