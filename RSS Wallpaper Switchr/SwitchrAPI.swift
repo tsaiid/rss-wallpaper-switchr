@@ -20,6 +20,7 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
 
     override init() {
         super.init()
+        imageDownload = ImageDownloadObserver(delegate: self)
     }
 
     deinit {
@@ -42,11 +43,9 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
             imageDownload!.queue.maxConcurrentOperationCount = 2
         }
 
-        println("image queue: \(imageDownload!.queue.operations.count)")
-
         for imgLink in appDelegate.imgLinks {
             let urlStr:String = imgLink as String
-            let myPreference = Preference()
+            //let myPreference = Preference()
 
             let operation = DownloadImageOperation(URLString: urlStr) {
                 (responseObject, error) in
@@ -56,10 +55,9 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
 
                     println("failed: \(error)")
                 } else {
-                    println("responseObject=\(responseObject!)")
                     if let targetScreen = self.getNoWallpaperScreen() {
                         var this_photo: PhotoRecord? = responseObject as? PhotoRecord
-                        if this_photo!.isSuitable(targetScreen, preference: myPreference) {
+                        if this_photo!.isSuitable(targetScreen, preference: Preference()) {
                             switch Preference().wallpaperMode {
                             case 2: // four-image group
                                 if targetScreen.photoPool.count < 4 {
@@ -81,7 +79,8 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     }
 
     func imagesDidDownload() {
-        setDesktopBackgrounds()
+        NSLog("imagesDidDownload.")
+        //setDesktopBackgrounds()
     }
 
     func getNoWallpaperScreen() -> TargetScreen? {
@@ -130,7 +129,7 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
         getTargetScreens()
         appDelegate.imgLinks = [String]()
         rssParser = RssParserObserver(delegate: self)
-        imageDownload = ImageDownloadObserver(delegate: self)
+        //imageDownload = ImageDownloadObserver(delegate: self)
 
         // load rss url
         let rssUrls = Preference().rssUrls
@@ -190,7 +189,7 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                     }
                 }
             }
-            println("Wallpaper changes!", title: "Successful")
+            //println("Wallpaper changes!", title: "Successful")
         } else {
             println("getNoWallpaperScreen incomplete.")
         }
@@ -201,8 +200,8 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
         #endif
 
         rssParser = nil
-        imageDownload = nil
-        appDelegate.switchrAPI = nil
+        //imageDownload = nil
+        //appDelegate.switchrAPI = nil
         appDelegate.stateToReady()
     }
 

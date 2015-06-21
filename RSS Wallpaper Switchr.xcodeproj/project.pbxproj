@@ -23,6 +23,7 @@
 		D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1EFCC1A7F56440032C16A /* RssParser.swift */; };
 		D3A75C451B285BEC00CEC833 /* Array_shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */; };
 		D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AAB3F71A8338EA00EA1439 /* Preference.swift */; };
+		D3AEA6191B3663FA0025A476 /* TestAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AEA6181B3663FA0025A476 /* TestAlamofire.swift */; };
 		D3B58A821B2A64040085DAD5 /* AboutWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3B58A811B2A64040085DAD5 /* AboutWindow.xib */; };
 		D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E62F5F1A7DF30E00A40EBA /* AppDelegate.swift */; };
 		D3E62F621A7DF30E00A40EBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3E62F611A7DF30E00A40EBA /* Images.xcassets */; };
@@ -59,6 +60,7 @@
 		D3A1EFCC1A7F56440032C16A /* RssParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RssParser.swift; sourceTree = "<group>"; };
 		D3A75C441B285BEC00CEC833 /* Array_shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array_shuffle.swift; sourceTree = "<group>"; };
 		D3AAB3F71A8338EA00EA1439 /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
+		D3AEA6181B3663FA0025A476 /* TestAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAlamofire.swift; sourceTree = "<group>"; };
 		D3B58A811B2A64040085DAD5 /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutWindow.xib; sourceTree = "<group>"; };
 		D3E62F5A1A7DF30E00A40EBA /* RSS Wallpaper Switchr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RSS Wallpaper Switchr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E62F5E1A7DF30E00A40EBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				D3A1EFCC1A7F56440032C16A /* RssParser.swift */,
+				D3AEA6181B3663FA0025A476 /* TestAlamofire.swift */,
 				D36CB37F1B2F38C8001C2B51 /* ImageDownloader.swift */,
 				D334C6C31A80F4E600726130 /* PhotoRecord.swift */,
 				D3AAB3F71A8338EA00EA1439 /* Preference.swift */,
@@ -380,6 +383,7 @@
 				D376EAA31B2A75A800B7BF69 /* AboutWindow.swift in Sources */,
 				D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */,
 				D369F09A1A84E21F00FC00FE /* debug.swift in Sources */,
+				D3AEA6191B3663FA0025A476 /* TestAlamofire.swift in Sources */,
 				D3A1EFCD1A7F56440032C16A /* RssParser.swift in Sources */,
 				D36CB3801B2F38C8001C2B51 /* ImageDownloader.swift in Sources */,
 				D34CA30F1A91B474009FAA38 /* TargetScreen.swift in Sources */,

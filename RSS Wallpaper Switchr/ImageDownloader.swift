@@ -23,10 +23,11 @@ class ImageDownloadObserver: NSObject {
         super.init()
         self.delegate = delegate
         queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
+        NSLog("ImageDownloadObserver init.")
     }
 
     deinit {
-        queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
+        self.queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
         if DEBUG_DEINIT {
             println("ImageDownloadObserver deinit.")
         }
@@ -34,13 +35,14 @@ class ImageDownloadObserver: NSObject {
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
         if context == &myContext {
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-
             if self.queue.operations.count == 0 {
-                println("Image Download Complete queue: \(self.queue)")
+                println("Image Download Complete queue. keyPath: \(keyPath); object: \(object); context: \(context)")
+
+                //let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
 
                 // set backgrounds.
                 self.delegate?.imagesDidDownload()
+                //appDelegate.stateToReady()
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
@@ -64,7 +66,7 @@ class DownloadImageOperation : ConcurrentOperation {
     deinit {
         request = nil
         if DEBUG_DEINIT {
-            println("DownloadImageOperation deinit.")
+        //    println("DownloadImageOperation deinit.")
         }
     }
 
@@ -108,7 +110,7 @@ class DownloadImageOperation : ConcurrentOperation {
 
     override func cancel() {
         // should also cancel Alamofire request, but it results in strange memory problem!
-        //request?.cancel()
+        request?.cancel()
         super.cancel()
     }
 }
