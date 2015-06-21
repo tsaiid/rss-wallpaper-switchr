@@ -107,25 +107,21 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                     if let targetScreen = self.getNoWallpaperScreen() {
                         let url:NSURL = responseObject as! NSURL
                         let downloadedPhoto = PhotoRecord(name: "", url: url, localPathUrl: url)
-                        /*
-                        if this_photo!.isSuitable(targetScreen, preference: Preference()) {
-                        */
-                        switch Preference().wallpaperMode {
-                        case 2: // four-image group
-                            if targetScreen.photoPool.count < 4 {
-                                targetScreen.photoPool.append(downloadedPhoto)
-                                targetScreen.currentTry = 0 // every grid can have tries.
+                        if downloadedPhoto.isSuitable(targetScreen, preference: Preference()) {
+                            switch Preference().wallpaperMode {
+                            case 2: // four-image group
+                                if targetScreen.photoPool.count < 4 {
+                                    targetScreen.photoPool.append(downloadedPhoto)
+                                    targetScreen.currentTry = 0 // every grid can have tries.
 
-                                if targetScreen.photoPool.count == 4 {    // photo count is 4
-                                    targetScreen.mergeFourPhotos()
+                                    if targetScreen.photoPool.count == 4 {    // photo count is 4
+                                        targetScreen.mergeFourPhotos()
+                                    }
                                 }
+                            default:    // single image
+                                targetScreen.wallpaperPhoto = downloadedPhoto
                             }
-                        default:    // single image
-                            targetScreen.wallpaperPhoto = downloadedPhoto
                         }
-                        /*
-                        }
-                        */
                     } else {
                         self.imageDownload!.queue.cancelAllOperations()
                     }
