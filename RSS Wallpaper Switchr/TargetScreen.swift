@@ -22,7 +22,7 @@ class TargetScreen {
 
     deinit {
         if DEBUG_DEINIT {
-            println("TargetScreen deinit.")
+//            println("TargetScreen deinit.")
         }
     }
 

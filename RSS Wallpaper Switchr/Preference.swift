@@ -24,7 +24,7 @@ class Preference {
 
     deinit {
         if DEBUG_DEINIT {
-            println("Preference deinit.")
+//            println("Preference deinit.")
         }
     }
 

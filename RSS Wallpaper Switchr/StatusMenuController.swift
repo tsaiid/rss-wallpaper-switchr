@@ -21,6 +21,8 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
     var appDelegate: AppDelegate!
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1) // NSVariableStatusItemLength
 
+    //var switchrAPI: SwitchrAPI?
+
     //
     // Init
     //
@@ -61,15 +63,9 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
     //
 
     @IBAction func switchWallpapersClicked(sender: NSMenuItem) {
-        switch appDelegate.state {
-        case .Ready:
-            println("Force set wallpapers.")
-            updateWallpapers()
-        case .Running:
-            println("Force cancelling operation.")
-            cancelUpdate()
-        default:
-            println("Strange AppState: \(appDelegate.state)")
+        if !appDelegate.switchrWillStart() {
+            appDelegate.switchrAPI!.cancelOperations()
+            NSLog("Force cancel SwitchrAPI operations.")
         }
     }
 
@@ -84,22 +80,6 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
 
     @IBAction func quitClicked(sender: NSMenuItem) {
         NSApplication.sharedApplication().terminate(self)
-    }
-
-    private func updateWallpapers() {
-        if appDelegate.switchrAPI == nil {
-            appDelegate.switchrAPI = SwitchrAPI()
-        }
-        appDelegate.switchrAPI!.switchWallpapers()
-    }
-
-    private func cancelUpdate() {
-        if let switchrAPI = appDelegate.switchrAPI {
-            switchrAPI.rssParser?.queue.cancelAllOperations()
-            switchrAPI.imageDownload?.queue.cancelAllOperations()
-        }
-        appDelegate.switchrAPI = nil
-        appDelegate.stateToReady()
     }
 
     //

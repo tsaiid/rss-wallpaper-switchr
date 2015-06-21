@@ -49,7 +49,7 @@ class PhotoRecord: Equatable {
 
     deinit {
         if DEBUG_DEINIT {
-            println("PhotoRecord deinit.")
+//            println("PhotoRecord deinit.")
         }
     }
     

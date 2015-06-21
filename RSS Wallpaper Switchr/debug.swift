@@ -10,14 +10,18 @@ import Cocoa
 
 // some debug flags
 let DEBUG_DEINIT:Bool = true
+let DEBUG_SHOW_TIME_ELAPSED:Bool = true
 
 func println(object: Any) {
     #if DEBUG
+        /*
         let date = NSDate()
         let formatter = NSDateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
         let timestamp = formatter.stringFromDate(date)
-        Swift.println("\(timestamp): \(object)")
+        //Swift.println("\(timestamp): \(object)")
+*/
+        NSLog("\(object)")
     #endif
 }
 
@@ -27,7 +31,7 @@ func notify(msg: NSString!, title: NSString = "Error"){
     userNotify.informativeText = msg as String
 
     #if DEBUG
-        println(msg)
+        NSLog("\(msg)")
     #endif
 
     NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(userNotify)
