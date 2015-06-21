@@ -9,6 +9,10 @@
 import Cocoa
 import Alamofire
 
+protocol TARssParserObserverDelegate {
+    func rssDidParse(imgLinks: [String]?)
+}
+
 class TestAlamofireOperation : ConcurrentOperation {
     let URLString: String
     var finalPath: NSURL?
@@ -96,14 +100,16 @@ class TestAlamofireObserver: NSObject {
     }
 }
 
-class TestAlamofire: NSObject, ImageDownloadDelegate {
+class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegate {
     var testAlamofireObserver: TestAlamofireObserver?
+    var rssParserObserver: TARssParserObserver?
     //var finalPath: NSURL?
     var targetScreens = [TargetScreen]()
 
     override init() {
         super.init()
         testAlamofireObserver = TestAlamofireObserver(delegate: self)
+        rssParserObserver = TARssParserObserver(delegate: self)
     }
 
     func getTargetScreens() {
@@ -155,7 +161,19 @@ class TestAlamofire: NSObject, ImageDownloadDelegate {
         "https://farm1.staticflickr.com/266/18956724112_6e61a743a5_k.jpg"
         ]
 
-        for imgLink in imgLinks {
+        rssDidParse(imgLinks)
+    }
+
+    func cancelTest() {
+        testAlamofireObserver!.queue.cancelAllOperations()
+    }
+
+    func rssDidParse(imgLinks: [String]?) {
+        downloadImages(imgLinks)
+    }
+
+    func downloadImages(imgLinks: [String]?) {
+        for imgLink in imgLinks! {
             let operation = TestAlamofireOperation(URLString: imgLink) {
                 (responseObject, error) in
 
@@ -175,10 +193,6 @@ class TestAlamofire: NSObject, ImageDownloadDelegate {
             }
             testAlamofireObserver!.queue.addOperation(operation)
         }
-    }
-
-    func cancelTest() {
-        testAlamofireObserver!.queue.cancelAllOperations()
     }
 
     func imagesDidDownload() {
@@ -201,6 +215,38 @@ class TestAlamofire: NSObject, ImageDownloadDelegate {
                     NSLog("\(error)")
                 }
             }
+        }
+    }
+}
+
+class TARssParserObserver: NSObject {
+    var delegate: TARssParserObserverDelegate?
+    var queue = NSOperationQueue()
+    var imgLinks: [String]?
+
+    init(delegate: TARssParserObserverDelegate) {
+        super.init()
+        self.delegate = delegate
+        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &testAlamofireContext)
+    }
+
+    deinit {
+        queue.removeObserver(self, forKeyPath: "operations", context: &testAlamofireContext)
+    }
+
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
+        if context == &testAlamofireContext {
+            if (self.queue.operations.count == 0) {
+                println("queue completed.")
+                if (self.imgLinks?.count > 0) {
+                    self.imgLinks?.shuffle()
+                    self.delegate?.rssDidParse(self.imgLinks)
+                } else {
+                    println("No image link found")
+                }
+            }
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
 }
