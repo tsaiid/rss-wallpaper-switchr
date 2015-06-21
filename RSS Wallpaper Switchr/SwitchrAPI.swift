@@ -28,13 +28,11 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     init(delegate: SwitchrAPIDelegate) {
         super.init()
         self.delegate = delegate
-        rssParser = RssParserObserver(delegate: self)
-        imageDownload = ImageDownloadObserver(delegate: self)
     }
 
     deinit {
         if DEBUG_DEINIT {
-            //println("SwitchrAPI deinit.")
+            println("SwitchrAPI deinit.")
         }
     }
 
@@ -59,6 +57,8 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     //
 
     func parseRss() {
+        rssParser = RssParserObserver(delegate: self)
+
         // load rss url
         let rssUrls = Preference().rssUrls
         if rssUrls.count == 0 {
@@ -86,7 +86,11 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
 
     func rssDidParse() {
         NSLog("rssDidParse.")
+        rssParser = nil
+
         imgLinks.shuffle()
+
+        imageDownload = ImageDownloadObserver(delegate: self)
         downloadImages(imgLinks)
     }
 
@@ -133,6 +137,8 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
 
     func imagesDidDownload() {
         NSLog("imagesDidDownload.")
+        imageDownload = nil
+
         // set desktop image options
         var options = getDesktopImageOptions(Preference().scalingMode)
         //let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
