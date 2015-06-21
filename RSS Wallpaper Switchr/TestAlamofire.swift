@@ -8,10 +8,7 @@
 
 import Cocoa
 import Alamofire
-
-protocol TARssParserObserverDelegate {
-    func rssDidParse(imgLinks: [String]?)
-}
+import SWXMLHash
 
 class TestAlamofireOperation : ConcurrentOperation {
     let URLString: String
@@ -105,6 +102,7 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
     var rssParserObserver: TARssParserObserver?
     //var finalPath: NSURL?
     var targetScreens = [TargetScreen]()
+    var imgLinks = [String]()
 
     override init() {
         super.init()
@@ -141,34 +139,44 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
     func test() {
         getTargetScreens()
 
-        let imgLinks = [
-        "https://farm4.staticflickr.com/3925/18769503068_1fc09427ec_k.jpg",
-        "https://farm1.staticflickr.com/338/18933828356_4f57420df7_k.jpg",
-        "https://farm4.staticflickr.com/3776/18945113685_ccec89d67a_o.jpg",
-        "https://farm1.staticflickr.com/366/18333992053_725f21166e_k.jpg",
-        "https://farm4.staticflickr.com/3777/18962702032_086453ee7a_k.jpg",
-        "https://farm1.staticflickr.com/373/18930501406_4753ac021a_k.jpg",
-        "https://farm1.staticflickr.com/283/18772907409_56ffbe573b_k.jpg",
-        "https://farm1.staticflickr.com/314/18940901785_b0564b1c9b_o.jpg",
-        "https://farm1.staticflickr.com/502/18949263495_88d75d2d2f_k.jpg",
-        "https://farm4.staticflickr.com/3912/18938184302_6e0ca9ad31_k.jpg",
-        "https://farm1.staticflickr.com/356/18957923475_3dc9df7634_k.jpg",
-        "https://farm1.staticflickr.com/378/18925014986_e87feca9c7_o.jpg",
-        "https://farm1.staticflickr.com/461/18949863812_ddf700bd03_o.jpg",
-        "https://farm1.staticflickr.com/303/18920711216_4684ff4295_k.jpg",
-        "https://farm1.staticflickr.com/558/18935058546_fc10d10855_k.jpg",
-        "https://farm1.staticflickr.com/384/18955290345_fb93d17828_o.jpg",
-        "https://farm1.staticflickr.com/266/18956724112_6e61a743a5_k.jpg"
-        ]
-
-        rssDidParse(imgLinks)
+        imgLinks = [String]()
+        parseRss()
     }
 
     func cancelTest() {
         testAlamofireObserver!.queue.cancelAllOperations()
     }
 
-    func rssDidParse(imgLinks: [String]?) {
+    func parseRss() {
+        // load rss url
+        let rssUrls = Preference().rssUrls
+        if rssUrls.count == 0 {
+            notify("No predefined RSS url.")
+            return
+        }
+
+        for url in rssUrls {
+            println(url)
+            let operation = TAParseRssOperation(URLString: url as! String) {
+                (responseObject, error) in
+
+                if responseObject == nil {
+                    // handle error here
+
+                    println("failed: \(error)")
+                } else {
+                    //println("responseObject=\(responseObject!)")
+                    self.imgLinks += responseObject as! [String]
+                }
+            }
+            rssParserObserver!.queue.addOperation(operation)
+        }
+    }
+
+    func rssDidParse() {
+        NSLog("rssDidParse.")
+        imgLinks.shuffle()
+        //NSLog("\(imgLinks)")
         downloadImages(imgLinks)
     }
 
@@ -219,10 +227,69 @@ class TestAlamofire: NSObject, ImageDownloadDelegate, TARssParserObserverDelegat
     }
 }
 
+class TAParseRssOperation : ConcurrentOperation {
+    let URLString: String
+    let parseRssCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
+
+    weak var request: Alamofire.Request?
+
+    init(URLString: String, parseRssCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()) {
+        self.URLString = URLString
+        self.parseRssCompletionHandler = parseRssCompletionHandler
+        super.init()
+    }
+
+    deinit {
+    }
+
+    override func main() {
+        request = Alamofire.request(.GET, URLString)
+            .responseString { (request, response, data, error) in
+                if error != nil {
+                    println("ParseRss error: \(error)")
+                }
+
+                if self.cancelled {
+                    println("ParseRssOperation.main() Alamofire.download cancelled while downlading. Not proceed into PhotoRecord.")
+                } else {
+                    if data != nil {
+                        var xml = SWXMLHash.parse(data!)
+                        let title = xml["rss"]["channel"]["title"].element?.text
+                        println("Feed: \(title) was parsed.")
+
+                        // return a list of image links.
+                        var imgLinks = [String]()
+                        for item in xml["rss"]["channel"]["item"] {
+                            if let link = item["link"].element?.text {
+                                if !contains(imgLinks, link) {
+                                    imgLinks += [link]
+                                }
+                            }
+                        }
+
+                        self.parseRssCompletionHandler(responseObject: imgLinks, error: error)
+                    }
+                }
+
+                // however error or succeeded, it should complete.
+                self.completeOperation()
+        }
+    }
+
+    override func cancel() {
+        // should also cancel Alamofire request, but it results in strange memory problem!
+        request?.cancel()
+        super.cancel()
+    }
+}
+
+protocol TARssParserObserverDelegate {
+    func rssDidParse()
+}
+
 class TARssParserObserver: NSObject {
     var delegate: TARssParserObserverDelegate?
     var queue = NSOperationQueue()
-    var imgLinks: [String]?
 
     init(delegate: TARssParserObserverDelegate) {
         super.init()
@@ -238,12 +305,7 @@ class TARssParserObserver: NSObject {
         if context == &testAlamofireContext {
             if (self.queue.operations.count == 0) {
                 println("queue completed.")
-                if (self.imgLinks?.count > 0) {
-                    self.imgLinks?.shuffle()
-                    self.delegate?.rssDidParse(self.imgLinks)
-                } else {
-                    println("No image link found")
-                }
+                self.delegate?.rssDidParse()
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
