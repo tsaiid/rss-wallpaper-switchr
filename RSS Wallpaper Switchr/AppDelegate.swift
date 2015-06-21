@@ -105,8 +105,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SwitchrAPIDelegate {
 
     func timerDidFire() {
         println("\(Preference().switchInterval) minutes passed.")
-        switchrAPI = SwitchrAPI(delegate: self)
-        switchrAPI!.switchWallpapers()
+        switchrWillStart()
     }
 
     func stopSwitchTimer() {
