@@ -107,8 +107,7 @@ class DownloadImageOperation : ConcurrentOperation {
     }
 
     override func cancel() {
-        // should also cancel Alamofire request, but it results in strange memory problem!
-        //request?.cancel()
+        request?.cancel()
         super.cancel()
     }
 }
