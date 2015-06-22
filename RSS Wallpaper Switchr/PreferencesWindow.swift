@@ -68,10 +68,6 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
         
         // in order to moniter NSTextField change
         textNewRssUrl.delegate = self
-
-        self.window?.center()
-        self.window?.makeKeyAndOrderFront(nil)
-        NSApp.activateIgnoringOtherApps(true)
     }
 
     //method called, when "Close" - Button clicked
@@ -122,6 +118,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         println("Updating timer while closing option window.")
         appDelegate.updateSwitchTimer()
+        delegate?.preferencesDidUpdate()
     }
 
     // for RSS URL List Data Source
