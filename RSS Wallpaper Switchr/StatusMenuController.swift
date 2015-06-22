@@ -11,8 +11,8 @@ import Cocoa
 class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDelegate {
 
     @IBOutlet weak var statusMenu: NSMenu!
-    var preferencesWindow: PreferencesWindow!
-    var aboutWindow: AboutWindow!
+    var preferencesWindow: PreferencesWindow?
+    var aboutWindow: AboutWindow?
     var statusBarStartEndItem: NSMenuItem!
 
     private let activeIcon: NSImage
@@ -48,12 +48,6 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
         statusItem.menu = statusMenu
         statusBarStartEndItem = statusItem.menu?.itemWithTag(1)
 
-        preferencesWindow = PreferencesWindow()
-        preferencesWindow.delegate = self
-
-        aboutWindow = AboutWindow()
-        aboutWindow.delegate = self
-
         appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.statusMenuController = self
     }
@@ -70,12 +64,23 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
     }
 
     @IBAction func preferencesClicked(sender: NSMenuItem) {
-        preferencesWindow.showWindow(self)
+        if preferencesWindow == nil {
+            preferencesWindow = PreferencesWindow()
+            preferencesWindow!.delegate = self
+        }
+        preferencesWindow!.showWindow(self)
         NSApp.activateIgnoringOtherApps(true)
+        preferencesWindow!.window!.makeKeyAndOrderFront(self)
     }
 
     @IBAction func aboutClicked(sender: NSMenuItem) {
-        aboutWindow.showWindow(self)
+        if aboutWindow == nil {
+            aboutWindow = AboutWindow()
+            aboutWindow!.delegate = self
+        }
+        aboutWindow!.showWindow(self)
+        NSApp.activateIgnoringOtherApps(true)
+        aboutWindow!.window!.makeKeyAndOrderFront(self)
     }
 
     @IBAction func quitClicked(sender: NSMenuItem) {
@@ -108,9 +113,11 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
 
     func preferencesDidUpdate() {
         NSLog("Preferences did update.")
+        preferencesWindow = nil
     }
 
     func aboutDidClose() {
         NSLog("About did close.")
+        aboutWindow = nil
     }
 }
