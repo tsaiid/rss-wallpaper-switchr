@@ -48,8 +48,8 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     }
 
     func cancelOperations() {
-        rssParser!.queue.cancelAllOperations()
-        imageDownload!.queue.cancelAllOperations()
+        rssParser?.queue.cancelAllOperations()
+        imageDownload?.queue.cancelAllOperations()
     }
 
     //
