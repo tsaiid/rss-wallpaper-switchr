@@ -12,7 +12,7 @@ protocol AboutWindowDelegate {
     func aboutDidClose()
 }
 
-class AboutWindow: NSWindowController {
+class AboutWindow: NSWindowController, NSWindowDelegate {
     var delegate: AboutWindowDelegate?
 
     @IBOutlet weak var labelVersion: NSTextField!
@@ -35,5 +35,9 @@ class AboutWindow: NSWindowController {
         let verText = dictionary["CFBundleShortVersionString"] as! String
         let buildText = dictionary["CFBundleVersion"] as! String
         labelVersion.stringValue += " \(verText) (build \(buildText))"
+    }
+
+    func windowWillClose(notification: NSNotification) {
+        delegate?.aboutDidClose()
     }
 }
