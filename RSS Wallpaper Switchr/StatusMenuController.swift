@@ -57,9 +57,15 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
     //
 
     @IBAction func switchWallpapersClicked(sender: NSMenuItem) {
-        if !appDelegate.switchrWillStart() {
-            appDelegate.switchrAPI!.cancelOperations()
+        switch appDelegate.state {
+        case .Ready:
+            appDelegate.switchrWillStart()
+        case .Running:
             NSLog("Force cancel SwitchrAPI operations.")
+            appDelegate.switchrAPI!.cancelOperations()
+            appDelegate.switchrDidEnd()
+        default:
+            NSLog("Unknown state.")
         }
     }
 
