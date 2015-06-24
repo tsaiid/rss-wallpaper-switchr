@@ -10,7 +10,7 @@ import Cocoa
 
 protocol SwitchrAPIDelegate {
     func switchrWillStart() -> Bool
-    func switchrDidEnd()
+    func switchrDidEnd(apiState: ApiState)
 }
 
 enum ApiState:String {
@@ -115,7 +115,7 @@ class SwitchrAPI: NSObject {
             downloadImages(imgLinks)
         } else {
             NSLog("rssParser not successful. \(rssParser?.state.rawValue)")
-            delegate?.switchrDidEnd()
+            delegate?.switchrDidEnd(rssParser!.state)
         }
 
         rssParser = nil
@@ -133,7 +133,6 @@ class SwitchrAPI: NSObject {
 
         let downloadImagesCompletionOperation = NSBlockOperation() {
             NSLog("downloadImagesCompletionOperation.")
-            self.imageDownloader?.state = .Successful
             self.imagesDidDownload()
         }
 
@@ -180,6 +179,7 @@ class SwitchrAPI: NSObject {
                             }
                         }
                     } else {
+                        self.imageDownloader!.state = .Successful
                         self.imageDownloader!.queue.cancelAllOperations()
                     }
                 }
@@ -215,8 +215,8 @@ class SwitchrAPI: NSObject {
             NSLog("imageDownloader not successful. \(imageDownloader?.state.rawValue)")
         }
 
+        delegate?.switchrDidEnd(imageDownloader!.state)
         imageDownloader = nil
-        delegate?.switchrDidEnd()
     }
 
     //

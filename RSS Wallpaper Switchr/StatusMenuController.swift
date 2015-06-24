@@ -63,7 +63,7 @@ class StatusMenuController: NSObject, PreferencesWindowDelegate, AboutWindowDele
         case .Running:
             NSLog("Force cancel SwitchrAPI operations.")
             appDelegate.switchrAPI!.cancelOperations()
-            appDelegate.switchrDidEnd()
+            appDelegate.switchrDidEnd(.Cancelled)
         default:
             NSLog("Unknown state.")
         }
