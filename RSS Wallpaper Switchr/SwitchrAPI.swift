@@ -13,9 +13,9 @@ protocol SwitchrAPIDelegate {
     func switchrDidEnd()
 }
 
-class SwitchrAPI: NSObject, RssParserObserverDelegate {
+class SwitchrAPI: NSObject {
     var delegate: SwitchrAPIDelegate?
-    var rssParser: RssParserObserver?
+    var rssParser: RssParser?
     var imageDownloader: ImageDownloader?
 
     var targetScreens = [TargetScreen]()
@@ -44,6 +44,7 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate {
         getTargetScreens()
         imgLinks = [String]()
 
+        rssParser = RssParser()
         parseRss()
     }
 
@@ -57,7 +58,11 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate {
     //
 
     func parseRss() {
-        rssParser = RssParserObserver(delegate: self)
+        let parseRssCompletionOperation = NSBlockOperation() {
+            NSLog("parseRssCompletionOperation.")
+            self.rssDidParse()
+        }
+
 
         // load rss url
         let rssUrls = Preference().rssUrls
@@ -80,8 +85,11 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate {
                     self.imgLinks += responseObject as! [String]
                 }
             }
+            parseRssCompletionOperation.addDependency(operation)
             rssParser!.queue.addOperation(operation)
         }
+
+        NSOperationQueue.mainQueue().addOperation(parseRssCompletionOperation)
     }
 
     func rssDidParse() {

@@ -71,37 +71,16 @@ class ParseRssOperation : ConcurrentOperation {
     }
 }
 
-private var rssParserContext = 0   // for KVO
-
-protocol RssParserObserverDelegate {
-    func rssDidParse()
-}
-
-class RssParserObserver: NSObject {
-    var delegate: RssParserObserverDelegate?
+class RssParser: NSObject {
     var queue = NSOperationQueue()
     
-    init(delegate: RssParserObserverDelegate) {
+    override init() {
         super.init()
-        self.delegate = delegate
-        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &rssParserContext)
     }
 
     deinit {
-        queue.removeObserver(self, forKeyPath: "operations", context: &rssParserContext)
         if DEBUG_DEINIT {
-            println("RssParserObserver deinit.")
-        }
-    }
-
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
-        if context == &rssParserContext {
-            if (self.queue.operations.count == 0) {
-                println("queue completed.")
-                self.delegate?.rssDidParse()
-            }
-        } else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            println("RssParser deinit.")
         }
     }
 }
