@@ -13,10 +13,10 @@ protocol SwitchrAPIDelegate {
     func switchrDidEnd()
 }
 
-class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
+class SwitchrAPI: NSObject {
     var delegate: SwitchrAPIDelegate?
-    var rssParser: RssParserObserver?
-    var imageDownload: ImageDownloadObserver?
+    var rssParser: RssParser?
+    var imageDownloader: ImageDownloader?
 
     var targetScreens = [TargetScreen]()
     var imgLinks = [String]()
@@ -44,12 +44,13 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
         getTargetScreens()
         imgLinks = [String]()
 
+        rssParser = RssParser()
         parseRss()
     }
 
     func cancelOperations() {
         rssParser?.queue.cancelAllOperations()
-        imageDownload?.queue.cancelAllOperations()
+        imageDownloader?.queue.cancelAllOperations()
     }
 
     //
@@ -57,7 +58,11 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     //
 
     func parseRss() {
-        rssParser = RssParserObserver(delegate: self)
+        let parseRssCompletionOperation = NSBlockOperation() {
+            NSLog("parseRssCompletionOperation.")
+            self.rssDidParse()
+        }
+
 
         // load rss url
         let rssUrls = Preference().rssUrls
@@ -80,8 +85,11 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                     self.imgLinks += responseObject as! [String]
                 }
             }
+            parseRssCompletionOperation.addDependency(operation)
             rssParser!.queue.addOperation(operation)
         }
+
+        NSOperationQueue.mainQueue().addOperation(parseRssCompletionOperation)
     }
 
     func rssDidParse() {
@@ -90,7 +98,7 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
 
         imgLinks.shuffle()
 
-        imageDownload = ImageDownloadObserver(delegate: self)
+        imageDownloader = ImageDownloader()
         downloadImages(imgLinks)
     }
 
@@ -99,9 +107,29 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
     //
 
     func downloadImages(imgLinks: [String]?) {
+        let downloadImagesCompletionOperation = NSBlockOperation() {
+            NSLog("downloadImagesCompletionOperation.")
+            self.imagesDidDownload()
+        }
+
+        switch Preference().wallpaperMode {
+        case 2:     // four-image group
+            imageDownloader!.queue.maxConcurrentOperationCount = 6
+        default:    // single image
+            imageDownloader!.queue.maxConcurrentOperationCount = 2
+        }
+
         for imgLink in imgLinks! {
             let operation = DownloadImageOperation(URLString: imgLink) {
                 (responseObject, error) in
+
+                if error != nil {
+                    if error!.code == NSURLErrorCancelled && error!.domain == NSURLErrorDomain {
+                        println("everything OK, just canceled.")
+                    } else {
+                        println("error=\(error)")
+                    }
+                }
 
                 if responseObject == nil {
                     // handle error here
@@ -127,17 +155,20 @@ class SwitchrAPI: NSObject, RssParserObserverDelegate, ImageDownloadDelegate {
                             }
                         }
                     } else {
-                        self.imageDownload!.queue.cancelAllOperations()
+                        self.imageDownloader!.queue.cancelAllOperations()
                     }
                 }
             }
-            imageDownload!.queue.addOperation(operation)
+            downloadImagesCompletionOperation.addDependency(operation)
+            imageDownloader!.queue.addOperation(operation)
         }
+
+        NSOperationQueue.mainQueue().addOperation(downloadImagesCompletionOperation)
     }
 
     func imagesDidDownload() {
         NSLog("imagesDidDownload.")
-        imageDownload = nil
+        imageDownloader = nil
 
         // set desktop image options
         var options = getDesktopImageOptions(Preference().scalingMode)
