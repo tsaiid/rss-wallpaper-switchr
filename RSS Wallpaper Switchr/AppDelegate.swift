@@ -100,7 +100,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SwitchrAPIDelegate {
         }
     }
 
-    func switchrDidEnd() {
+    func switchrDidEnd(apiState: ApiState) {
+        if apiState == .Successful {
+            updateSwitchTimer()
+        }
+
         switchrAPI = nil
         stateToReady()
 
