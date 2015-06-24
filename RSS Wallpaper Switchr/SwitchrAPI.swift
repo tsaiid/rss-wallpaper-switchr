@@ -13,6 +13,13 @@ protocol SwitchrAPIDelegate {
     func switchrDidEnd()
 }
 
+enum ApiState:String {
+    case Ready = "Ready"
+    case Successful = "Successful"
+    case Cancelled = "Cancelled"
+    case Error = "Error"
+}
+
 class SwitchrAPI: NSObject {
     var delegate: SwitchrAPIDelegate?
     var rssParser: RssParser?
@@ -49,8 +56,8 @@ class SwitchrAPI: NSObject {
     }
 
     func cancelOperations() {
-        rssParser?.queue.cancelAllOperations()
-        imageDownloader?.queue.cancelAllOperations()
+        rssParser?.cancel()
+        imageDownloader?.cancel()
     }
 
     //
@@ -58,8 +65,14 @@ class SwitchrAPI: NSObject {
     //
 
     func parseRss() {
+        if rssParser!.state == .Cancelled {
+            NSLog("rssParser cancelled early.")
+            return rssDidParse()
+        }
+
         let parseRssCompletionOperation = NSBlockOperation() {
             NSLog("parseRssCompletionOperation.")
+            self.rssParser!.state = .Successful
             self.rssDidParse()
         }
 
@@ -94,12 +107,18 @@ class SwitchrAPI: NSObject {
 
     func rssDidParse() {
         NSLog("rssDidParse.")
+
+        if rssParser?.state == .Successful {
+            imgLinks.shuffle()
+
+            imageDownloader = ImageDownloader()
+            downloadImages(imgLinks)
+        } else {
+            NSLog("rssParser not successful. \(rssParser?.state.rawValue)")
+            delegate?.switchrDidEnd()
+        }
+
         rssParser = nil
-
-        imgLinks.shuffle()
-
-        imageDownloader = ImageDownloader()
-        downloadImages(imgLinks)
     }
 
     //
@@ -107,8 +126,14 @@ class SwitchrAPI: NSObject {
     //
 
     func downloadImages(imgLinks: [String]?) {
+        if imageDownloader!.state == .Cancelled {
+            NSLog("imageDownloader cancelled early.")
+            return imagesDidDownload()
+        }
+
         let downloadImagesCompletionOperation = NSBlockOperation() {
             NSLog("downloadImagesCompletionOperation.")
+            self.imageDownloader?.state = .Successful
             self.imagesDidDownload()
         }
 
@@ -168,28 +193,29 @@ class SwitchrAPI: NSObject {
 
     func imagesDidDownload() {
         NSLog("imagesDidDownload.")
-        imageDownloader = nil
 
-        // set desktop image options
-        var options = getDesktopImageOptions(Preference().scalingMode)
-        //let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        if imageDownloader?.state == .Successful {
+            // set desktop image options
+            var options = getDesktopImageOptions(Preference().scalingMode)
+            var error: NSError?
 
-        var workspace = NSWorkspace.sharedWorkspace()
-        var error: NSError?
-
-        if getNoWallpaperScreen() == nil {
-            for targetScreen in targetScreens {
-                if let localPathUrl = targetScreen.wallpaperPhoto?.localPathUrl {
-                    NSWorkspace.sharedWorkspace().setDesktopImageURL(localPathUrl, forScreen: targetScreen.screen!, options: options, error: &error)
-                    if error != nil {
-                        NSLog("\(error)")
+            if getNoWallpaperScreen() == nil {
+                for targetScreen in targetScreens {
+                    if let localPathUrl = targetScreen.wallpaperPhoto?.localPathUrl {
+                        NSWorkspace.sharedWorkspace().setDesktopImageURL(localPathUrl, forScreen: targetScreen.screen!, options: options, error: &error)
+                        if error != nil {
+                            NSLog("\(error)")
+                        }
                     }
                 }
+            } else {
+                println("getNoWallpaperScreen incomplete.")
             }
         } else {
-            println("getNoWallpaperScreen incomplete.")
+            NSLog("imageDownloader not successful. \(imageDownloader?.state.rawValue)")
         }
 
+        imageDownloader = nil
         delegate?.switchrDidEnd()
     }
 

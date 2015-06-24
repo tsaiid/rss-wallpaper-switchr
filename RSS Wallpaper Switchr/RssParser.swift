@@ -73,6 +73,7 @@ class ParseRssOperation : ConcurrentOperation {
 
 class RssParser: NSObject {
     var queue = NSOperationQueue()
+    var state = ApiState.Ready
     
     override init() {
         super.init()
@@ -82,5 +83,10 @@ class RssParser: NSObject {
         if DEBUG_DEINIT {
             println("RssParser deinit.")
         }
+    }
+
+    func cancel() {
+        state = .Cancelled
+        queue.cancelAllOperations()
     }
 }
