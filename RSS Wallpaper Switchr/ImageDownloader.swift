@@ -11,6 +11,7 @@ import Alamofire
 
 class ImageDownloader: NSObject {
     var queue = NSOperationQueue()
+    var state = ApiState.Ready
 
     override init() {
         super.init()
@@ -21,6 +22,11 @@ class ImageDownloader: NSObject {
         if DEBUG_DEINIT {
             NSLog("ImageDownloader deinit.")
         }
+    }
+
+    func cancel() {
+        state = .Cancelled
+        queue.cancelAllOperations()
     }
 }
 
