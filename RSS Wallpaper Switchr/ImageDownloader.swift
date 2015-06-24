@@ -9,38 +9,17 @@
 import Cocoa
 import Alamofire
 
-private var imageDownloadContext = 0
-
-protocol ImageDownloadDelegate {
-    func imagesDidDownload()
-}
-
-class ImageDownloadObserver: NSObject {
-    var delegate: ImageDownloadDelegate?
+class ImageDownloader: NSObject {
     var queue = NSOperationQueue()
 
-    init(delegate: ImageDownloadDelegate) {
+    override init() {
         super.init()
-        self.delegate = delegate
-        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &imageDownloadContext)
-        NSLog("ImageDownloadObserver init.")
+        NSLog("ImageDownloader init.")
     }
 
     deinit {
-        queue.removeObserver(self, forKeyPath: "operations", context: &imageDownloadContext)
         if DEBUG_DEINIT {
-            //println("ImageDownloadObserver deinit.")
-        }
-    }
-
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
-        if context == &imageDownloadContext {
-            if self.queue.operations.count == 0 {
-                println("Image Download Complete queue. keyPath: \(keyPath); object: \(object); context: \(context)")
-                self.delegate?.imagesDidDownload()
-            }
-        } else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            NSLog("ImageDownloader deinit.")
         }
     }
 }
