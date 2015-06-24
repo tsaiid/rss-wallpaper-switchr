@@ -34,7 +34,7 @@ class AboutWindow: NSWindowController, NSWindowDelegate {
         let dictionary = NSBundle.mainBundle().infoDictionary!
         let verText = dictionary["CFBundleShortVersionString"] as! String
         let buildText = dictionary["CFBundleVersion"] as! String
-        labelVersion.stringValue += " \(verText) (build \(buildText))"
+        labelVersion.stringValue += " \(verText) (\(buildText))"
     }
 
     func windowWillClose(notification: NSNotification) {
