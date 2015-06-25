@@ -12,10 +12,16 @@ protocol AboutWindowDelegate {
     func aboutDidClose()
 }
 
-class AboutWindow: NSWindowController {
+class AboutWindow: NSWindowController, NSWindowDelegate {
     var delegate: AboutWindowDelegate?
 
     @IBOutlet weak var labelVersion: NSTextField!
+
+    deinit {
+        if DEBUG_DEINIT {
+            println("AboutWindow deinit.")
+        }
+    }
 
     override var windowNibName : String! {
         return "AboutWindow"
@@ -28,6 +34,10 @@ class AboutWindow: NSWindowController {
         let dictionary = NSBundle.mainBundle().infoDictionary!
         let verText = dictionary["CFBundleShortVersionString"] as! String
         let buildText = dictionary["CFBundleVersion"] as! String
-        labelVersion.stringValue += " \(verText) (build \(buildText))"
+        labelVersion.stringValue += " \(verText) (\(buildText))"
+    }
+
+    func windowWillClose(notification: NSNotification) {
+        delegate?.aboutDidClose()
     }
 }

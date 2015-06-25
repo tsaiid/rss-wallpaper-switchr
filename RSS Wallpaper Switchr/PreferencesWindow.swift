@@ -31,6 +31,12 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
     @IBOutlet weak var popupWallpaperMode: NSPopUpButton!
     @IBOutlet weak var popupScalingMode: NSPopUpButton!
 
+    deinit {
+        if DEBUG_DEINIT {
+            println("PreferencesWindow deinit.")
+        }
+    }
+
     override var windowNibName : String! {
         return "PreferencesWindow"
     }
@@ -62,10 +68,6 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
         
         // in order to moniter NSTextField change
         textNewRssUrl.delegate = self
-
-        self.window?.center()
-        self.window?.makeKeyAndOrderFront(nil)
-        NSApp.activateIgnoringOtherApps(true)
     }
 
     //method called, when "Close" - Button clicked
@@ -116,6 +118,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDataSo
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         println("Updating timer while closing option window.")
         appDelegate.updateSwitchTimer()
+        delegate?.preferencesDidUpdate()
     }
 
     // for RSS URL List Data Source

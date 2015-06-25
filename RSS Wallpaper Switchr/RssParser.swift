@@ -21,6 +21,12 @@ class ParseRssOperation : ConcurrentOperation {
         self.parseRssCompletionHandler = parseRssCompletionHandler
         super.init()
     }
+
+    deinit {
+        if DEBUG_DEINIT {
+            println("ParseRssOperation deinit.")
+        }
+    }
     
     override func main() {
         request = Alamofire.request(.GET, URLString)
@@ -41,16 +47,16 @@ class ParseRssOperation : ConcurrentOperation {
                         println("Feed: \(title) was parsed.")
 
                         // return a list of image links.
-                        var imgLinkList = [String]()
+                        var imgLinks = [String]()
                         for item in xml["rss"]["channel"]["item"] {
                             if let link = item["link"].element?.text {
-                                if !contains(imgLinkList, link) {
-                                    imgLinkList += [link]
+                                if !contains(imgLinks, link) {
+                                    imgLinks += [link]
                                 }
                             }
                         }
 
-                        self.parseRssCompletionHandler(responseObject: imgLinkList, error: error)
+                        self.parseRssCompletionHandler(responseObject: imgLinks, error: error)
                     }
                 }
 
@@ -60,49 +66,27 @@ class ParseRssOperation : ConcurrentOperation {
     }
     
     override func cancel() {
-        // should also cancel Alamofire request, but it results in strange memory problem!
-        //request?.cancel()
+        request?.cancel()
         super.cancel()
     }
 }
 
-private var myContext = 0   // for KVO
-
-protocol RssParserObserverDelegate {
-    func rssDidParse()
-}
-
-class RssParserObserver: NSObject {
-    var delegate: RssParserObserverDelegate?
+class RssParser: NSObject {
     var queue = NSOperationQueue()
+    var state = ApiState.Ready
     
-    init(delegate: RssParserObserverDelegate) {
+    override init() {
         super.init()
-        self.delegate = delegate
-        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
     }
+
     deinit {
-        queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
-        println("deinit")
+        if DEBUG_DEINIT {
+            println("RssParser deinit.")
+        }
     }
 
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
-        if context == &myContext {
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-
-            if (self.queue.operations.count == 0) {
-                println("queue completed.")
-                if (appDelegate.imgLinks.count > 0) {
-                    appDelegate.imgLinks.shuffle()
-                    self.delegate?.rssDidParse()
-                } else {
-                    println("No image link found")
-                    notify("No image link found")
-                    appDelegate.stateToReady()
-                }
-            }
-        } else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
-        }
+    func cancel() {
+        state = .Cancelled
+        queue.cancelAllOperations()
     }
 }

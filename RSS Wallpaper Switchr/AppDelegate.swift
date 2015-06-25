@@ -14,14 +14,14 @@ enum AppState {
 }
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, SwitchrAPIDelegate {
     var statusMenuController: StatusMenuController!
-    var imgLinks = [String]()
     var state = AppState.Ready
     var switchTimer = NSTimer()
+    var switchrAPI: SwitchrAPI?
 
     #if DEBUG
-    var timeStart: CFAbsoluteTime?
+    var timeStart: CFAbsoluteTime?  // DEBUG_SHOW_TIME_ELAPSED
     #endif
 
     //
@@ -81,13 +81,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     //
+    // SwitchrAPI delegate protocol
+    //
+    func switchrWillStart() -> Bool {
+        if stateToRunning() {
+            #if DEBUG
+            if DEBUG_SHOW_TIME_ELAPSED {
+                timeStart = CFAbsoluteTimeGetCurrent()
+            }
+            #endif
+
+            switchrAPI = SwitchrAPI(delegate: self)
+            switchrAPI!.switchWallpapers()
+            return true
+        } else {
+            NSLog("Another process is running. Please wait.")
+            return false
+        }
+    }
+
+    func switchrDidEnd(apiState: ApiState) {
+        if apiState == .Successful {
+            updateSwitchTimer()
+        }
+
+        switchrAPI = nil
+        stateToReady()
+
+        #if DEBUG
+        if DEBUG_SHOW_TIME_ELAPSED {
+            let timeElapsed = CFAbsoluteTimeGetCurrent() - timeStart!
+            NSLog("time used: \(timeElapsed)")
+        }
+        #endif
+    }
+
+    //
     // Timer related
     //
 
     func timerDidFire() {
         println("\(Preference().switchInterval) minutes passed.")
-        let switchrAPI = SwitchrAPI()
-        switchrAPI.switchWallpapers()
+        switchrWillStart()
     }
 
     func stopSwitchTimer() {
@@ -113,10 +148,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     //
     // App State Control
     //
-    func stateToRunning() {
-        state = .Running
-        statusMenuController.menuIconActivate()
-        statusMenuController.statusBarItemStatusToRunning()
+    func stateToRunning() -> Bool {
+        if state == .Ready {
+            state = .Running
+            statusMenuController.menuIconActivate()
+            statusMenuController.statusBarItemStatusToRunning()
+            return true
+        }
+        return false
     }
 
     func stateToReady() {

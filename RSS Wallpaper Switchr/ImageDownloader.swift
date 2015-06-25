@@ -9,47 +9,32 @@
 import Cocoa
 import Alamofire
 
-private var myContext = 0
-
-protocol ImageDownloadDelegate {
-    func imagesDidDownload()
-}
-
-class ImageDownloadObserver: NSObject {
-    var delegate: ImageDownloadDelegate?
+class ImageDownloader: NSObject {
     var queue = NSOperationQueue()
+    var state = ApiState.Ready
 
-    init(delegate: ImageDownloadDelegate) {
+    override init() {
         super.init()
-        self.delegate = delegate
-        queue.addObserver(self, forKeyPath: "operations", options: .New, context: &myContext)
+        NSLog("ImageDownloader init.")
     }
+
     deinit {
-        queue.removeObserver(self, forKeyPath: "operations", context: &myContext)
+        if DEBUG_DEINIT {
+            NSLog("ImageDownloader deinit.")
+        }
     }
 
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
-        if context == &myContext {
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-
-            if self.queue.operations.count == 0 {
-                println("Image Download Complete queue: \(self.queue)")
-
-                // set backgrounds.
-                self.delegate?.imagesDidDownload()
-            }
-        } else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
-        }
+    func cancel() {
+        state = .Cancelled
+        queue.cancelAllOperations()
     }
 }
 
 class DownloadImageOperation : ConcurrentOperation {
     let URLString: String
-    let downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
-
-    weak var request: Alamofire.Request?
     var finalPath: NSURL?
+    let downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()
+    weak var request: Alamofire.Request?
 
     init(URLString: String, downloadImageCompletionHandler: (responseObject: AnyObject?, error: NSError?) -> ()) {
         self.URLString = URLString
@@ -57,8 +42,17 @@ class DownloadImageOperation : ConcurrentOperation {
         super.init()
     }
 
+    deinit {
+        request = nil
+        if DEBUG_DEINIT {
+            println("DownloadImageOperation deinit.")
+        }
+    }
+
     override func main() {
-        request = Alamofire.download(.GET, URLString, { (temporaryURL, response) in
+        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
+            (temporaryURL, response) in
+
             let fileName = response.suggestedFilename!
             self.finalPath = NSURL(fileURLWithPath: NSTemporaryDirectory().stringByAppendingPathComponent(fileName as String))
             if self.finalPath != nil {
@@ -77,27 +71,22 @@ class DownloadImageOperation : ConcurrentOperation {
                 return self.finalPath!
             }
             return temporaryURL
-        }).response { (request, response, responseObject, error) in
-            if error != nil {
-                println("DownloadImage error: \(error)")
-            }
+        }
+
+        request = Alamofire.download(.GET, URLString, destination).response {
+            (request, response, responseObject, error) in
 
             if self.cancelled {
                 println("DownloadImageOperation.main() Alamofire.download cancelled while downlading. Not proceed into PhotoRecord.")
             } else {
-                if let finalPath = self.finalPath {
-                    var photoRecord = PhotoRecord(name: "test", url: NSURL(string: self.URLString)!, localPathUrl: self.finalPath!)
-                    self.downloadImageCompletionHandler(responseObject: photoRecord, error: error)
-                }
+                self.downloadImageCompletionHandler(responseObject: self.finalPath, error: error)
             }
-
             self.completeOperation()
         }
     }
 
     override func cancel() {
-        // should also cancel Alamofire request, but it results in strange memory problem!
-        //request?.cancel()
+        request?.cancel()
         super.cancel()
     }
 }
