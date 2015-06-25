@@ -13,6 +13,8 @@
 		D334C6C41A80F4E600726130 /* PhotoRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D334C6C31A80F4E600726130 /* PhotoRecord.swift */; };
 		D3416BE21B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3416BE11B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift */; };
 		D3416BE91B347B8700FC4543 /* String_md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3416BE81B347B8700FC4543 /* String_md5.swift */; };
+		D34335BA1B3B8439005B0191 /* ChangeLog.md in Sources */ = {isa = PBXBuildFile; fileRef = D34335B81B3B8439005B0191 /* ChangeLog.md */; };
+		D34335BB1B3B8439005B0191 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D34335B91B3B8439005B0191 /* README.md */; };
 		D34CA30F1A91B474009FAA38 /* TargetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA30E1A91B474009FAA38 /* TargetScreen.swift */; };
 		D353C9031B32878500D9FD9C /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353C9021B32878500D9FD9C /* StatusMenuController.swift */; };
 		D353C9051B328BC600D9FD9C /* SwitchrAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */; };
@@ -49,6 +51,8 @@
 		D3416BE11B346D7800FC4543 /* NSImage_saveAsJpegWithName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSImage_saveAsJpegWithName.swift; sourceTree = "<group>"; };
 		D3416BE31B347AD100FC4543 /* ObjC-Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ObjC-Swift-Bridging-Header.h"; sourceTree = "<group>"; };
 		D3416BE81B347B8700FC4543 /* String_md5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String_md5.swift; sourceTree = "<group>"; };
+		D34335B81B3B8439005B0191 /* ChangeLog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ChangeLog.md; sourceTree = SOURCE_ROOT; };
+		D34335B91B3B8439005B0191 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		D34CA30E1A91B474009FAA38 /* TargetScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetScreen.swift; sourceTree = "<group>"; };
 		D353C9021B32878500D9FD9C /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
 		D353C9041B328BC600D9FD9C /* SwitchrAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchrAPI.swift; sourceTree = "<group>"; };
@@ -123,6 +127,15 @@
 			name = GUI;
 			sourceTree = "<group>";
 		};
+		D34335BC1B3B8444005B0191 /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				D34335B81B3B8439005B0191 /* ChangeLog.md */,
+				D34335B91B3B8439005B0191 /* README.md */,
+			);
+			name = Documents;
+			sourceTree = "<group>";
+		};
 		D376EAA41B2A8C5800B7BF69 /* Windows */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +190,7 @@
 				D33307971B2973A600729641 /* Extensions */,
 				D33307981B2973E000729641 /* GUI */,
 				D3E62F611A7DF30E00A40EBA /* Images.xcassets */,
+				D34335BC1B3B8444005B0191 /* Documents */,
 				D3E62F5D1A7DF30E00A40EBA /* Supporting Files */,
 			);
 			path = "RSS Wallpaper Switchr";
@@ -387,9 +401,11 @@
 				D39484821A7F6981006E84FD /* NSMutableArray_Shuffle.swift in Sources */,
 				D320FE741A7E703B00C5E7D1 /* PreferencesWindow.swift in Sources */,
 				D3AAB3F81A8338EA00EA1439 /* Preference.swift in Sources */,
+				D34335BB1B3B8439005B0191 /* README.md in Sources */,
 				D334C6C41A80F4E600726130 /* PhotoRecord.swift in Sources */,
 				D3416BE91B347B8700FC4543 /* String_md5.swift in Sources */,
 				D353C9031B32878500D9FD9C /* StatusMenuController.swift in Sources */,
+				D34335BA1B3B8439005B0191 /* ChangeLog.md in Sources */,
 				D353C9051B328BC600D9FD9C /* SwitchrAPI.swift in Sources */,
 				D376EAA31B2A75A800B7BF69 /* AboutWindow.swift in Sources */,
 				D3E62F601A7DF30E00A40EBA /* AppDelegate.swift in Sources */,
